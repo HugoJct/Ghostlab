@@ -2,16 +2,17 @@ package main.java.commands.in;
 
 import java.io.PrintWriter;
 
+import main.java.client.Client;
 import main.java.commands.Command;
 
 public class CommandRcvGameInfo extends Command{
 
-    public CommandRcvGameInfo(String label, PrintWriter pw) {
-        super(label, pw);
+    public CommandRcvGameInfo(PrintWriter pw) {
+        super(pw);
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(Client client, String[] args) {
         
     }
     

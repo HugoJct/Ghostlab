@@ -2,13 +2,13 @@ package main.java.commands;
 
 import java.io.PrintWriter;
 
+import main.java.client.Client;
+
 public abstract class Command {
 
-	private String label;
 	private PrintWriter out;
 
-	public Command(String label,PrintWriter pw) {
-		this.label = label;
+	public Command(PrintWriter pw) {
 		this.out = pw;
 	}
 
@@ -17,5 +17,5 @@ public abstract class Command {
 		out.flush();
 	}
 
-	public abstract void execute(String[] args);
+	public abstract void execute(Client client, String[] args);
 }

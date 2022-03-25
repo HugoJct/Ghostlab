@@ -2,16 +2,17 @@ package main.java.commands.out;
 
 import java.io.PrintWriter;
 
+import main.java.client.Client;
 import main.java.commands.Command;
 
 public class CommandAskMapSize extends Command {
 
-    public CommandAskMapSize(String label, PrintWriter pw) {
-        super(label, pw);
+    public CommandAskMapSize(PrintWriter pw) {
+        super(pw);
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(Client client, String[] args) {
         
     }
     

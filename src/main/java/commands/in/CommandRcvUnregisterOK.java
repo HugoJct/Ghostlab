@@ -1,5 +1,19 @@
 package main.java.commands.in;
 
-public class CommandRcvUnregisterOK {
+import java.io.PrintWriter;
+
+import main.java.client.Client;
+import main.java.commands.Command;
+
+public class CommandRcvUnregisterOK extends Command {
+
+    public CommandRcvUnregisterOK(PrintWriter pw) {
+        super(pw);
+    }
+
+    @Override
+    public void execute(Client client, String[] args) {
+        
+    }
     
 }

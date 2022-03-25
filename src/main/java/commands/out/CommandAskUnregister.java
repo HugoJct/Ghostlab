@@ -2,16 +2,17 @@ package main.java.commands.out;
 
 import java.io.PrintWriter;
 
+import main.java.client.Client;
 import main.java.commands.Command;
 
 public class CommandAskUnregister extends Command{
 
-    public CommandAskUnregister(String label, PrintWriter pw) {
-        super(label, pw);
+    public CommandAskUnregister(PrintWriter pw) {
+        super(pw);
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(Client client, String[] args) {
         
     }
     

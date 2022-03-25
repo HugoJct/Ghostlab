@@ -2,16 +2,17 @@ package main.java.commands.in;
 
 import java.io.PrintWriter;
 
+import main.java.client.Client;
 import main.java.commands.Command;
 
 public class CommandRcvJoinOK extends Command{
 
-    public CommandRcvJoinOK(String label, PrintWriter pw) {
-        super(label, pw);
+    public CommandRcvJoinOK(PrintWriter pw) {
+        super(pw);
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(Client client, String[] args) {
         
     }
     
