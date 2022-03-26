@@ -5,11 +5,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class Client_UDP extends Thread {
+public class ClientUDP extends Thread {
     private DatagramSocket socket;
     private InetAddress address;
     
-    public Client_UDP(String ip) {
+    public ClientUDP(String ip) {
         try {
             socket = new DatagramSocket();
             address = InetAddress.getByName(ip);

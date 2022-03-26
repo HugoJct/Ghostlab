@@ -2,7 +2,7 @@ package main.java.commands;
 
 import java.io.PrintWriter;
 
-import main.java.client.Client;
+import main.java.client.ClientTCP;
 
 public abstract class Command {
 
@@ -17,5 +17,5 @@ public abstract class Command {
 		out.flush();
 	}
 
-	public abstract void execute(Client client, String[] args);
+	public abstract void execute(ClientTCP clientTCP, String[] args);
 }

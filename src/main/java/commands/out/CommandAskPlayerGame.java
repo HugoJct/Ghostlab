@@ -3,7 +3,10 @@ package main.java.commands.out;
 import java.io.PrintWriter;
 
 import main.java.client.Client;
+import main.java.client.ClientTCP;
 import main.java.commands.Command;
+
+// LIST? m***
 
 public class CommandAskPlayerGame extends Command {
 
@@ -12,7 +15,7 @@ public class CommandAskPlayerGame extends Command {
     }
 
     @Override
-    public void execute(Client client, String[] args) {
+    public void execute(ClientTCP client, String[] args) {
         
     }
     
