@@ -9,7 +9,15 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import main.java.commands.Command;
+import main.java.commands.in.CommandRcvDunno;
 import main.java.commands.in.CommandRcvGameInfo;
+import main.java.commands.in.CommandRcvJoinNO;
+import main.java.commands.in.CommandRcvJoinOK;
+import main.java.commands.in.CommandRcvMapSize;
+import main.java.commands.in.CommandRcvNbrGames;
+import main.java.commands.in.CommandRcvPlayerGame;
+import main.java.commands.in.CommandRcvPlayerId;
+import main.java.commands.in.CommandRcvUnregisterOK;
 
 public class ClientTCP extends Thread {
     private Socket clientSocket;
@@ -17,7 +25,7 @@ public class ClientTCP extends Thread {
     private PrintWriter out;
     private boolean isConnected;
 
-    private HashMap<String,Command> commandList = new HashMap<String,Command>();
+    private HashMap<String,Command> commandRcvList = new HashMap<String,Command>();
     
     public ClientTCP(String ip, int port) {
         try {
@@ -30,9 +38,16 @@ public class ClientTCP extends Thread {
             e.printStackTrace();
         }
 
-        commandList.put("GAMES",new CommandRcvGameInfo(out));
+        commandRcvList.put("DUNNO", new CommandRcvDunno(out));
+        commandRcvList.put("OGAMES", new CommandRcvGameInfo(out));
+        commandRcvList.put("REGNO", new CommandRcvJoinNO(out));
+        commandRcvList.put("REGOK", new CommandRcvJoinOK(out));
+        commandRcvList.put("SIZE!", new CommandRcvMapSize(out));
+        commandRcvList.put("GAME", new CommandRcvNbrGames(out));
+        commandRcvList.put("LIST!", new CommandRcvPlayerGame(out));
+        commandRcvList.put("PLAYR", new CommandRcvPlayerId(out));
+        commandRcvList.put("UNROK", new CommandRcvUnregisterOK(out));
 
-        // AJOUTER LES AUTRES COMMANDES
     }
 
     @Override
@@ -70,9 +85,9 @@ public class ClientTCP extends Thread {
 	public void useMessage(String command) {
         String[] args = breakCommand(command);
 		
-		for(String s : commandList.keySet()) {
+		for(String s : commandRcvList.keySet()) {
 			if(s.equals(args[0])) {
-				commandList.get(s).execute(this, args);
+				commandRcvList.get(s).execute(this, args);
                 return;
 			}
 		}

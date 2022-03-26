@@ -6,7 +6,7 @@ import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
 
-// PLAYR! m s***
+// PLAYR id***
 
 public class CommandRcvPlayerId extends Command {
 
