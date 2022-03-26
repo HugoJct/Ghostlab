@@ -39,6 +39,7 @@ public class ClientTCP extends Thread {
             System.out.println("ERREUR : Numero de PORT INDISPONIBLE ou IP INCONNUE");
         }
 
+        // remplissage de la liste de commandes recevables
         commandRcvList.put("DUNNO", new CommandRcvDunno(out));
         commandRcvList.put("OGAMES", new CommandRcvGameInfo(out));
         commandRcvList.put("REGNO", new CommandRcvJoinNO(out));
@@ -57,11 +58,12 @@ public class ClientTCP extends Thread {
 
             String serverMsg;
 
+            // tant que le socket est connecté
         	while(isConnected) {
 
             	serverMsg = in.readLine();
 
-                // if the socket is disconnected
+                // si le socket est déconnecté : arrêter de lire
         		if(serverMsg == null) {
                 	System.out.println("Disconnected !");
                 	isConnected = false;
@@ -77,17 +79,19 @@ public class ClientTCP extends Thread {
         }
     }
 
-    // This method sends a message to the client handled by the instance of the class
+    // envoie du message sur la sortie vers le serveur
 	public void sendMessage(String message) {
         out.println(message);
         out.flush();
     }
 
+    // parsing de la commande
 	public void useMessage(String command) {
         String[] args = breakCommand(command);
 		
 		for(String s : commandRcvList.keySet()) {
 			if(s.equals(args[0])) {
+                // appel de la fonction dans l'instance de la classe associée à la commande
 				commandRcvList.get(s).execute(this, args);
                 return;
 			}
