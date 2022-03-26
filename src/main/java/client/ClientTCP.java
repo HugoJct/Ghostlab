@@ -33,9 +33,10 @@ public class ClientTCP extends Thread {
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("ERREUR : Numero de PORT INDISPONIBLE ou IP INCONNUE");
         }
 
         commandRcvList.put("DUNNO", new CommandRcvDunno(out));
