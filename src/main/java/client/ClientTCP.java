@@ -96,4 +96,12 @@ public class ClientTCP extends Thread {
     private String[] breakCommand(String command) {
         return command.split(" ");
 	}
+
+    public PrintWriter getpPrintWriter() {
+        return this.out;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
 }
