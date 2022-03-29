@@ -16,12 +16,10 @@ public class DebugLogger {
         if (!str.equals(previousDebugMessage)) {
             if(typeMap.get(debugType)) {
                 System.out.println(str);
-                Console.layout();
                 previousDebugMessage = str;
             } 
             else if(typeMap.get(DebugType.ALL)) {
                 System.out.println(str);
-                Console.layout(); 
                 previousDebugMessage = str;
             }
         }
@@ -32,6 +30,8 @@ public class DebugLogger {
         typeMapDirectory.put(DebugType.ERROR, "ERROR");
         typeMap.put(DebugType.ALL, false);
         typeMapDirectory.put(DebugType.ALL, "ALL");
+        typeMap.put(DebugType.CONFIRM, true);
+        typeMapDirectory.put(DebugType.CONFIRM, "CONFIRM");
     }
 
 }

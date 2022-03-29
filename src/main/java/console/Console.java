@@ -53,11 +53,6 @@ public class Console extends Thread {
          * on collecte l'input console a traiter
          */
         while(clientTCP.isConnected()) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             layout();
             consoleMsg = sc.nextLine();
             useMessage(consoleMsg);
@@ -73,11 +68,19 @@ public class Console extends Thread {
 
 
     // parsing de la commande et exécution de la fonction associée
-    private void useMessage(String command) {
-        String[] args = breakCommand(command);
-        for (String str : commandAskList.keySet()) {
-            commandAskList.get(str).execute(clientTCP, args);
-            break;
+    private void useMessage(String strCommand) {
+        String[] args = breakCommand(strCommand);
+        Command command = commandAskList.get(args[0]);
+        if (command != null) {
+            command.execute(clientTCP, args);
+        }
+        else {
+            command = commandDev.get(args[0]);
+            if (command != null) {
+                command.execute(clientTCP, args);
+            } else {
+                DebugLogger.print(DebugType.CONFIRM, "UNKNOWN command");
+            }
         }
     }
 

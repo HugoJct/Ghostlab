@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
 
 public class CommandKill extends Command {
 
@@ -13,7 +15,7 @@ public class CommandKill extends Command {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        
+        DebugLogger.print(DebugType.CONFIRM, "kill command");
     }
     
 }
