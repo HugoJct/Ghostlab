@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
+import main.java.console.DebugLogger;
 
 public class CommandDebug extends Command {
 
@@ -13,8 +14,8 @@ public class CommandDebug extends Command {
     }
 
     @Override
-    public void execute(ClientTCP clientTCP, String[] args) {
-        // TODO Auto-generated method stub
+    public void execute(ClientTCP clientTCP, String[] args) {  
+        //DebugLogger.print(DebugLogger., str);
         
     }
     

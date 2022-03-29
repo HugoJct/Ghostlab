@@ -17,7 +17,7 @@ import main.java.commands.out.CommandAskPlayerGame;
 import main.java.commands.out.CommandAskStart;
 import main.java.commands.out.CommandAskUnregister;
 
-public class Console implements Runnable {
+public class Console extends Thread {
     private ClientTCP clientTCP;
 
     private HashMap<String,Command> commandAskList = new HashMap<String,Command>();
