@@ -45,7 +45,7 @@ public class ClientTCP extends Thread {
         commandRcvList.put("REGNO", new CommandRcvJoinNO(out));
         commandRcvList.put("REGOK", new CommandRcvJoinOK(out));
         commandRcvList.put("SIZE!", new CommandRcvMapSize(out));
-        commandRcvList.put("GAME", new CommandRcvNbrGames(out));
+        commandRcvList.put("GAMES", new CommandRcvNbrGames(out));
         commandRcvList.put("LIST!", new CommandRcvPlayerGame(out));
         commandRcvList.put("PLAYR", new CommandRcvPlayerId(out));
         commandRcvList.put("UNROK", new CommandRcvUnregisterOK(out));
@@ -90,13 +90,24 @@ public class ClientTCP extends Thread {
         String[] args = breakCommand(command);
 		
 		for(String s : commandRcvList.keySet()) {
-			if(s.equals(args[0])) {
+			if(s.equals(extractFirst(args[0]))) {
                 // appel de la fonction dans l'instance de la classe associée à la commande
 				commandRcvList.get(s).execute(this, args);
                 return;
 			}
 		}
 	}
+
+    private String extractFirst(String str) {
+        String first = "";
+        if (str.length() >= 5) {
+            for (int i = 0 ; i < 5 ; i++) {
+                first += str.charAt(i);
+            }
+        }
+        return first;
+        
+    }
 
     private String[] breakCommand(String command) {
         return command.split(" ");
