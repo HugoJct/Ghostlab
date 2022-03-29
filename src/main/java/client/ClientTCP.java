@@ -32,6 +32,7 @@ public class ClientTCP extends Thread {
             this.clientSocket = new Socket(ip, port);
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            this.isConnected = true;
         } catch (UnknownHostException e) {
             //e.printStackTrace();
         } catch (IOException e) {
@@ -67,7 +68,6 @@ public class ClientTCP extends Thread {
         		if(serverMsg == null) {
                 	System.out.println("Disconnected !");
                 	isConnected = false;
-                	break;
             	}
 
             	System.out.println("Server wrote: "+ serverMsg);
