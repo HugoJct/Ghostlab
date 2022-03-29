@@ -1,16 +1,14 @@
-package client.commands;
+package main.java.commands;
 
 import java.io.PrintWriter;
 
-import client.Player;
+import main.java.client.ClientTCP;
 
 public abstract class Command {
 
-	private String label;
 	private PrintWriter out;
 
-	public Command(String label,PrintWriter pw) {
-		this.label = label;
+	public Command(PrintWriter pw) {
 		this.out = pw;
 	}
 
@@ -19,5 +17,5 @@ public abstract class Command {
 		out.flush();
 	}
 
-	public abstract void execute(Player p,String[] args);
+	public abstract void execute(ClientTCP clientTCP, String[] args);
 }
