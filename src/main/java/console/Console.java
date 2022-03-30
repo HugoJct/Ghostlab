@@ -40,13 +40,14 @@ public class Console extends Thread {
         commandAskList.put("LIST?", new CommandAskPlayerGame(clientTcp.getpPrintWriter()));
         commandAskList.put("START", new CommandAskStart(clientTcp.getpPrintWriter()));
         commandAskList.put("UNREG", new CommandAskUnregister(clientTcp.getpPrintWriter()));
+
+        layout();
     }
 
     @Override
     public void run() {
         Scanner sc = new Scanner(System.in);
         String consoleMsg;
-        DebugLogger.setTypeMap();
         
         /* 
          * tant que le client est connecté au serveur 

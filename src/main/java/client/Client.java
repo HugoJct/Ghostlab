@@ -3,6 +3,7 @@ package main.java.client;
 import java.io.IOException;
 
 import main.java.console.Console;
+import main.java.console.DebugLogger;
 
 public abstract class Client implements Runnable {
 
@@ -19,7 +20,8 @@ public abstract class Client implements Runnable {
 
             }
         }); */
-
+        
+        DebugLogger.setTypeMap();
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
         new Console(clientTCP).start();
         clientTCP.start();

@@ -72,7 +72,7 @@ public class ClientTCP extends Thread {
                 	isConnected = false;
             	}
 
-            	System.out.println("Server wrote: "+ serverMsg);
+            	DebugLogger.print(DebugType.CONFIRM, "server wrote : " + serverMsg);
                 useMessage(serverMsg);
 
         	}
@@ -89,7 +89,6 @@ public class ClientTCP extends Thread {
 
     // parsing de la commande
 	public void useMessage(String command) {
-        DebugLogger.print(DebugType.CONFIRM, command);
         
         String[] args = breakCommand(command);
 		
