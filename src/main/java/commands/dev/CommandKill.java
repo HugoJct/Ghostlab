@@ -16,6 +16,7 @@ public class CommandKill extends Command {
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "kill command");
+        clientTCP.closeSocket();
     }
     
 }

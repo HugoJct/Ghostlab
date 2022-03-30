@@ -15,6 +15,7 @@ public class DebugLogger {
     public static void print(int debugType, String str) {
         if (!str.equals(previousDebugMessage)) {
             if(typeMap.get(debugType)) {
+                Console.layout();
                 System.out.println(str);
                 previousDebugMessage = str;
             } 
@@ -23,6 +24,7 @@ public class DebugLogger {
                 previousDebugMessage = str;
             }
         }
+        Console.layout();
     }
 
     public static void setTypeMap() {

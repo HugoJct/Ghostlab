@@ -18,7 +18,7 @@ public class CommandAskCreate extends Command {
 
     @Override
     public void execute(ClientTCP client, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "test send");
+        DebugLogger.print(DebugType.CONFIRM, "create game command (NEWPL)");
         client.getpPrintWriter().write(args[0]);
         client.getpPrintWriter().flush();
     }

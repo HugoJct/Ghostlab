@@ -77,7 +77,7 @@ public class ClientTCP extends Thread {
 
         	}
         } catch(IOException e) {
-            System.out.println("Socket closed by the server.");
+            DebugLogger.print(DebugType.CONFIRM, "Socket closed");
         }
     }
 
@@ -122,5 +122,14 @@ public class ClientTCP extends Thread {
 
     public boolean isConnected() {
         return isConnected;
+    }
+
+    public void closeSocket() {
+        try {
+            clientSocket.close();
+            isConnected = false;
+        } catch (IOException e) {
+            DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
+        }
     }
 }
