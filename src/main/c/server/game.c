@@ -16,5 +16,5 @@ void game_print(void *game) {
 		return;
 	}
 	char *ip = inet_ntoa(g->diffusion_ip);
-	printf("id: %d max: %d ip: %s port: %d\n\t",g->id,g->max_capacity,ip,g->diffusion_port);
+	printf("id: %d max: %d ip: %s port: %d",g->id,g->max_capacity,ip,g->diffusion_port);
 }

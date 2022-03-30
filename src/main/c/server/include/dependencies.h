@@ -10,5 +10,6 @@
 #include <assert.h>
 #include <pthread.h>
 #include <arpa/inet.h>
+#include <string.h>
 
 #endif

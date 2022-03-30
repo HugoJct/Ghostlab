@@ -12,4 +12,6 @@ struct player {
 	int udp_port;
 };
 
+struct player* create_player(char*,int,int); 	//create a player 
+
 #endif
