@@ -18,6 +18,8 @@ import main.java.commands.in.CommandRcvNbrGames;
 import main.java.commands.in.CommandRcvPlayerGame;
 import main.java.commands.in.CommandRcvPlayerId;
 import main.java.commands.in.CommandRcvUnregisterOK;
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
 
 public class ClientTCP extends Thread {
     private Socket clientSocket;
@@ -87,6 +89,8 @@ public class ClientTCP extends Thread {
 
     // parsing de la commande
 	public void useMessage(String command) {
+        DebugLogger.print(DebugType.CONFIRM, command);
+        
         String[] args = breakCommand(command);
 		
 		for(String s : commandRcvList.keySet()) {
