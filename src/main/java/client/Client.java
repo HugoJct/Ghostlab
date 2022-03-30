@@ -21,8 +21,8 @@ public abstract class Client implements Runnable {
         }); */
 
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
-        clientTCP.start();
         new Console(clientTCP).start();
+        clientTCP.start();
 
         
     }
