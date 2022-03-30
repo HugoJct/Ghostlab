@@ -13,5 +13,6 @@ struct player {
 };
 
 struct player* create_player(char*,int,int); 	//create a player 
+void player_print(void *player);
 
 #endif

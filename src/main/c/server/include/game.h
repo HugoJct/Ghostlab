@@ -12,7 +12,7 @@ struct game {
 	llist *players;
 };
 
-struct game* create_game();
+struct game* create_game(int);
 void game_print(void *game);
 
 
