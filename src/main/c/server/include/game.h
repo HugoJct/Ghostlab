@@ -12,8 +12,8 @@ struct game {
 	llist *players;
 };
 
-struct game* create_game(int);
+struct game* game_create(int);
 void game_print(void *game);
-
+void game_send_list(int, llist*);
 
 #endif

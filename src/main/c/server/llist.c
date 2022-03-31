@@ -6,8 +6,7 @@
 #include <stdio.h>
 #include "llist.h"
 
-llist *llist_create(void *new_data)
-{
+llist *llist_create(void *new_data) {
     struct node *new_node;
 
     llist *new_list = (llist *)malloc(sizeof (llist));
@@ -19,8 +18,7 @@ llist *llist_create(void *new_data)
     return new_list;
 }
 
-void llist_free(llist *list)
-{
+void llist_free(llist *list) {
     struct node *curr = *list;
     struct node *next;
 
@@ -34,9 +32,7 @@ void llist_free(llist *list)
 }
 
 // Returns 0 on failure
-int llist_add_inorder(void *data, llist *list,
-                       int (*comp)(void *, void *))
-{
+int llist_add_inorder(void *data, llist *list,int (*comp)(void *, void *)) {
     struct node *new_node;
     struct node *curr;
     struct node *prev = NULL;
@@ -70,8 +66,7 @@ int llist_add_inorder(void *data, llist *list,
     return 1;
 }
 
-void llist_push(llist *list, void *data)
-{
+void llist_push(llist *list, void *data) {
     struct node *head;
     struct node *new_node;
     if (list == NULL || *list == NULL) {
@@ -93,8 +88,7 @@ void llist_push(llist *list, void *data)
     }
 }
 
-void *llist_pop(llist *list)
-{
+void *llist_pop(llist *list) {
     void *popped_data;
     struct node *head = *list;
 
@@ -109,8 +103,7 @@ void *llist_pop(llist *list)
     return popped_data;
 }
 
-void llist_print(llist *list, void (*print)(void *))
-{
+void llist_print(llist *list, void (*print)(void *)) {
     struct node *curr = *list;
     while (curr != NULL) {
         print(curr->data);
@@ -118,4 +111,20 @@ void llist_print(llist *list, void (*print)(void *))
         curr = curr->next;
     }
     putchar('\n');
+}
+
+int llist_size(llist *list) {
+	int size = 0;
+	struct node *cur = *list;
+
+	if(cur->data == NULL)
+		return 0;
+
+	while(cur->next != NULL) {
+		size++;
+		cur = cur->next;
+	}
+	size++;
+
+	return size;
 }

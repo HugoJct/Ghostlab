@@ -24,6 +24,16 @@ int main(int argc, char **argv) {
 	/* infinite loop for accepting new connections */
 	while(1) {
 		int new_player = wait_for_connection(server_socket_fd);
+		
+
+		/*
+		 * For now, the server sends infos about existing games (none) to the client the closes the connection
+		 */
+		game_send_list(new_player,games);
+		close(new_player);
+		break;
+
+
 
 		/* TODO handle the connection 
 		 * 	-> send the player the game infos
