@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-
 import main.java.commands.Command;
 import main.java.commands.in.CommandRcvDunno;
 import main.java.commands.in.CommandRcvGameInfo;
@@ -20,6 +19,7 @@ import main.java.commands.in.CommandRcvPlayerId;
 import main.java.commands.in.CommandRcvUnregisterOK;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+
 
 public class ClientTCP extends Thread {
     private Socket clientSocket;
@@ -59,12 +59,33 @@ public class ClientTCP extends Thread {
     public void run() {
         try {
 
-            String serverMsg;
+            String serverMsg = "";
 
             // tant que le socket est connecté
         	while(isConnected) {
 
-            	serverMsg = in.readLine();
+                int pos = 0;
+                int stopCount = 0;
+
+                while(true) {
+
+                    if (stopCount == 3) {
+                        break;
+                    }
+
+                    serverMsg += (char)in.read();
+
+                    if (serverMsg.charAt(serverMsg.length()-1) == '*') {
+                        stopCount++;
+                        pos++;
+                        serverMsg = serverMsg.substring(0, serverMsg.length()-1);
+                    }
+
+                    else {
+                        pos++;
+                    }
+
+                }
 
                 // si le socket est déconnecté : arrêter de lire
         		if(serverMsg == null) {
