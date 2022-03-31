@@ -7,10 +7,10 @@ SRC2=$(wildcard build/*.o)
 default: $(OBJ) link
 
 link:
-	$(CC) $(CFLAGS) -o server $(SRC2)
+	$(CC) $(CFLAGS) -o server.exe $(SRC2)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c -o build/$@ $<
 
 clean:
-	@rm -rf build/*.o server
+	@rm -rf build/*.o server.exe
