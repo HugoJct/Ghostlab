@@ -38,3 +38,16 @@ int server_socket_accept(int socket_fd) {
 
 	return fd;
 }
+
+void *server_socket_connection_prompt(void *arg) {
+
+	int fd = *((int*) arg);
+
+	extern llist *games;
+	game_send_list(fd,games);
+
+	close(fd);
+	free(arg);
+
+	return NULL;	
+}

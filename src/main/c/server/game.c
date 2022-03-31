@@ -62,7 +62,8 @@ void game_send_details(int socket_fd, llist *games) {
 		struct game *g = (struct game*) cur->data;
 
 		u_int8_t game_id = g->id;
-		u_int8_t players_count = llist_size(g->players);
+		//u_int8_t players_count = llist_size(g->players);
+		u_int8_t players_count = 15;
 
 		char *cmd = "OGAME ";
 		char *end = "***";
@@ -86,5 +87,4 @@ void game_send_details(int socket_fd, llist *games) {
 void game_send_list(int socket_fd, llist *games) {
 	game_send_count(socket_fd,games);
 	game_send_details(socket_fd,games);
-	printf("oui\n");
 }
