@@ -19,11 +19,11 @@ int main(int argc, char **argv) {
 	assert(server_socket_fd >= 0);
 
 	/* bind the server to an address and make it listen */
-	init_server(server_socket_fd,atoi(argv[1]));
+	server_socket_init(server_socket_fd,atoi(argv[1]));
 
 	/* infinite loop for accepting new connections */
 	while(1) {
-		int new_player = wait_for_connection(server_socket_fd);
+		int new_player = server_socket_accept(server_socket_fd);
 		
 
 		/*
@@ -43,6 +43,7 @@ int main(int argc, char **argv) {
 		 */
 	}
 
+	llist_free(games);
 	close(server_socket_fd);
 
 	return EXIT_SUCCESS;

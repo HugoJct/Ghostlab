@@ -1,6 +1,6 @@
 #include "server_socket.h"
 
-void init_server(int socket, int port) {
+void server_socket_init(int socket, int port) {
 	
 	/* Initializing the tcp socket for the server *****************************************/
 	struct sockaddr_in local_address = {
@@ -24,7 +24,7 @@ void init_server(int socket, int port) {
 
 }
 
-int wait_for_connection(int socket_fd) {
+int server_socket_accept(int socket_fd) {
 
 	struct sockaddr_in remote;
 	socklen_t size_remote = sizeof(remote);

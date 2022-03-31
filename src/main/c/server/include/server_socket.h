@@ -3,7 +3,7 @@
 
 #include "dependencies.h"
 
-void init_server(int , int);
-int wait_for_connection(int);
+void server_socket_init(int , int);
+int server_socket_accept(int);
 
 #endif
