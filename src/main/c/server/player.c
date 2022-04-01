@@ -1,7 +1,7 @@
 #include "player.h"
 
 struct player* player_create(char *name, int tcp_socket, int port) {
-	struct player *p = malloc(sizeof(struct player));
+	struct player *p = (struct player *)malloc(sizeof(struct player));
 
 	/* make sure the name is 8 characters long */
 	memcpy(p->id,name,8);
@@ -23,7 +23,7 @@ void player_print(void *player) {
 	}
 
 	char tmp_name[9];
-	strcpy(tmp_name,p->id+1);
+	strcpy(tmp_name,p->id);
 	tmp_name[8] = '\0';
 
 	printf("name: %s score: %d x: %d y: %d port: %d",tmp_name,p->score,p->x,p->y,p->udp_port);

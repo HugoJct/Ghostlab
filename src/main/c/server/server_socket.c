@@ -69,8 +69,8 @@ void server_socket_receive_newpl_regis(int fd) {
 
 		printf("New game creation requested\n");
 
-		char name[8];
-		memcpy(name,buf+5,8);
+		char *name = (char *) malloc(8);
+		memcpy(name,buf+6,8);
 
 		char porttmp[5];
 		memcpy(porttmp,buf+15,4);
@@ -83,6 +83,8 @@ void server_socket_receive_newpl_regis(int fd) {
 
 		struct player *p = player_create(name,fd,port);
 		llist_push(g->players,p);
+
+		free(name);
 
 		pthread_t t;
 		pthread_create(&t,NULL,game_start,g);
@@ -108,5 +110,4 @@ void server_socket_receive_newpl_regis(int fd) {
 		struct player *p = player_create("TESTTEST",fd,port);
 		llist_push(g->players,p);
 	}
-
 }
