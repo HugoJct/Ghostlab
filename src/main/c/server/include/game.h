@@ -3,6 +3,7 @@
 
 #include "dependencies.h"
 #include "llist.h"
+#include "player.h"
 
 struct game {
 	int id;
@@ -15,5 +16,6 @@ struct game {
 struct game* game_create(int);
 void game_print(void *game);
 void game_send_list(int, llist*);
+void *game_start(void *arg);
 
 #endif
