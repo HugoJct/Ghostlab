@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 
 	/* infinite loop for accepting new connections */
 	while(1) {
-		int *new_player = (int *) malloc(sizeof(int));;
+		int *new_player = (int *) malloc(sizeof(int));
 		*new_player = server_socket_accept(server_socket_fd);
 		
 		pthread_t t;

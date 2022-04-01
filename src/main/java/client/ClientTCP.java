@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import main.java.commands.Command;
 import main.java.commands.in.CommandRcvDunno;
@@ -65,25 +66,15 @@ public class ClientTCP extends Thread {
         	while(isConnected) {
 
                 int pos = 0;
-                int stopCount = 0;
 
                 while(true) {
 
-                    if (stopCount == 3) {
+                    if (pos == 5) {
                         break;
                     }
 
                     serverMsg += (char)in.read();
-
-                    if (serverMsg.charAt(serverMsg.length()-1) == '*') {
-                        stopCount++;
-                        pos++;
-                        serverMsg = serverMsg.substring(0, serverMsg.length()-1);
-                    }
-
-                    else {
-                        pos++;
-                    }
+                    pos++;
 
                 }
 
@@ -137,8 +128,11 @@ public class ClientTCP extends Thread {
         return command.split(" ");
 	}
 
-    public PrintWriter getpPrintWriter() {
+    public PrintWriter getPrintWriter() {
         return this.out;
+    }
+    public BufferedReader getBufferedReader() {
+        return this.in;
     }
 
     public boolean isConnected() {

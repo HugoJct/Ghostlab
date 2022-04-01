@@ -27,19 +27,19 @@ public class Console extends Thread {
         this.clientTCP = clientTcp;
 
         // remplissage de la liste avec des commandes developpeur
-        commandDev.put("debug", new CommandDebug(clientTcp.getpPrintWriter()));
-        commandDev.put("help", new CommandHelp(clientTcp.getpPrintWriter()));
-        commandDev.put("kill", new CommandKill(clientTcp.getpPrintWriter()));
+        commandDev.put("debug", new CommandDebug(clientTcp.getPrintWriter()));
+        commandDev.put("help", new CommandHelp(clientTcp.getPrintWriter()));
+        commandDev.put("kill", new CommandKill(clientTcp.getPrintWriter()));
 
 
         // remplissage de la liste des commandes envoyables au serveur 
-        commandAskList.put("GAME?", new CommandAskAvailableGames(clientTcp.getpPrintWriter()));
-        commandAskList.put("NEWPL", new CommandAskCreate(clientTcp.getpPrintWriter()));
-        commandAskList.put("REGIS", new CommandAskJoin(clientTcp.getpPrintWriter()));
-        commandAskList.put("SIZE?", new CommandAskMapSize(clientTcp.getpPrintWriter()));
-        commandAskList.put("LIST?", new CommandAskPlayerGame(clientTcp.getpPrintWriter()));
-        commandAskList.put("START", new CommandAskStart(clientTcp.getpPrintWriter()));
-        commandAskList.put("UNREG", new CommandAskUnregister(clientTcp.getpPrintWriter()));
+        commandAskList.put("GAME?", new CommandAskAvailableGames(clientTcp.getPrintWriter()));
+        commandAskList.put("NEWPL", new CommandAskCreate(clientTcp.getPrintWriter()));
+        commandAskList.put("REGIS", new CommandAskJoin(clientTcp.getPrintWriter()));
+        commandAskList.put("SIZE?", new CommandAskMapSize(clientTcp.getPrintWriter()));
+        commandAskList.put("LIST?", new CommandAskPlayerGame(clientTcp.getPrintWriter()));
+        commandAskList.put("START", new CommandAskStart(clientTcp.getPrintWriter()));
+        commandAskList.put("UNREG", new CommandAskUnregister(clientTcp.getPrintWriter()));
     }
 
     @Override
