@@ -12,7 +12,7 @@ struct player {
 	int udp_port;
 };
 
-struct player* create_player(char*,int,int); 	//create a player 
+struct player* player_create(char*,int,int); 	//create a player 
 void player_print(void *player);
 
 #endif

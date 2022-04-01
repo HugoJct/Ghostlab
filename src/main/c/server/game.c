@@ -1,6 +1,8 @@
 #include "game.h"
 
 int game_id_counter = 0;
+int multi_diffusion_field = 3;
+int multi_diffusion_port = 1999;
 
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
@@ -9,13 +11,13 @@ struct game* game_create(int cap) {
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 
-	/* TODO: Some stuff left to initialize 
-	 *		Such as: 
-	 *			The port for multi-diffusion
-	 *			The ip for multi-diffusion
-	 *
-	 *	I don't how to define these for now
-	 */
+	char *ip = (char *) malloc(15);
+	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
+	int ret = inet_aton(ip,&new_game->diffusion_ip);
+	assert(ret != 0);
+	free(ip);
+
+	new_game->diffusion_port = multi_diffusion_port++;
 
 	return new_game;
 }
@@ -35,6 +37,25 @@ void game_print(void *game) {
 	printf("id: %d max: %d ip: %s port: %d\n",g->id,g->max_capacity,ip,g->diffusion_port);
 }
 
+struct game* game_get_by_id(int id) {
+	printf("searching :%d\n",id);
+	struct game *g = NULL;
+
+	extern llist *games;
+
+	struct node *cur = (struct node *) games;
+	while(cur->next != NULL) {
+		if(cur->data == NULL)
+			break;	
+		if(((struct game*) cur->data)->id == id) {
+			g = cur->data;
+			break;
+		}
+		cur = cur->next;
+	}
+
+	return g;
+}
 
 void game_send_count(int socket_fd, llist *games) {
 	char buf[100];
@@ -63,6 +84,7 @@ void game_send_details(int socket_fd, llist *games) {
 
 		u_int8_t game_id = g->id;
 		u_int8_t players_count = llist_size(g->players);
+		//u_int8_t players_count = 15;
 
 		char *cmd = "OGAME ";
 		char *end = "***";
@@ -75,7 +97,6 @@ void game_send_details(int socket_fd, llist *games) {
 
 		int ret = send(socket_fd,buf,12,0);
 		assert(ret >= 0);	//not sure if this is optimal
-		
 
 		if(cur->next == NULL)
 			break;
@@ -86,5 +107,20 @@ void game_send_details(int socket_fd, llist *games) {
 void game_send_list(int socket_fd, llist *games) {
 	game_send_count(socket_fd,games);
 	game_send_details(socket_fd,games);
-	printf("oui\n");
+}
+
+void *game_start(void *arg) {
+
+	extern llist *games;
+
+	struct game *g = (struct game*) arg;
+
+	llist_print(games,game_print);
+	llist_print(g->players,player_print);
+
+	pause();
+
+	/* TODO handle game unfolding */
+
+	return NULL;
 }

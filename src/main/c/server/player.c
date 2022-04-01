@@ -1,7 +1,7 @@
 #include "player.h"
 
-struct player* create_player(char *name, int tcp_socket, int port) {
-	struct player *p = malloc(sizeof(p));
+struct player* player_create(char *name, int tcp_socket, int port) {
+	struct player *p = (struct player *)malloc(sizeof(struct player));
 
 	/* make sure the name is 8 characters long */
 	memcpy(p->id,name,8);
