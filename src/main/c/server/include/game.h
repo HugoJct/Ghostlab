@@ -15,6 +15,7 @@ struct game {
 
 struct game* game_create(int);
 void game_print(void *game);
+struct game* game_get_by_id(int id);
 void game_send_list(int, llist*);
 void *game_start(void *arg);
 

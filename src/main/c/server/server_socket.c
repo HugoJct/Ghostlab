@@ -93,21 +93,26 @@ void server_socket_receive_newpl_regis(int fd) {
 
 		printf("Game join request\n");
 
-		char name[8];
+		char *name = malloc(8);
 		memcpy(name,buf+6,8);
 
 		char porttmp[5];
-		memcpy(porttmp,buf+14,4);
+		memcpy(porttmp,buf+15,4);
 		porttmp[5] = '\0';
 		int port = atoi(porttmp);
 
 		u_int8_t game_nb = 0;
-		memcpy(&game_nb,buf+18,1);
+		memcpy(&game_nb,buf+20,1);
 
-		struct game *g = game_create(4);
-		llist_push(games,g);
+		struct player *p = player_create(name,fd,port);
 
-		struct player *p = player_create("TESTTEST",fd,port);
-		llist_push(g->players,p);
+		struct game *requested_game = game_get_by_id(game_nb);
+
+		if(requested_game != NULL)
+			llist_push(requested_game->players,p);
+		else
+			printf("non\n");
+
+		free(name);
 	}
 }
