@@ -1,6 +1,8 @@
 #include "game.h"
 
 int game_id_counter = 0;
+int multi_diffusion_field = 3;
+int multi_diffusion_port = 1999;
 
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
@@ -8,6 +10,14 @@ struct game* game_create(int cap) {
 
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
+
+	char *ip = (char *) malloc(15);
+	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
+	int ret = inet_aton(ip,&new_game->diffusion_ip);
+	assert(ret != 0);
+	free(ip);
+
+	new_game->diffusion_port = multi_diffusion_port++;
 
 	/* TODO: Some stuff left to initialize 
 	 *		Such as: 
