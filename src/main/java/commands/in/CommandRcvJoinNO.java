@@ -1,5 +1,6 @@
 package main.java.commands.in;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import main.java.client.Client;
@@ -16,7 +17,7 @@ public class CommandRcvJoinNO extends Command{
 
     @Override
     public void execute(ClientTCP client, String[] args) {
-        
+
     }
     
 }

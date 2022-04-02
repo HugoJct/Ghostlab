@@ -21,10 +21,9 @@ public class CommandRcvGameInfo extends Command{
     @Override
     public void execute(ClientTCP client, String[] args) {
         
-        int pos = 0;
         int stopCount = 0;
-        byte c;
-        LinkedList<Byte> byteBuffer = new LinkedList<Byte>();
+        byte b;
+        LinkedList<Integer> byteUint8List = new LinkedList<Integer>();
 
         while(true) {
            
@@ -33,24 +32,24 @@ public class CommandRcvGameInfo extends Command{
             }
 
             try {
-                c = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+                b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
             }
 
             // "charactère espace"
-            if (c == 32) {
+            if (b == 32) {
                 continue;
             }
 
             // "charactère * "
-            if (c == 42) {
+            if (b == 42) {
                 stopCount++;
                 continue;
             }
 
-            byteBuffer.add((byte)c);
+            byteUint8List.add((byte)b & 0xFF);
 
         }
 
