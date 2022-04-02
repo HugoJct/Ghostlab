@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
 
 // SIZE! m h w***
 
@@ -19,6 +21,9 @@ public class CommandRcvMapSize extends Command {
 
     @Override
     public void execute(ClientTCP client, String[] args) {
+
+        DebugLogger.print(DebugType.CONFIRM, "Command identified : SIZE!");
+        
         byte b1;
         byte b2;
         LinkedList<Integer> byteList = new LinkedList<Integer>();

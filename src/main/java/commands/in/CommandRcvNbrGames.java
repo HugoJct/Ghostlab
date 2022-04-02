@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
 
 // GAMES n***
 
@@ -17,6 +19,9 @@ public class CommandRcvNbrGames extends Command {
 
     @Override
     public void execute(ClientTCP client, String[] args) {
+
+        DebugLogger.print(DebugType.CONFIRM, "Command identified : GAMES");
+        
         byte b;
         try {
             // read " "

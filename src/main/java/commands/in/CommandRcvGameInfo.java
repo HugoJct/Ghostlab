@@ -9,6 +9,8 @@ import java.lang.Integer;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
 
 // OGAME m s***
 
@@ -21,6 +23,8 @@ public class CommandRcvGameInfo extends Command{
     @Override
     public void execute(ClientTCP client, String[] args) {
         
+        DebugLogger.print(DebugType.CONFIRM, "Command identified : OGAME");
+
         int stopCount = 0;
         byte b;
         LinkedList<Integer> byteUint8List = new LinkedList<Integer>();

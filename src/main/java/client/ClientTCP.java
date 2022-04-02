@@ -84,7 +84,6 @@ public class ClientTCP extends Thread {
                 	isConnected = false;
             	}
 
-            	DebugLogger.print(DebugType.CONFIRM, "server wrote : " + serverMsg);
                 useMessage(serverMsg);
 
         	}
