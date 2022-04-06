@@ -1,5 +1,6 @@
 package main.java.commands.out;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import main.java.client.Client;
@@ -19,7 +20,10 @@ public class CommandAskCreate extends Command {
     @Override
     public void execute(ClientTCP client, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "create game command (NEWPL)");
-        client.getPrintWriter().write(args[0]);
+
+        String msg = args.toString();
+
+        client.getPrintWriter().write(msg);
         client.getPrintWriter().flush();
     }
     

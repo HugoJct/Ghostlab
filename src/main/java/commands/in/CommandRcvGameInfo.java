@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.lang.Integer;
 
+import main.java.GameInfo;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
@@ -56,6 +57,8 @@ public class CommandRcvGameInfo extends Command{
             byteUint8List.add((byte)b & 0xFF);
 
         }
+
+        GameInfo.gameIdNbrPlayers.put(byteUint8List.get(0), byteUint8List.get(1));
 
 
     }

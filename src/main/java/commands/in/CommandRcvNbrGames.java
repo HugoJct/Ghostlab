@@ -3,6 +3,7 @@ package main.java.commands.in;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import main.java.GameInfo;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
@@ -33,6 +34,8 @@ public class CommandRcvNbrGames extends Command {
             return;
         }
         int uint8GameNum = b & 0xFF;
+
+        GameInfo.nbrGames = uint8GameNum;
 
     }
     
