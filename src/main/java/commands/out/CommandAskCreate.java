@@ -1,9 +1,7 @@
 package main.java.commands.out;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
 import main.java.console.DebugLogger;
@@ -21,9 +19,24 @@ public class CommandAskCreate extends Command {
     public void execute(ClientTCP client, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "create game command (NEWPL)");
 
-        String msg = args.toString();
+        if (args[1].length() > 8) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être de MAX 8 caractères");
+            return;
+        }
 
-        client.getPrintWriter().write(msg);
+        if (args[2].length() > 4) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille du port doit être de MAX 9999");
+            return;
+        }
+
+        try {
+            int i = Integer.parseInt(args[2]);
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le type de port donné n'est pas conforme");
+            return;
+        }
+
+        client.getPrintWriter().write(args[0] + args[1] + args[2] + "***");
         client.getPrintWriter().flush();
     }
     
