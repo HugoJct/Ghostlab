@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "llist.h"
+#include "dependencies.h"
+
+extern pthread_mutex_t game_list_mutex;
 
 llist *llist_create(void *new_data) {
     struct node *new_node;
@@ -67,6 +70,9 @@ int llist_add_inorder(void *data, llist *list,int (*comp)(void *, void *)) {
 }
 
 void llist_push(llist *list, void *data) {
+
+	pthread_mutex_lock(&game_list_mutex);
+
     struct node *head;
     struct node *new_node;
     if (list == NULL || *list == NULL) {

@@ -4,12 +4,16 @@ int game_id_counter = 0;
 int multi_diffusion_field = 3;
 int multi_diffusion_port = 1999;
 
+pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
 	new_game->players = llist_create(NULL);
 
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
+
+	pthread_mutex_init(&(new_game->game_lock),NULL);
 
 	char *ip = (char *) malloc(15);
 	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
@@ -18,6 +22,13 @@ struct game* game_create(int cap) {
 	free(ip);
 
 	new_game->diffusion_port = multi_diffusion_port++;
+
+	pthread_mutex_lock(&game_list_mutex);
+
+	extern llist *games;
+	llist_push(games,new_game);
+	
+	pthread_mutex_unlock(&game_list_mutex);
 
 	return new_game;
 }
@@ -37,8 +48,18 @@ void game_print(void *game) {
 	printf("id: %d max: %d ip: %s port: %d\n",g->id,g->max_capacity,ip,g->diffusion_port);
 }
 
+void game_add_player(struct game *g, struct player *p) {
+	pthread_mutex_lock(&g->game_lock);
+
+	llist_push(g->players,p);
+
+	pthread_mutex_unlock(&g->game_lock);
+}
+
 struct game* game_get_by_id(int id) {
-	printf("searching :%d\n",id);
+
+	pthread_mutex_lock(&game_list_mutex);
+
 	struct game *g = NULL;
 
 	extern llist *games;
@@ -54,12 +75,15 @@ struct game* game_get_by_id(int id) {
 		cur = cur->next;
 	}
 
+	pthread_mutex_unlock(&game_list_mutex);
+
 	return g;
 }
 
 void game_send_count(int socket_fd, llist *games) {
 	char buf[100];
 
+	pthread_mutex_lock(&game_list_mutex);
 	u_int8_t games_number = llist_size(games);
 
 	char *cmd = "GAMES ";
@@ -71,9 +95,12 @@ void game_send_count(int socket_fd, llist *games) {
 
 	int ret = send(socket_fd,buf,10,0);
 	assert(ret >= 0);	//not sure if this is optimal
+
+	pthread_mutex_unlock(&game_list_mutex);
 }
 
 void game_send_details(int socket_fd, llist *games) {
+	pthread_mutex_lock(&game_list_mutex);
 
 	struct node *cur = *games;
 	while(cur->data != NULL) {
@@ -102,6 +129,7 @@ void game_send_details(int socket_fd, llist *games) {
 			break;
 		cur = cur->next;
 	}
+	pthread_mutex_unlock(&game_list_mutex);
 }
 
 void game_send_list(int socket_fd, llist *games) {

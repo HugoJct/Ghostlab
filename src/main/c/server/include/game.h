@@ -11,10 +11,12 @@ struct game {
 	struct in_addr diffusion_ip;
 	u_int16_t diffusion_port;
 	llist *players;
+	pthread_mutex_t game_lock;
 };
 
 struct game* game_create(int);
 void game_print(void *game);
+void game_add_player(struct game *g, struct player *p);
 struct game* game_get_by_id(int id);
 void game_send_list(int, llist*);
 void *game_start(void *arg);

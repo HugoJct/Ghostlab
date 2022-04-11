@@ -30,13 +30,6 @@ int main(int argc, char **argv) {
 		
 		pthread_t t;
 		pthread_create(&t,NULL,server_socket_connection_prompt,new_player);
-
-		/* TODO handle the connection 
-		 * 	-> send the player the game infos
-		 * 	-> wait for its response 
-		 * 	-> create a game or add the plyaer to a game 
-		 * 	-> wait for new connection
-		 */
 	}
 
 	llist_free(games);

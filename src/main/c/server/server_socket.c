@@ -21,7 +21,6 @@ void server_socket_init(int socket, int port) {
 		exit(EXIT_FAILURE);
 	}
 	/*************************************************************************************/
-
 }
 
 int server_socket_accept(int socket_fd) {
@@ -79,10 +78,9 @@ void server_socket_receive_newpl_regis(int fd) {
 		int port = atoi(porttmp);
 
 		struct game *g = game_create(4);
-		llist_push(games,g);
 
 		struct player *p = player_create(name,fd,port);
-		llist_push(g->players,p);
+		game_add_player(g,p);
 
 		free(name);
 
@@ -109,7 +107,7 @@ void server_socket_receive_newpl_regis(int fd) {
 		struct game *requested_game = game_get_by_id(game_nb);
 
 		if(requested_game != NULL)
-			llist_push(requested_game->players,p);
+			game_add_player(requested_game,p);
 		else
 			printf("non\n");
 
