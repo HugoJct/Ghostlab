@@ -66,6 +66,7 @@ public class ClientTCP extends Thread {
         	while(isConnected) {
 
                 int pos = 0;
+                int readVal = 0;
 
                 while(true) {
 
@@ -73,19 +74,19 @@ public class ClientTCP extends Thread {
                         break;
                     }
 
-                    serverMsg += (char)in.read();
+                    readVal = (char)in.read();
+
+                    // si le socket est déconnecté : arrêter de lire
+                    if (readVal == -1) {
+                        DebugLogger.print(DebugType.CONFIRM, "Disconnected !");
+                        isConnected = false;
+                        break;
+                    }
+
+                    serverMsg += (char)readVal;
                     pos++;
-
                 }
-
-                // si le socket est déconnecté : arrêter de lire
-        		if(serverMsg == null) {
-                	System.out.println("Disconnected !");
-                	isConnected = false;
-            	}
-
                 useMessage(serverMsg);
-
         	}
         } catch(IOException e) {
             DebugLogger.print(DebugType.CONFIRM, "Socket closed");
