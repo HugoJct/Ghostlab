@@ -28,37 +28,26 @@ public class CommandRcvGameInfo extends Command{
 
         int stopCount = 0;
         byte b;
-        LinkedList<Integer> byteUint8List = new LinkedList<Integer>();
+        
+        // read " "
+        try {
+            // read "m" : game id
+            int m = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
 
-        while(true) {
-           
-            if (stopCount == 3) {
-                break;
-            }
+            // read " "
+            client.getBufferedReader().read();
 
-            try {
-                b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
-            } catch (IOException e) {
-                e.printStackTrace();
-                break;
-            }
+            // read "s" : nbr players in game m
+            int s = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
 
-            // "charactère espace"
-            if (b == 32) {
-                continue;
-            }
+            GameInfo.gameIdNbrPlayers.put(m, s);
 
-            // "charactère * "
-            if (b == 42) {
-                stopCount++;
-                continue;
-            }
-
-            byteUint8List.add((byte)b & 0xFF);
-
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
         }
 
-        GameInfo.gameIdNbrPlayers.put(byteUint8List.get(0), byteUint8List.get(1));
+
 
 
     }

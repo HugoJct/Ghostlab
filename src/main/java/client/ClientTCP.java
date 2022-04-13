@@ -44,7 +44,7 @@ public class ClientTCP extends Thread {
 
         // remplissage de la liste de commandes recevables
         commandRcvList.put("DUNNO", new CommandRcvDunno(out));
-        commandRcvList.put("OGAMES", new CommandRcvGameInfo(out));
+        commandRcvList.put("OGAME", new CommandRcvGameInfo(out));
         commandRcvList.put("REGNO", new CommandRcvJoinNO(out));
         commandRcvList.put("REGOK", new CommandRcvJoinOK(out));
         commandRcvList.put("SIZE!", new CommandRcvMapSize(out));

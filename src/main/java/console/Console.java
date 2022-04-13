@@ -7,6 +7,7 @@ import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
 import main.java.commands.dev.CommandDebug;
+import main.java.commands.dev.CommandGameInfo;
 import main.java.commands.dev.CommandHelp;
 import main.java.commands.dev.CommandKill;
 import main.java.commands.out.CommandAskAvailableGames;
@@ -30,7 +31,7 @@ public class Console extends Thread {
         commandDev.put("debug", new CommandDebug(clientTcp.getPrintWriter()));
         commandDev.put("help", new CommandHelp(clientTcp.getPrintWriter()));
         commandDev.put("kill", new CommandKill(clientTcp.getPrintWriter()));
-
+        commandDev.put("gameinfo", new CommandGameInfo(clientTcp.getPrintWriter()));
 
         // remplissage de la liste des commandes envoyables au serveur 
         commandAskList.put("GAME?", new CommandAskAvailableGames(clientTcp.getPrintWriter()));
