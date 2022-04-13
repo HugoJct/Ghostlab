@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import main.java.commands.Command;
 import main.java.commands.in.CommandRcvDunno;
@@ -74,11 +73,11 @@ public class ClientTCP extends Thread {
                         break;
                     }
 
-                    readVal = (char)in.read();
+                    readVal = in.read();
 
                     // si le socket est déconnecté : arrêter de lire
                     if (readVal == -1) {
-                        DebugLogger.print(DebugType.CONFIRM, "Disconnected !");
+                        DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected !");
                         isConnected = false;
                         break;
                     }
