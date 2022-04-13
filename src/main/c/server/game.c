@@ -23,12 +23,12 @@ struct game* game_create(int cap) {
 
 	new_game->diffusion_port = multi_diffusion_port++;
 
-	pthread_mutex_lock(&game_list_mutex);
+	//pthread_mutex_lock(&game_list_mutex);
 
 	extern llist *games;
 	llist_push(games,new_game);
 	
-	pthread_mutex_unlock(&game_list_mutex);
+//	pthread_mutex_unlock(&game_list_mutex);
 
 	return new_game;
 }
