@@ -1,11 +1,11 @@
 package main.java.commands.out;
 
 import java.io.PrintWriter;
-
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+
 
 // NEWPL id port***
 
@@ -18,6 +18,11 @@ public class CommandAskCreate extends Command {
     @Override
     public void execute(ClientTCP client, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "create game command (NEWPL)");
+
+        if (args.length < 3) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : NEWPL id port");
+            return;
+        }
 
         if (args[1].length() > 8) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être de MAX 8 caractères");

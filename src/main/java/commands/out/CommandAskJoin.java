@@ -1,12 +1,12 @@
 package main.java.commands.out;
 
 import java.io.PrintWriter;
-
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+
 
 // REGIS id port m***
 
@@ -20,6 +20,8 @@ public class CommandAskJoin extends Command {
     public void execute(ClientTCP client, String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "ask join game command (REGIS)");
+        
+        System.out.println("OK");
 
         if (args.length < 4) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS id port m");
