@@ -28,7 +28,7 @@ public class CommandRcvNbrGames extends Command {
             // read " "
             client.getBufferedReader().read();
             // read "n" uint8
-            GameInfo.nbrGames = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            GameInfo.nbrGames = client.getBufferedReader().read();
 
             // read the three "***" to skip them
             client.getBufferedReader().read();

@@ -63,6 +63,7 @@ public class ClientTCP extends Thread {
 
             // tant que le socket est connecté
         	while(isConnected) {
+                serverMsg = "";
 
                 int pos = 0;
                 int readVal = 0;

@@ -36,13 +36,13 @@ public class CommandRcvGameInfo extends Command{
             client.getBufferedReader().read();
             
             // read "m" : game id
-            int m = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            int m = client.getBufferedReader().read();
 
             // read " "
             client.getBufferedReader().read();
 
             // read "s" : nbr players in game m
-            int s = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            int s = client.getBufferedReader().read();
 
             GameInfo.gameIdNbrPlayers.put(m, s);
 
