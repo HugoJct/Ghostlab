@@ -43,6 +43,11 @@ public class CommandRcvMapSize extends Command {
             b1 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             b2 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             byteList.add(((b1 & 0xFF) << 8) + (b2 & 0xFF));
+
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
         } catch (IOException e) {
             e.printStackTrace();
             return;

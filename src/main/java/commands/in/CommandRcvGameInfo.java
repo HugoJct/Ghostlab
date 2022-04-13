@@ -29,8 +29,12 @@ public class CommandRcvGameInfo extends Command{
         int stopCount = 0;
         byte b;
         
-        // read " "
+        
         try {
+
+            // read " "
+            client.getBufferedReader().read();
+            
             // read "m" : game id
             int m = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
 
@@ -41,6 +45,11 @@ public class CommandRcvGameInfo extends Command{
             int s = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
 
             GameInfo.gameIdNbrPlayers.put(m, s);
+
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
 
         } catch (IOException e) {
             e.printStackTrace();

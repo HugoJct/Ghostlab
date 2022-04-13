@@ -20,6 +20,16 @@ public class CommandRcvJoinNO extends Command{
     @Override
     public void execute(ClientTCP client, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "Command identified : REGNO");
+
+        try {
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     
 }

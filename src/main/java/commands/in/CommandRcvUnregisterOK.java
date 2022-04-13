@@ -28,6 +28,11 @@ public class CommandRcvUnregisterOK extends Command {
             b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             // read "m" uint8
             b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+           
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
         } catch (IOException e) {
             e.printStackTrace();
             return;

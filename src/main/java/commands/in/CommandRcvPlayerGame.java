@@ -36,6 +36,11 @@ public class CommandRcvPlayerGame extends Command {
             // read "s" uint8
             b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             byteList.add((byte)b & 0xFF);
+
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
         } catch (IOException e) {
             e.printStackTrace();
             return;

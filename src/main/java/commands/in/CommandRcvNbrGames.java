@@ -26,16 +26,18 @@ public class CommandRcvNbrGames extends Command {
         byte b;
         try {
             // read " "
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            client.getBufferedReader().read();
             // read "n" uint8
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            GameInfo.nbrGames = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-        int uint8GameNum = b & 0xFF;
-
-        GameInfo.nbrGames = uint8GameNum;
 
     }
     

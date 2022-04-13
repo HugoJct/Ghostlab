@@ -41,6 +41,17 @@ public class CommandRcvPlayerId extends Command {
                 e.printStackTrace();
             }
         }
+
+
+        try {
+            // read the three "***" to skip them
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+            client.getBufferedReader().read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+                    
     }
     
 }
