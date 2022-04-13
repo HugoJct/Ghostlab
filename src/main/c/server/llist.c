@@ -92,6 +92,7 @@ void llist_push(llist *list, void *data) {
         new_node->next = head;
         *list = new_node;
     }
+	pthread_mutex_unlock(&game_list_mutex);
 }
 
 void *llist_pop(llist *list) {
