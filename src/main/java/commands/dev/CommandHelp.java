@@ -25,6 +25,7 @@ public class CommandHelp extends Command {
         DebugLogger.print(DebugType.HELP, "#   debug ERROR <0/1> : ON/OFF retour d'erreur                    #");
         DebugLogger.print(DebugType.HELP, "#   debug ALL <0/1> : ON/OFF retour d'erreur                      #");
         DebugLogger.print(DebugType.HELP, "#   debug CONFIRM <0/1> : ON/OFF confirmation lecture commande    #");
+        DebugLogger.print(DebugType.HELP, "#   debug LIST <0/1> : affiche liste types debug                  #");
         DebugLogger.print(DebugType.HELP, "# HELP :                                                          #");
         DebugLogger.print(DebugType.HELP, "#   help : afficher liste commandes                               #"); 
         DebugLogger.print(DebugType.HELP, "# KILL :                                                          #");             
