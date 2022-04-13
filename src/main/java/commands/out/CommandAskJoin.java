@@ -21,8 +21,6 @@ public class CommandAskJoin extends Command {
 
         DebugLogger.print(DebugType.CONFIRM, "ask join game command (REGIS)");
         
-        System.out.println("OK");
-
         if (args.length < 4) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS id port m");
             return;
@@ -57,7 +55,7 @@ public class CommandAskJoin extends Command {
             return;
         }
 
-        client.getPrintWriter().write(args[0] + args[1] + args[2] + (byte)Integer.parseInt(args[3]) + "***");
+        client.getPrintWriter().write(args[0] + " " + args[1] + " " + args[2] + " " + (byte)Integer.parseInt(args[3]) + "***");
         client.getPrintWriter().flush();
     }
     

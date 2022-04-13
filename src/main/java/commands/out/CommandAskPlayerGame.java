@@ -34,7 +34,7 @@ public class CommandAskPlayerGame extends Command {
             return;
         }
 
-        client.getPrintWriter().write(args[0] + (byte)Integer.parseInt(args[1]) + "***");
+        client.getPrintWriter().write(args[0] + " " + (byte)Integer.parseInt(args[1]) + "***");
         client.getPrintWriter().flush();
         
     }

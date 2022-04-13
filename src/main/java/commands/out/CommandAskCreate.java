@@ -41,7 +41,7 @@ public class CommandAskCreate extends Command {
             return;
         }
 
-        client.getPrintWriter().write(args[0] + args[1] + args[2] + "***");
+        client.getPrintWriter().write(args[0] + " " + args[1] + " " + args[2] + "***");
         client.getPrintWriter().flush();
     }
     
