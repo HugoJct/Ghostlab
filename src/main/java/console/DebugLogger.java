@@ -13,9 +13,8 @@ public class DebugLogger {
 
     // print debug message if debug type is enable
     public static void print(int debugType, String str) {
-        if (!str.equals(previousDebugMessage)) {
+        //if (!str.equals(previousDebugMessage)) {
             if(typeMap.get(debugType)) {
-                Console.layout();
                 System.out.println(str);
                 previousDebugMessage = str;
             } 
@@ -23,17 +22,19 @@ public class DebugLogger {
                 System.out.println(str);
                 previousDebugMessage = str;
             }
-        }
+        //}
         Console.layout();
     }
 
     public static void setTypeMap() {
-        typeMap.put(DebugType.ERROR, false);
+        typeMap.put(DebugType.ERROR, true);
         typeMapDirectory.put(DebugType.ERROR, "ERROR");
         typeMap.put(DebugType.ALL, false);
         typeMapDirectory.put(DebugType.ALL, "ALL");
         typeMap.put(DebugType.CONFIRM, true);
         typeMapDirectory.put(DebugType.CONFIRM, "CONFIRM");
+        typeMap.put(DebugType.HELP, true);
+        typeMapDirectory.put(DebugType.HELP, "HELP");
     }
 
 }

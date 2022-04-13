@@ -14,7 +14,7 @@ public class CommandDebug extends Command {
     }
 
     @Override
-    public void execute(ClientTCP clientTCP, String[] args) {  
+    public void execute(ClientTCP clientTCP, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "debug command");
     }
     

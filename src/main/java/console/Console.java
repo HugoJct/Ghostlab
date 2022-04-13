@@ -73,6 +73,7 @@ public class Console extends Thread {
         }
         else {
             command = commandDev.get(args[0]);
+            layout();
             if (command != null) {
                 command.execute(clientTCP, args);
             } else {
