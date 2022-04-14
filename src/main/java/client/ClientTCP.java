@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -131,6 +132,11 @@ public class ClientTCP extends Thread {
     public PrintWriter getPrintWriter() {
         return this.out;
     }
+
+    public OutputStream getOutputStream() throws IOException{
+        return this.clientSocket.getOutputStream();
+    }
+
     public BufferedReader getBufferedReader() {
         return this.in;
     }
