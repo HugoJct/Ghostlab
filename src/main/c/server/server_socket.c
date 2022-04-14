@@ -78,7 +78,6 @@ void server_socket_receive_newpl_regis(int fd) {
 		int port = atoi(porttmp);
 
 		struct game *g = game_create(4);
-
 		struct player *p = player_create(name,fd,port);
 		game_add_player(g,p);
 
@@ -106,9 +105,12 @@ void server_socket_receive_newpl_regis(int fd) {
 
 		struct game *requested_game = game_get_by_id(game_nb);
 
-		if(requested_game != NULL)
+		//TODO check if the game is in progress
+
+		if(requested_game != NULL) {
+			printf("Okay\n");
 			game_add_player(requested_game,p);
-		else
+		} else
 			printf("non\n");
 
 		free(name);
