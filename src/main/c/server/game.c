@@ -65,15 +65,20 @@ struct game* game_get_by_id(int id) {
 	extern llist *games;
 
 	struct node *cur = *games;
-	do {
+	while(1) {
 		if(cur->data == NULL)
 			break;	
+
 		if(((struct game*) cur->data)->id == id) {
 			g = cur->data;
 			break;
 		}
+
+		if(cur->next == NULL)
+			break;
+
 		cur = cur->next;
-	} while(cur->next != NULL);
+	}
 
 	pthread_mutex_unlock(&game_list_mutex);
 
