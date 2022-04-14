@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.Command;
+import main.java.commands.CommandFormatter;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import java.io.IOException;
@@ -56,8 +57,8 @@ public class CommandAskJoin extends Command {
             return;
         }
 
-        byte[] bytesToSend = new byte[24];    //required size for this message
-        String regis = "REGIS";     //5
+        byte[] bytesToSend = CommandFormatter.formatForTCP(args);    //required size for this message
+        /*String regis = "REGIS";     //5
         String stars = "***";       //3
         String name = args[1];      //8
         String port = args[2];      //4
@@ -86,15 +87,15 @@ public class CommandAskJoin extends Command {
         //writing space
         bytesToSend[index++] = space.getBytes()[0];
 
-
         //writing the game id
         bytesToSend[index++] = (byte) Integer.parseInt(gameID);
 
         //writing stars
         for(int i=0;i<stars.length();i++)
-            bytesToSend[index++] = stars.getBytes()[i];
+            bytesToSend[index++] = stars.getBytes()[i];*/
 
         try {
+
             client.getOutputStream().write(bytesToSend);
             client.getOutputStream().flush();
         } catch(IOException e) { }
