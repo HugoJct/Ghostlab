@@ -40,4 +40,11 @@ public class ClientUDP extends Thread {
     public void run() {
 
     }
+
+    public DatagramSocket getSocket() {
+        return socket;
+    }
+    public InetAddress getAddr() {
+        return address;
+    }
 }
