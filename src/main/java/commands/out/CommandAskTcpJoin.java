@@ -57,48 +57,12 @@ public class CommandAskTcpJoin extends CommandTCP {
             return;
         }
 
-        byte[] bytesToSend = CommandFormatter.formatForTCP(args);    //required size for this message
-        /*String regis = "REGIS";     //5
-        String stars = "***";       //3
-        String name = args[1];      //8
-        String port = args[2];      //4
-        String gameID = args[3];    //1
-        String space = " ";         //3 spaces
-                                // = 24
-        int index = 0;
-        
-        //WRITING REGIS
-        for(int i=0;i<regis.length();i++)
-            bytesToSend[index++] = regis.getBytes()[i];
-
-        //writing space
-        bytesToSend[index++] = space.getBytes()[0];
-
-        //writing name
-        for(int i=0;i<name.length();i++)
-            bytesToSend[index++] = name.getBytes()[i];
-
-        //writing space
-        bytesToSend[index++] = space.getBytes()[0];
-
-        for(int i=0;i<port.length();i++)
-            bytesToSend[index++] = port.getBytes()[i];
-
-        //writing space
-        bytesToSend[index++] = space.getBytes()[0];
-
-        //writing the game id
-        bytesToSend[index++] = (byte) Integer.parseInt(gameID);
-
-        //writing stars
-        for(int i=0;i<stars.length();i++)
-            bytesToSend[index++] = stars.getBytes()[i];*/
-
         try {
-
-            client.getOutputStream().write(bytesToSend);
+            client.getOutputStream().write(CommandFormatter.formatForTCP(args));
             client.getOutputStream().flush();
-        } catch(IOException e) { }
+        } catch(IOException e) { 
+            e.printStackTrace();
+        }
     }
     
 }
