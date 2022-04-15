@@ -7,6 +7,7 @@ import main.java.console.DebugLogger;
 
 public abstract class Client implements Runnable {
 
+    public static boolean isConnected = false;
     public static void main(String[] args) {
         if (args.length > 2) {
             System.out.println("ATTENTION : " + args.length + " paramètres donnés alors que seulement 2 attendus... Erreurs potentielles (voir README.md)");

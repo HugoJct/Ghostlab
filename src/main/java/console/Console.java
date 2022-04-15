@@ -51,7 +51,7 @@ public class Console extends Thread {
          * tant que le client est connecté au serveur 
          * on collecte l'input console a traiter
          */
-        while(clientTCP.isConnected()) {
+        while(Client.isConnected) {
             consoleMsg = sc.nextLine();
             useMessage(consoleMsg);
         } 

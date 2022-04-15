@@ -26,16 +26,15 @@ public class ClientTCP extends Thread {
     private Socket clientSocket;
     private BufferedReader in;
     private PrintWriter out;
-    private boolean isConnected;
 
-    private HashMap<String,CommandTCP> commandRcvList = new HashMap<String,CommandTCP>();
+    private HashMap<String,CommandTCP> commandRcvTcpList = new HashMap<String,CommandTCP>();
     
     public ClientTCP(String ip, int port) {
         try {
             this.clientSocket = new Socket(ip, port);
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            this.isConnected = true;
+            Client.isConnected = true;
         } catch (UnknownHostException e) {
             //e.printStackTrace();
         } catch (IOException e) {
@@ -44,15 +43,15 @@ public class ClientTCP extends Thread {
         }
 
         // remplissage de la liste de commandes recevables
-        commandRcvList.put("DUNNO", new CommandRcvTcpDunno(out));
-        commandRcvList.put("OGAME", new CommandRcvTcpGameInfo(out));
-        commandRcvList.put("REGNO", new CommandRcvTcpJoinNO(out));
-        commandRcvList.put("REGOK", new CommandRcvTcpJoinOK(out));
-        commandRcvList.put("SIZE!", new CommandRcvTcpMapSize(out));
-        commandRcvList.put("GAMES", new CommandRcvTcpNbrGames(out));
-        commandRcvList.put("LIST!", new CommandRcvTcpPlayerGame(out));
-        commandRcvList.put("PLAYR", new CommandRcvTcpPlayerId(out));
-        commandRcvList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
+        commandRcvTcpList.put("DUNNO", new CommandRcvTcpDunno(out));
+        commandRcvTcpList.put("OGAME", new CommandRcvTcpGameInfo(out));
+        commandRcvTcpList.put("REGNO", new CommandRcvTcpJoinNO(out));
+        commandRcvTcpList.put("REGOK", new CommandRcvTcpJoinOK(out));
+        commandRcvTcpList.put("SIZE!", new CommandRcvTcpMapSize(out));
+        commandRcvTcpList.put("GAMES", new CommandRcvTcpNbrGames(out));
+        commandRcvTcpList.put("LIST!", new CommandRcvTcpPlayerGame(out));
+        commandRcvTcpList.put("PLAYR", new CommandRcvTcpPlayerId(out));
+        commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
 
     }
 
@@ -63,7 +62,7 @@ public class ClientTCP extends Thread {
             String serverMsg = "";
 
             // tant que le socket est connecté
-        	while(isConnected) {
+        	while(Client.isConnected) {
                 serverMsg = "";
 
                 int pos = 0;
@@ -80,7 +79,7 @@ public class ClientTCP extends Thread {
                     // si le socket est déconnecté : arrêter de lire
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected !");
-                        isConnected = false;
+                        Client.isConnected = false;
                         break;
                     }
 
@@ -105,10 +104,10 @@ public class ClientTCP extends Thread {
         
         String[] args = breakCommand(command);
 		
-		for(String s : commandRcvList.keySet()) {
+		for(String s : commandRcvTcpList.keySet()) {
 			if(s.equals(extractFirst(args[0]))) {
                 // appel de la fonction dans l'instance de la classe associée à la commande
-				commandRcvList.get(s).execute(this, args);
+				commandRcvTcpList.get(s).execute(this, args);
                 return;
 			}
 		}
@@ -141,14 +140,11 @@ public class ClientTCP extends Thread {
         return this.in;
     }
 
-    public boolean isConnected() {
-        return isConnected;
-    }
 
     public void closeSocket() {
         try {
             clientSocket.close();
-            isConnected = false;
+            Client.isConnected = false;
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
         }
