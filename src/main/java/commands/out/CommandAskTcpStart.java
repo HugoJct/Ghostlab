@@ -8,18 +8,18 @@ import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
-// UNREG***
+// START***
 
-public class CommandAskUnregister extends CommandTCP{
+public class CommandAskTcpStart extends CommandTCP {
 
-    public CommandAskUnregister(PrintWriter pw) {
+    public CommandAskTcpStart(PrintWriter pw) {
         super(pw);
     }
 
     @Override
     public void execute(ClientTCP client, String[] args) {
-        
-        DebugLogger.print(DebugType.CONFIRM, "ask unregistration command (UNREG)");
+
+        DebugLogger.print(DebugType.CONFIRM, "ask start game command (START)");
 
         client.getPrintWriter().write(args[0] + "***");
         client.getPrintWriter().flush();

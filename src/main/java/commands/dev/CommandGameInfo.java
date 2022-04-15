@@ -5,11 +5,11 @@ import java.util.Map;
 
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
-import main.java.commands.Command;
+import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
-public class CommandGameInfo extends Command {
+public class CommandGameInfo extends CommandTCP {
 
     public CommandGameInfo(PrintWriter pw) {
         super(pw);

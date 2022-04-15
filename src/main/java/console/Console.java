@@ -5,24 +5,24 @@ import java.util.Scanner;
 
 import main.java.client.Client;
 import main.java.client.ClientTCP;
-import main.java.commands.Command;
+import main.java.commands.CommandTCP;
 import main.java.commands.dev.CommandDebug;
 import main.java.commands.dev.CommandGameInfo;
 import main.java.commands.dev.CommandHelp;
 import main.java.commands.dev.CommandKill;
-import main.java.commands.out.CommandAskAvailableGames;
-import main.java.commands.out.CommandAskCreate;
-import main.java.commands.out.CommandAskJoin;
-import main.java.commands.out.CommandAskMapSize;
-import main.java.commands.out.CommandAskPlayerGame;
-import main.java.commands.out.CommandAskStart;
+import main.java.commands.out.CommandAskTcpAvailableGames;
+import main.java.commands.out.CommandAskTcpCreate;
+import main.java.commands.out.CommandAskTcpJoin;
+import main.java.commands.out.CommandAskTcpMapSize;
+import main.java.commands.out.CommandAskTcpPlayerGame;
+import main.java.commands.out.CommandAskTcpStart;
 import main.java.commands.out.CommandAskUnregister;
 
 public class Console extends Thread {
     private ClientTCP clientTCP;
 
-    private HashMap<String,Command> commandAskList = new HashMap<String,Command>();
-    private HashMap<String, Command> commandDev = new HashMap<String, Command>();
+    private HashMap<String,CommandTCP> commandAskList = new HashMap<String,CommandTCP>();
+    private HashMap<String, CommandTCP> commandDev = new HashMap<String, CommandTCP>();
 
     public Console(ClientTCP clientTcp) {
         this.clientTCP = clientTcp;
@@ -34,12 +34,12 @@ public class Console extends Thread {
         commandDev.put("gameinfo", new CommandGameInfo(clientTcp.getPrintWriter()));
 
         // remplissage de la liste des commandes envoyables au serveur 
-        commandAskList.put("GAME?", new CommandAskAvailableGames(clientTcp.getPrintWriter()));
-        commandAskList.put("NEWPL", new CommandAskCreate(clientTcp.getPrintWriter()));
-        commandAskList.put("REGIS", new CommandAskJoin(clientTcp.getPrintWriter()));
-        commandAskList.put("SIZE?", new CommandAskMapSize(clientTcp.getPrintWriter()));
-        commandAskList.put("LIST?", new CommandAskPlayerGame(clientTcp.getPrintWriter()));
-        commandAskList.put("START", new CommandAskStart(clientTcp.getPrintWriter()));
+        commandAskList.put("GAME?", new CommandAskTcpAvailableGames(clientTcp.getPrintWriter()));
+        commandAskList.put("NEWPL", new CommandAskTcpCreate(clientTcp.getPrintWriter()));
+        commandAskList.put("REGIS", new CommandAskTcpJoin(clientTcp.getPrintWriter()));
+        commandAskList.put("SIZE?", new CommandAskTcpMapSize(clientTcp.getPrintWriter()));
+        commandAskList.put("LIST?", new CommandAskTcpPlayerGame(clientTcp.getPrintWriter()));
+        commandAskList.put("START", new CommandAskTcpStart(clientTcp.getPrintWriter()));
         commandAskList.put("UNREG", new CommandAskUnregister(clientTcp.getPrintWriter()));
     }
 
@@ -68,7 +68,7 @@ public class Console extends Thread {
     // parsing de la commande et exécution de la fonction associée
     private void useMessage(String strCommand) {
         String[] args = breakCommand(strCommand);
-        Command command = commandAskList.get(args[0]);
+        CommandTCP command = commandAskList.get(args[0]);
         if (command != null) {
             command.execute(clientTCP, args);
         }

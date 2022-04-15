@@ -8,16 +8,16 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-import main.java.commands.Command;
-import main.java.commands.in.CommandRcvDunno;
-import main.java.commands.in.CommandRcvGameInfo;
-import main.java.commands.in.CommandRcvJoinNO;
-import main.java.commands.in.CommandRcvJoinOK;
-import main.java.commands.in.CommandRcvMapSize;
-import main.java.commands.in.CommandRcvNbrGames;
-import main.java.commands.in.CommandRcvPlayerGame;
-import main.java.commands.in.CommandRcvPlayerId;
-import main.java.commands.in.CommandRcvUnregisterOK;
+import main.java.commands.CommandTCP;
+import main.java.commands.in.CommandRcvTcpDunno;
+import main.java.commands.in.CommandRcvTcpGameInfo;
+import main.java.commands.in.CommandRcvTcpJoinNO;
+import main.java.commands.in.CommandRcvTcpJoinOK;
+import main.java.commands.in.CommandRcvTcpMapSize;
+import main.java.commands.in.CommandRcvTcpNbrGames;
+import main.java.commands.in.CommandRcvTcpPlayerGame;
+import main.java.commands.in.CommandRcvTcpPlayerId;
+import main.java.commands.in.CommandRcvTcpUnregisterOK;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
@@ -28,7 +28,7 @@ public class ClientTCP extends Thread {
     private PrintWriter out;
     private boolean isConnected;
 
-    private HashMap<String,Command> commandRcvList = new HashMap<String,Command>();
+    private HashMap<String,CommandTCP> commandRcvList = new HashMap<String,CommandTCP>();
     
     public ClientTCP(String ip, int port) {
         try {
@@ -44,15 +44,15 @@ public class ClientTCP extends Thread {
         }
 
         // remplissage de la liste de commandes recevables
-        commandRcvList.put("DUNNO", new CommandRcvDunno(out));
-        commandRcvList.put("OGAME", new CommandRcvGameInfo(out));
-        commandRcvList.put("REGNO", new CommandRcvJoinNO(out));
-        commandRcvList.put("REGOK", new CommandRcvJoinOK(out));
-        commandRcvList.put("SIZE!", new CommandRcvMapSize(out));
-        commandRcvList.put("GAMES", new CommandRcvNbrGames(out));
-        commandRcvList.put("LIST!", new CommandRcvPlayerGame(out));
-        commandRcvList.put("PLAYR", new CommandRcvPlayerId(out));
-        commandRcvList.put("UNROK", new CommandRcvUnregisterOK(out));
+        commandRcvList.put("DUNNO", new CommandRcvTcpDunno(out));
+        commandRcvList.put("OGAME", new CommandRcvTcpGameInfo(out));
+        commandRcvList.put("REGNO", new CommandRcvTcpJoinNO(out));
+        commandRcvList.put("REGOK", new CommandRcvTcpJoinOK(out));
+        commandRcvList.put("SIZE!", new CommandRcvTcpMapSize(out));
+        commandRcvList.put("GAMES", new CommandRcvTcpNbrGames(out));
+        commandRcvList.put("LIST!", new CommandRcvTcpPlayerGame(out));
+        commandRcvList.put("PLAYR", new CommandRcvTcpPlayerId(out));
+        commandRcvList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
 
     }
 
