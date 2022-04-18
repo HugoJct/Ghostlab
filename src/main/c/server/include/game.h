@@ -4,6 +4,7 @@
 #include "dependencies.h"
 #include "llist.h"
 #include "player.h"
+#include "labs_parser.h"
 
 struct game {
 	int id;
@@ -12,6 +13,7 @@ struct game {
 	u_int16_t diffusion_port;
 	llist *players;
 	pthread_mutex_t game_lock;
+	labyrinth *labyrinth;
 };
 
 struct game* game_create(int);

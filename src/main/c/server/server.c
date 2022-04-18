@@ -2,10 +2,13 @@
 #include "server_socket.h"
 #include "game.h"
 #include "player.h"
+#include "labs_parser.h"
 
 llist *games;
 
 int main(int argc, char **argv) {
+
+	debug_lab(parse_lab("assets/lab3.lab"));
 
 	/* The list of games existing on the server */
 	games = llist_create(NULL);
