@@ -52,7 +52,10 @@ void *server_socket_connection_prompt(void *arg) {
 	return NULL;	
 }
 
-void server_socket_receive_newpl_regis(int fd) {
+void server_socket_receive_newpl_regis(int fd) { 		
+	//TODO: move execution in functions
+
+	int output = 0;
 
 	extern llist *games;
 
@@ -64,55 +67,70 @@ void server_socket_receive_newpl_regis(int fd) {
 	memcpy(cmd,buf,5);
 	cmd[5] = '\0';
 
-	if(strcmp(cmd,"NEWPL") == 0) {
+	while(output != 0) {		//this function exits once the player sent REGIS or NEWPL
 
-		printf("New game creation requested\n");
+		output = 0;
 
-		char *name = (char *) malloc(8);
-		memcpy(name,buf+6,8);
+		if(strcmp(cmd,"NEWPL") == 0) {
 
-		char porttmp[5];
-		memcpy(porttmp,buf+15,4);
-		porttmp[5] = '\0';
+			printf("New game creation requested\n");
 
-		int port = atoi(porttmp);
+			char *name = (char *) malloc(8);
+			memcpy(name,buf+6,8);
 
-		struct game *g = game_create(4);
-		struct player *p = player_create(name,fd,port);
-		game_add_player(g,p);
+			char porttmp[5];
+			memcpy(porttmp,buf+15,4);
+			porttmp[5] = '\0';
 
-		free(name);
+			int port = atoi(porttmp);
 
-		pthread_t t;
-		pthread_create(&t,NULL,game_start,g);
+			struct game *g = game_create(4);
+			struct player *p = player_create(name,fd,port);
+			game_add_player(g,p);
 
-	} else if(strcmp(cmd,"REGIS") == 0) {
+			free(name);
 
-		printf("Game join request\n");
+			pthread_t t;
+			pthread_create(&t,NULL,game_start,g);
 
-		char *name = malloc(8);
-		memcpy(name,buf+6,8);
+		} else if(strcmp(cmd,"REGIS") == 0) {
 
-		char porttmp[5];
-		memcpy(porttmp,buf+15,4);
-		porttmp[5] = '\0';
-		int port = atoi(porttmp);
+			printf("Game join request\n");
 
-		u_int8_t game_nb = 0;
-		memcpy(&game_nb,buf+20,1);
+			char *name = malloc(8);
+			memcpy(name,buf+6,8);
 
-		struct player *p = player_create(name,fd,port);
+			char porttmp[5];
+			memcpy(porttmp,buf+15,4);
+			porttmp[5] = '\0';
+			int port = atoi(porttmp);
 
-		struct game *requested_game = game_get_by_id(game_nb);
+			u_int8_t game_nb = 0;
+			memcpy(&game_nb,buf+20,1);
 
-		//TODO check if the game is in progress
+			struct player *p = player_create(name,fd,port);
 
-		if(requested_game != NULL) {
-			printf("Okay\n");
-			game_add_player(requested_game,p);
-		} else
-			printf("non\n");
+			struct game *requested_game = game_get_by_id(game_nb);
 
-		free(name);
+			//TODO check if the game is in progress
+
+			if(requested_game != NULL) {
+				printf("Okay\n");
+				game_add_player(requested_game,p);	//TODO send REGOK
+			} else
+				printf("non\n");		//TODO: send REGNO
+
+			free(name);
+
+		} else if(strcmp(cmd,"LIST?") == 0) {
+			//TODO
+			output = 1;
+		} else if(strcmp(cmd,"GAME?") == 0) {
+			//TODO	
+			output = 1;
+		} else {
+			//TODO send DUNNO
+			output = -1;
+		}
 	}
 }
