@@ -1,5 +1,8 @@
 package main.java.commands;
 
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
+
 public class CommandFormatter {
 	
 	private static byte[] getByteArray(String args[]) {
@@ -7,13 +10,23 @@ public class CommandFormatter {
 
 		int index = 0;
 
+		if (args.length == 1) {
+			format = args[0].getBytes();
+			return format;
+		}
+
 		for(int i=0;i<args.length;i++) {
 
 			byte[] argBytes = args[i].getBytes(); 
 
 			if(i == (args.length -1)) {
-				format[index++] = (byte) Integer.parseInt(args[i]);		//to change if we want to handle integers greater than 1 byte
-				break;
+				try {
+					format[index++] = (byte) Integer.parseInt(args[i]);		//to change if we want to handle integers greater than 1 byte
+					break;
+				} catch (NumberFormatException e) {
+					DebugLogger.print(DebugType.ERROR, "CommandFormater : L'argument numéro " + i + "ne représente pas une valeur numérique");
+				}
+
 			}
 
 			for(int j=0;j<args[i].length();j++)
