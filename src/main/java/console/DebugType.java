@@ -9,5 +9,6 @@ public class DebugType {
     public static int CONFIRM = 1;
     public static int HELP = 2;
     public static int MESSAGE = 3;
+    public static int COM = 4;
     
 }

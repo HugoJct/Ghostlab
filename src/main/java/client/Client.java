@@ -16,16 +16,13 @@ public abstract class Client implements Runnable {
             System.out.println("ERREUR : nombre de paramètres minimaux non atteint... arg1 -> ip , arg2 -> port (voir README.md)");
             System.exit(1);
         }
-        /* Thread t = new Thread(new Runnable() { 
-            public void run() {
-
-            }
-        }); */
         
         DebugLogger.setTypeMap();
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
+        ClientUDP clientUDP = new ClientUDP(args[0]);
         new Console(clientTCP).start();
         clientTCP.start();
+        clientUDP.start();
 
         
     }

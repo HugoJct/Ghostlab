@@ -47,12 +47,42 @@ public class CommandDebug extends CommandTCP {
                             return;
                         case "CONFIRM": 
                             if (value == 0) {
-                                System.out.println("debug UI mode : disabled");  
+                                System.out.println("debug CONFIRM mode : disabled");  
                                 DebugLogger.typeMap.replace(DebugType.CONFIRM, false);
                             }
                             else if (value == 1) {
-                                System.out.println("debug UI mode : enabled");  
+                                System.out.println("debug CONFIRM mode : enabled");  
                                 DebugLogger.typeMap.replace(DebugType.CONFIRM, true);
+                            }
+                            return;
+                        case "HELP": 
+                            if (value == 0) {
+                                System.out.println("debug HELP mode : disabled");  
+                                DebugLogger.typeMap.replace(DebugType.HELP, false);
+                            }
+                            else if (value == 1) {
+                                System.out.println("debug HELP mode : enabled");  
+                                DebugLogger.typeMap.replace(DebugType.HELP, true);
+                            }
+                            return;
+                        case "MESSAGE": 
+                            if (value == 0) {
+                                System.out.println("debug MESSAGE mode : disabled");  
+                                DebugLogger.typeMap.replace(DebugType.MESSAGE, false);
+                            }
+                            else if (value == 1) {
+                                System.out.println("debug MESSAGE mode : enabled");  
+                                DebugLogger.typeMap.replace(DebugType.MESSAGE, true);
+                            }
+                            return;
+                        case "COM": 
+                            if (value == 0) {
+                                System.out.println("debug COM mode : disabled");  
+                                DebugLogger.typeMap.replace(DebugType.COM, false);
+                            }
+                            else if (value == 1) {
+                                System.out.println("debug COM mode : enabled");  
+                                DebugLogger.typeMap.replace(DebugType.COM, true);
                             }
                             return;
                     }

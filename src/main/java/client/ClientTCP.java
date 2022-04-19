@@ -31,6 +31,7 @@ public class ClientTCP extends Thread {
     
     public ClientTCP(String ip, int port) {
         try {
+            DebugLogger.print(DebugType.COM, "Création de la connection TCP avec le serveur...");
             this.clientSocket = new Socket(ip, port);
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -41,6 +42,8 @@ public class ClientTCP extends Thread {
             //e.printStackTrace();
             System.out.println("ERREUR : Numero de PORT INDISPONIBLE ou IP INCONNUE");
         }
+
+        DebugLogger.print(DebugType.COM, "...succès");
 
         // remplissage de la liste de commandes recevables
         commandRcvTcpList.put("DUNNO", new CommandRcvTcpDunno(out));

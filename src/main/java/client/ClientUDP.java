@@ -11,7 +11,10 @@ import java.util.Random;
 
 import main.java.GameInfo;
 import main.java.commands.CommandUDP;
+import main.java.commands.in.CommandRcvUdpEndGame;
 import main.java.commands.in.CommandRcvUdpGhostPos;
+import main.java.commands.in.CommandRcvUdpMessage;
+import main.java.commands.in.CommandRcvUdpScore;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
@@ -27,25 +30,36 @@ public class ClientUDP extends Thread {
         Random r = new Random();
         int port = r.nextInt(9999 - 1000) + 1000;
 
+        int attempt = 1;
+
+        DebugLogger.print(DebugType.COM, "Création du client UDP...");
+
         while(!success) {
             try {
+                DebugLogger.print(DebugType.COM, "Tentative numéro " + attempt + "...");
                 socket = new DatagramSocket(port);
                 address = InetAddress.getByName(ip);
                 success = true;
             } catch (SocketException e) {
-                e.printStackTrace();
+                DebugLogger.print(DebugType.ERROR, "...Erreur : port UDP déjà utilisé");
+                attempt++;
                 port = r.nextInt(9999 - 1000) + 1000;
             }
             catch (UnknownHostException e) {
-                e.printStackTrace();
+                DebugLogger.print(DebugType.ERROR, "...Erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
+                Client.isConnected = false;
             }
         }
+
+        DebugLogger.print(DebugType.COM, "...succès");
 
         GameInfo.portUDP = port;
 
         // remplissage de la liste de commandes recevables
         commandRcvUdpList.put("GHOST", new CommandRcvUdpGhostPos(socket, address));
-        
+        commandRcvUdpList.put("ENDGA", new CommandRcvUdpEndGame(socket, address));
+        commandRcvUdpList.put("MESSA", new CommandRcvUdpMessage(socket, address));
+        commandRcvUdpList.put("SCORE", new CommandRcvUdpScore(socket, address));
     }
 
     @Override
