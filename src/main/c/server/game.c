@@ -142,18 +142,41 @@ void game_send_list(int socket_fd, llist *games) {
 	game_send_details(socket_fd,games);
 }
 
+int game_are_all_players_ready(struct game *g) {
+	pthread_mutex_lock(&(g->game_lock));
+
+	int ready = 1;
+	struct node *cur = *(g->players);
+	while(cur->data != NULL) {
+		struct player *p = cur->data;		
+
+		if(p->ready == 0) {
+			ready = 0;
+			break;
+		}
+
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+
+	pthread_mutex_lock(&(g->game_lock));
+	return ready;
+}
+
 void *game_start(void *arg) {
 
 	extern llist *games;
 
 	struct game *g = (struct game*) arg;
 
-	llist_print(games,game_print);
-	llist_print(g->players,player_print);
-
-	pause();
-
 	/* TODO handle game unfolding */
+	while(1) {
+		if(game_are_all_players_ready(g))
+			break;		
+	}
+	puts("All players are ready");
+	pause();
 
 	return NULL;
 }

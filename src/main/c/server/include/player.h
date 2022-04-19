@@ -10,6 +10,7 @@ struct player {
 	int y;
 	int tcp_socket_fd;
 	int udp_port;
+	int ready;
 };
 
 struct player* player_create(char*,int,int); 	//create a player 
