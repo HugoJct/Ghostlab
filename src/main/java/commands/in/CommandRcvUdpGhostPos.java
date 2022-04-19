@@ -24,8 +24,8 @@ public class CommandRcvUdpGhostPos extends CommandUDP {
         
         DebugLogger.print(DebugType.CONFIRM, "Command identified : GHOST");
 
-        GameInfo.fantom.x = Integer.parseInt(args[1]);
-        GameInfo.fantom.y = Integer.parseInt(args[2]);
+        int GhostPosX = Integer.parseInt(args[1]);
+        int GhostPosY = Integer.parseInt(args[2]);
 
     }
     
