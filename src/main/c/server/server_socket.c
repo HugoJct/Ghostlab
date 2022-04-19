@@ -53,74 +53,31 @@ void *server_socket_connection_prompt(void *arg) {
 }
 
 void server_socket_receive_newpl_regis(int fd) { 		
-	//TODO: move execution in functions
-
-	int output = 0;
+	int output = 1;
 
 	extern llist *games;
 
-	char buf[100];
-	int ret = recv(fd,buf,100,0);
-	assert(ret >= 0);
-
-	char cmd[6];
-	memcpy(cmd,buf,5);
-	cmd[5] = '\0';
-
 	while(output != 0) {		//this function exits once the player sent REGIS or NEWPL
+		char buf[100];
+		int ret = recv(fd,buf,100,0);
+		assert(ret >= 0);
+
+		char cmd[6];
+		memcpy(cmd,buf,5);
+		cmd[5] = '\0';
+
 
 		output = 0;
 
 		if(strcmp(cmd,"NEWPL") == 0) {
 
 			printf("New game creation requested\n");
+			request_newpl(buf,fd);
 
-			char *name = (char *) malloc(8);
-			memcpy(name,buf+6,8);
-
-			char porttmp[5];
-			memcpy(porttmp,buf+15,4);
-			porttmp[5] = '\0';
-
-			int port = atoi(porttmp);
-
-			struct game *g = game_create(4);
-			struct player *p = player_create(name,fd,port);
-			game_add_player(g,p);
-
-			free(name);
-
-			pthread_t t;
-			pthread_create(&t,NULL,game_start,g);
 
 		} else if(strcmp(cmd,"REGIS") == 0) {
 
 			printf("Game join request\n");
-
-			char *name = malloc(8);
-			memcpy(name,buf+6,8);
-
-			char porttmp[5];
-			memcpy(porttmp,buf+15,4);
-			porttmp[5] = '\0';
-			int port = atoi(porttmp);
-
-			u_int8_t game_nb = 0;
-			memcpy(&game_nb,buf+20,1);
-
-			struct player *p = player_create(name,fd,port);
-
-			struct game *requested_game = game_get_by_id(game_nb);
-
-			//TODO check if the game is in progress
-
-			if(requested_game != NULL) {
-				printf("Okay\n");
-				game_add_player(requested_game,p);	//TODO send REGOK
-			} else
-				printf("non\n");		//TODO: send REGNO
-
-			free(name);
 
 		} else if(strcmp(cmd,"LIST?") == 0) {
 			//TODO

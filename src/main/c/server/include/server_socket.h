@@ -4,6 +4,7 @@
 #include "dependencies.h"
 #include "game.h"
 #include "player.h"
+#include "requests.h"
 
 //initializes the server's attributes
 void server_socket_init(int , int);
