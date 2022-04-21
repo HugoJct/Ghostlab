@@ -35,12 +35,12 @@ public class ClientTCP extends Thread {
             this.clientSocket = new Socket(ip, port);
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            Client.isConnected = true;
         } catch (UnknownHostException e) {
-            //e.printStackTrace();
+            DebugLogger.print(DebugType.ERROR, "...Erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
+            System.exit(1);
         } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("ERREUR : Numero de PORT INDISPONIBLE ou IP INCONNUE");
+            System.out.println("...erreur critique : Numero de PORT INDISPONIBLE ou IP INCONNUE");
+            System.exit(1);
         }
 
         DebugLogger.print(DebugType.COM, "...succès");

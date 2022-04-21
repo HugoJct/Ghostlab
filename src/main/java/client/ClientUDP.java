@@ -41,13 +41,12 @@ public class ClientUDP extends Thread {
                 address = InetAddress.getByName(ip);
                 success = true;
             } catch (SocketException e) {
-                DebugLogger.print(DebugType.ERROR, "...Erreur : port UDP déjà utilisé");
+                DebugLogger.print(DebugType.ERROR, "...erreur : port UDP déjà utilisé");
                 attempt++;
                 port = r.nextInt(9999 - 1000) + 1000;
             }
             catch (UnknownHostException e) {
-                DebugLogger.print(DebugType.ERROR, "...Erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
-                Client.isConnected = false;
+                DebugLogger.print(DebugType.ERROR, "...erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
             }
         }
 

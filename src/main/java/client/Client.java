@@ -24,6 +24,7 @@ public abstract class Client implements Runnable {
         DebugLogger.setTypeMap();
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
         ClientUDP clientUDP = new ClientUDP(args[0]);
+        Client.isConnected = true;
         new Console(clientTCP).start();
         clientTCP.start();
         clientUDP.start();
