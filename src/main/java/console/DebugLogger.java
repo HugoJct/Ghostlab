@@ -2,7 +2,7 @@ package main.java.console;
 
 import java.util.HashMap;
 
-import main.java.view.gui.ConsoleGUI;
+import main.java.gui.ConsoleGUI;
 
 public class DebugLogger {
     

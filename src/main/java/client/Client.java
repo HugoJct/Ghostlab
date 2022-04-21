@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import main.java.console.Console;
 import main.java.console.DebugLogger;
-import main.java.view.gui.ConsoleGUI;
-import main.java.view.gui.View;
+import main.java.gui.ConsoleGUI;
+import main.java.gui.Frame;
 
 public abstract class Client implements Runnable {
 
@@ -19,7 +19,7 @@ public abstract class Client implements Runnable {
             System.exit(1);
         }
 
-        new View();
+        new Frame();
 
         DebugLogger.setTypeMap();
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
