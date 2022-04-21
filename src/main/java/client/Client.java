@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import main.java.console.Console;
 import main.java.console.DebugLogger;
+import main.java.view.gui.ConsoleGUI;
+import main.java.view.gui.View;
 
 public abstract class Client implements Runnable {
 
@@ -16,7 +18,9 @@ public abstract class Client implements Runnable {
             System.out.println("ERREUR : nombre de paramètres minimaux non atteint... arg1 -> ip , arg2 -> port (voir README.md)");
             System.exit(1);
         }
-        
+
+        new View();
+
         DebugLogger.setTypeMap();
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
         ClientUDP clientUDP = new ClientUDP(args[0]);
