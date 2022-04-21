@@ -19,13 +19,7 @@ public abstract class Client implements Runnable {
             System.exit(1);
         }
 
-        ConsoleGUI console = new ConsoleGUI();
-        console.init();
-        View launcher = new View();
-        launcher.setVisible(true);
-        console.getFrame().setLocation(
-            launcher.getX() + launcher.getWidth() + launcher.getInsets().right,
-            launcher.getY());
+        new View();
 
         DebugLogger.setTypeMap();
         ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));

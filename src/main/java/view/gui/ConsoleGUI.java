@@ -2,38 +2,49 @@ package main.java.view.gui;
 
 import java.awt.Font;
 import java.awt.Color;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class ConsoleGUI {
-    final JFrame frame = new JFrame();
-    
+    private static JScrollPane scrollPane;
+    private static JTextArea textArea = new JTextArea(24, 80);
+
     public ConsoleGUI() {
-        JTextArea textArea = new JTextArea(24, 80);
+        
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.LIGHT_GRAY);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+
+        scrollPane = new JScrollPane(textArea);
         
-        System.setOut(new PrintStream(new OutputStream() {
-        
-            @Override
-            public void write(int b) throws IOException {
-                textArea.append(String.valueOf((char) b));
-            }
-        }));
-        frame.add(textArea);
+        printLaunchMessage();
     }
 
-    public void init() {
-        frame.pack();
-        frame.setVisible(true);
+    public static void printLaunchMessage() {
+        textArea.append("################## INTERFACE FEED-BACK GHOSTLAB ##################\n");
+        textArea.append("#                                                                #\n");
+        textArea.append("#      ATTENTION : ceci n'est pas un terminal de commandes !     #\n");
+        textArea.append("#                                                                #\n");
+        textArea.append("#      N.B : Seuls sont affichés ici les messages de retour      #\n");
+        textArea.append("#            de Ghostlab (debog, messages serveur...)            #\n");
+        textArea.append("#                                                                #\n");
+        textArea.append("#                          --------------                        #\n");
+        textArea.append("#                                                                #\n");
+        textArea.append("#            Pour plus d'informations, voir README.md            #\n");
+        textArea.append("#         ou tappez la commande help dans votre terminal         #\n");
+        textArea.append("#                                                                #\n");
+        textArea.append("##################################################################\n");
+        textArea.append("\n");
     }
 
-    public JFrame getFrame() {
-        return frame;
+    public static void print(String str) {
+        textArea.append(str);
+        textArea.setCaretPosition(textArea.getText().length());
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
     }
 }
