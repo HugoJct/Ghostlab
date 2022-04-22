@@ -24,6 +24,8 @@ public class ClientUDP extends Thread {
 
     private HashMap<String,CommandUDP> commandRcvUdpList = new HashMap<String,CommandUDP>();
     
+    public static boolean clientUDPCreated = false;
+
     public ClientUDP(String ip) {
         
         boolean success = false;
@@ -36,10 +38,22 @@ public class ClientUDP extends Thread {
 
         while(!success) {
             try {
+                
                 DebugLogger.print(DebugType.COM, "Tentative numéro " + attempt + "...");
+                
                 socket = new DatagramSocket(port);
                 address = InetAddress.getByName(ip);
+                
+                DebugLogger.print(DebugType.COM, "...succès");
+                GameInfo.portUDP = port;
+                
+                // remplissage de la liste de commandes recevables
+                commandRcvUdpList.put("GHOST", new CommandRcvUdpGhostPos(socket, address));
+                commandRcvUdpList.put("ENDGA", new CommandRcvUdpEndGame(socket, address));
+                commandRcvUdpList.put("MESSA", new CommandRcvUdpMessage(socket, address));
+                commandRcvUdpList.put("SCORE", new CommandRcvUdpScore(socket, address));
                 success = true;
+
             } catch (SocketException e) {
                 DebugLogger.print(DebugType.ERROR, "...erreur : port UDP déjà utilisé");
                 attempt++;
@@ -47,18 +61,11 @@ public class ClientUDP extends Thread {
             }
             catch (UnknownHostException e) {
                 DebugLogger.print(DebugType.ERROR, "...erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
+                break;
             }
         }
 
-        DebugLogger.print(DebugType.COM, "...succès");
-
-        GameInfo.portUDP = port;
-
-        // remplissage de la liste de commandes recevables
-        commandRcvUdpList.put("GHOST", new CommandRcvUdpGhostPos(socket, address));
-        commandRcvUdpList.put("ENDGA", new CommandRcvUdpEndGame(socket, address));
-        commandRcvUdpList.put("MESSA", new CommandRcvUdpMessage(socket, address));
-        commandRcvUdpList.put("SCORE", new CommandRcvUdpScore(socket, address));
+        clientUDPCreated = true;
     }
 
     @Override

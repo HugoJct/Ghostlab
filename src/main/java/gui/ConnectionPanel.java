@@ -28,10 +28,10 @@ public class ConnectionPanel extends JPanel {
         GridLayout connectionLayout = new GridLayout(4, 2);
 
         this.setLayout(connectionLayout);
-        this.add(portLabel);
-        this.add(portField);
         this.add(ipLabel);
         this.add(ipField);
+        this.add(portLabel);
+        this.add(portField);
         this.add(playerLabel);
         this.add(playerField);
         this.add(connectionButton);

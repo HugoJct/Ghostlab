@@ -29,32 +29,34 @@ public class ClientTCP extends Thread {
 
     private HashMap<String,CommandTCP> commandRcvTcpList = new HashMap<String,CommandTCP>();
     
+    public static boolean clientTCPCreated = false;
+
     public ClientTCP(String ip, int port) {
         try {
             DebugLogger.print(DebugType.COM, "Création de la connection TCP avec le serveur...");
             this.clientSocket = new Socket(ip, port);
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            // remplissage de la liste de commandes recevables
+            commandRcvTcpList.put("DUNNO", new CommandRcvTcpDunno(out));
+            commandRcvTcpList.put("OGAME", new CommandRcvTcpGameInfo(out));
+            commandRcvTcpList.put("REGNO", new CommandRcvTcpJoinNO(out));
+            commandRcvTcpList.put("REGOK", new CommandRcvTcpJoinOK(out));
+            commandRcvTcpList.put("SIZE!", new CommandRcvTcpMapSize(out));
+            commandRcvTcpList.put("GAMES", new CommandRcvTcpNbrGames(out));
+            commandRcvTcpList.put("LIST!", new CommandRcvTcpPlayerGame(out));
+            commandRcvTcpList.put("PLAYR", new CommandRcvTcpPlayerId(out));
+            commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
+
+            DebugLogger.print(DebugType.COM, "...succès");
+
+            clientTCPCreated = true;
         } catch (UnknownHostException e) {
             DebugLogger.print(DebugType.ERROR, "...Erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
-            System.exit(1);
         } catch (IOException e) {
             System.out.println("...erreur critique : Numero de PORT INDISPONIBLE ou IP INCONNUE");
-            System.exit(1);
         }
-
-        DebugLogger.print(DebugType.COM, "...succès");
-
-        // remplissage de la liste de commandes recevables
-        commandRcvTcpList.put("DUNNO", new CommandRcvTcpDunno(out));
-        commandRcvTcpList.put("OGAME", new CommandRcvTcpGameInfo(out));
-        commandRcvTcpList.put("REGNO", new CommandRcvTcpJoinNO(out));
-        commandRcvTcpList.put("REGOK", new CommandRcvTcpJoinOK(out));
-        commandRcvTcpList.put("SIZE!", new CommandRcvTcpMapSize(out));
-        commandRcvTcpList.put("GAMES", new CommandRcvTcpNbrGames(out));
-        commandRcvTcpList.put("LIST!", new CommandRcvTcpPlayerGame(out));
-        commandRcvTcpList.put("PLAYR", new CommandRcvTcpPlayerId(out));
-        commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
 
     }
 

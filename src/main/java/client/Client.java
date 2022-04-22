@@ -22,11 +22,12 @@ public class Client {
         this.clientUDP = new ClientUDP(ip);
         this.console = new Console(clientTCP);
         
-        Client.isConnected = true;
-
-        this.console.start();
-        this.clientTCP.start();
-        this.clientUDP.start();
+        if (ClientTCP.clientTCPCreated && ClientUDP.clientUDPCreated) {
+            Client.isConnected = true;
+            this.console.start();
+            this.clientTCP.start();
+            this.clientUDP.start();
+        }
     }
     public static void main(String[] args) {
         if (args.length > 2) {
