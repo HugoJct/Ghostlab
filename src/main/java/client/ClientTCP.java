@@ -60,22 +60,20 @@ public class ClientTCP extends Thread {
 
     @Override
     public void run() {
-        try {
 
-            String serverMsg = "";
+        DebugLogger.print(DebugType.CONFIRM, "Début de l'écoute TCP");
+        
+        // tant que le socket est connecté
+        while(Client.isConnected) {
+            
+            try {
 
-            // tant que le socket est connecté
-        	while(Client.isConnected) {
-                serverMsg = "";
+                String serverMsg = "";
 
                 int pos = 0;
                 int readVal = 0;
 
-                while(true) {
-
-                    if (pos == 5) {
-                        break;
-                    }
+                while(pos != 5) {
 
                     readVal = in.read();
 
@@ -90,9 +88,9 @@ public class ClientTCP extends Thread {
                     pos++;
                 }
                 useMessage(serverMsg);
-        	}
-        } catch(IOException e) {
-            DebugLogger.print(DebugType.CONFIRM, "Socket closed");
+            } catch(IOException e) {
+                DebugLogger.print(DebugType.CONFIRM, "Socket closed");
+            }
         }
     }
 

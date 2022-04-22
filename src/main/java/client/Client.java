@@ -7,28 +7,37 @@ import main.java.console.DebugLogger;
 import main.java.gui.ConsoleGUI;
 import main.java.gui.Frame;
 
-public abstract class Client implements Runnable {
+public class Client {
+    private ClientTCP clientTCP;
+    private ClientUDP clientUDP;
+    private Console console;
 
     public static boolean isConnected = false;
+
+    public Client(String ip, int port) {
+        DebugLogger.setTypeMap();
+        
+        this.clientTCP = new ClientTCP(ip, port);
+        this.clientUDP = new ClientUDP(ip);
+        this.console = new Console(clientTCP);
+        
+        Client.isConnected = true;
+
+        this.console.start();
+        this.clientTCP.start();
+        this.clientUDP.start();
+    }
     public static void main(String[] args) {
         if (args.length > 2) {
             System.out.println("ATTENTION : " + args.length + " paramètres donnés alors que seulement 2 attendus... Erreurs potentielles (voir README.md)");
         }
         else if (args.length < 2) {
-            System.out.println("ERREUR : nombre de paramètres minimaux non atteint... arg1 -> ip , arg2 -> port (voir README.md)");
-            System.exit(1);
+            System.out.println("Paramètres de connection non précisés... Attente des informations données à l'interface");
+            new Frame();
+        } else {
+            new Frame();
+            new Client(args[0], Integer.parseInt(args[1]));
         }
-
-        new Frame();
-
-        DebugLogger.setTypeMap();
-        ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
-        ClientUDP clientUDP = new ClientUDP(args[0]);
-        Client.isConnected = true;
-        new Console(clientTCP).start();
-        clientTCP.start();
-        clientUDP.start();
-
         
     }
 

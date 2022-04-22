@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +19,6 @@ public class Frame extends JFrame {
     super();
     setSize(600, 600);
     setResizable(false);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("Ghostlab");
 
     JPanel consolePanel = new JPanel();
