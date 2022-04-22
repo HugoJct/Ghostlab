@@ -2,7 +2,7 @@ package main.java.console;
 
 import java.util.HashMap;
 
-import main.java.gui.ConsoleGUI;
+import main.java.gui.ConsolePanel;
 
 public class DebugLogger {
     
@@ -17,15 +17,15 @@ public class DebugLogger {
             // print debug message if debug type is enable
             if(typeMap.get(debugType)) {
                 System.out.println(str);
-                    ConsoleGUI.print(str);
-                    ConsoleGUI.print("\n");
+                    ConsolePanel.print(str);
+                    ConsolePanel.print("\n");
             } 
 
             // print debug message in every case
             else if(typeMap.get(DebugType.ALL)) {
                 System.out.println(str);
-                    ConsoleGUI.print(str);
-                    ConsoleGUI.print("\n");
+                    ConsolePanel.print(str);
+                    ConsolePanel.print("\n");
             }
         Console.layout();
     }

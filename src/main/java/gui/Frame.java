@@ -3,14 +3,17 @@ package main.java.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class Frame extends JFrame {
 
@@ -18,22 +21,25 @@ public class Frame extends JFrame {
 
     super();
     setSize(600, 600);
-    setResizable(false);
+    setResizable(true);
     setTitle("Ghostlab");
 
-    JPanel consolePanel = new JPanel();
-    JPanel gamePanel = new JPanel();
+    JPanel mainPanel = new JPanel();
 
-    JLabel gameTitle = new JLabel("LE JEU OUI OUI");
+    ConsolePanel consolePanel = new ConsolePanel();
+    ConnectionPanel connectionPanel = new ConnectionPanel();
+    GamePanel gamePanel = new GamePanel();
 
-    ConsoleGUI console = new ConsoleGUI();
+    Tabs tabs = new Tabs();
 
-    consolePanel.add(console.getScrollPane());
+    tabs.setBounds(40, 20, 300, 300);
+    tabs.add("connection panel", connectionPanel);
+    tabs.add("game panel", gamePanel);
 
-    gamePanel.add(gameTitle);
+    mainPanel.add(tabs);
 
     this.add(consolePanel, BorderLayout.EAST);
-    this.add(gamePanel, BorderLayout.WEST);
+    this.add(mainPanel, BorderLayout.WEST);
     this.pack();
     this.setVisible(true);
   }

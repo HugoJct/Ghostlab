@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import main.java.console.Console;
 import main.java.console.DebugLogger;
-import main.java.gui.ConsoleGUI;
+import main.java.gui.ConsolePanel;
 import main.java.gui.Frame;
 
 public class Client {

@@ -3,21 +3,21 @@ package main.java.gui;
 import java.awt.Font;
 import java.awt.Color;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class ConsoleGUI {
-    private static JScrollPane scrollPane;
+public class ConsolePanel extends JPanel {
+
     private static JTextArea textArea = new JTextArea(24, 80);
 
-    public ConsoleGUI() {
+    public ConsolePanel() {
         
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.LIGHT_GRAY);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
-        scrollPane = new JScrollPane(textArea);
+        this.add(new JScrollPane(textArea));
         
         printLaunchMessage();
     }
@@ -43,8 +43,5 @@ public class ConsoleGUI {
         textArea.append(str);
         textArea.setCaretPosition(textArea.getText().length());
     }
-
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
+    
 }
