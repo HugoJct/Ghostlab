@@ -37,8 +37,13 @@ public class Client {
             System.out.println("Paramètres de connection non précisés... Attente des informations données à l'interface");
             new ControlGUI(new Frame());
         } else {
-            new ControlGUI(new Frame());
+            Frame frame = new Frame();
+            new ControlGUI(frame);
             new Client(args[0], Integer.parseInt(args[1]));
+
+            if (isConnected) {
+                frame.getConnectionPanel().getConnectionButton().setEnabled(false);
+            }
         }
         
     }

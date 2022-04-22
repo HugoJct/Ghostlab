@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.java.client.Client;
+
 import java.awt.GridLayout;
 
 public class ConnectionPanel extends JPanel {
@@ -35,6 +37,7 @@ public class ConnectionPanel extends JPanel {
         this.add(playerLabel);
         this.add(playerField);
         this.add(connectionButton);
+
     }
 
     public JTextField getPortField() {
