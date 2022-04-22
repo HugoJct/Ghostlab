@@ -17,6 +17,10 @@ import javax.swing.JTextField;
 
 public class Frame extends JFrame {
 
+  private ConsolePanel consolePanel;
+  private ConnectionPanel connectionPanel;
+  private GamePanel gamePanel;
+
   public Frame() {
 
     super();
@@ -26,9 +30,9 @@ public class Frame extends JFrame {
 
     JPanel mainPanel = new JPanel();
 
-    ConsolePanel consolePanel = new ConsolePanel();
-    ConnectionPanel connectionPanel = new ConnectionPanel();
-    GamePanel gamePanel = new GamePanel();
+    consolePanel = new ConsolePanel();
+    connectionPanel = new ConnectionPanel();
+    gamePanel = new GamePanel();
 
     Tabs tabs = new Tabs();
 
@@ -42,6 +46,11 @@ public class Frame extends JFrame {
     this.add(mainPanel, BorderLayout.WEST);
     this.pack();
     this.setVisible(true);
+
+  }
+
+  public ConnectionPanel getConnectionPanel() {
+    return connectionPanel;
   }
 
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.gui.ConsolePanel;
+import main.java.gui.ControlGUI;
 import main.java.gui.Frame;
 
 public class Client {
@@ -33,9 +34,9 @@ public class Client {
         }
         else if (args.length < 2) {
             System.out.println("Paramètres de connection non précisés... Attente des informations données à l'interface");
-            new Frame();
+            new ControlGUI(new Frame());
         } else {
-            new Frame();
+            new ControlGUI(new Frame());
             new Client(args[0], Integer.parseInt(args[1]));
         }
         
