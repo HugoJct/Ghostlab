@@ -1,5 +1,6 @@
 package main.java.gui;
 
+import main.java.GameInfo;
 import main.java.client.Client;
 import java.awt.Color;
 
@@ -15,15 +16,26 @@ public class ControlGUI {
 
     public void connect() {
 
-        if (frame.getConnectionPanel().getIpField().getText().isEmpty() || frame.getConnectionPanel().getPortField().getText().isEmpty()) {
+        if (frame.getConnectionPanel().getIpField().getText().isEmpty() || frame.getConnectionPanel().getPortField().getText().isEmpty() || frame.getConnectionPanel().getplayerField().getText().isEmpty()) {
             frame.getConnectionPanel().setBackground(new Color(255, 102, 102));
             return;
         }
-        
-        String ip = frame.getConnectionPanel().getIpField().getText();
-        int port = Integer.parseInt(frame.getConnectionPanel().getPortField().getText());
 
-        new Client(ip, port);
+        new Client(frame.getConnectionPanel().getIpField().getText(), Integer.parseInt(frame.getConnectionPanel().getPortField().getText()));
+
+        String playerId = "";
+
+        for(int i = 0 ; i<8 ; i++) {
+            if (i > frame.getConnectionPanel().playerIdField.getText().length() - 1) {
+                playerId += "x";
+            } else {
+                playerId += frame.getConnectionPanel().playerIdField.getText().charAt(i);
+            }
+        }
+
+        System.out.println(playerId);
+
+        GameInfo.playerID = playerId;
 
         if (Client.isConnected) {
             frame.getConnectionPanel().setBackground(new Color(178, 255, 102));

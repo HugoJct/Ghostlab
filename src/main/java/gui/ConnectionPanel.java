@@ -5,14 +5,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import main.java.client.Client;
-
 import java.awt.GridLayout;
 
 public class ConnectionPanel extends JPanel {
     JTextField portField;
     JTextField ipField;
-    JTextField playerField;
+    JTextField playerIdField;
 
     JButton connectionButton = new JButton("Connect");
 
@@ -23,7 +21,7 @@ public class ConnectionPanel extends JPanel {
     
         portField = new JTextField(5);
         ipField = new JTextField(15);
-        playerField = new JTextField(8);
+        playerIdField = new JTextField(8);
     
         connectionButton = new JButton("Connect");
     
@@ -35,7 +33,7 @@ public class ConnectionPanel extends JPanel {
         this.add(portLabel);
         this.add(portField);
         this.add(playerLabel);
-        this.add(playerField);
+        this.add(playerIdField);
         this.add(connectionButton);
 
     }
@@ -47,7 +45,7 @@ public class ConnectionPanel extends JPanel {
         return ipField;
     }
     public JTextField getplayerField() {
-        return playerField;
+        return playerIdField;
     }
 
     public JButton getConnectionButton() {
