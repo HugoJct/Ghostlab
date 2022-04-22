@@ -43,6 +43,7 @@ public class Client {
 
             if (isConnected) {
                 frame.getConnectionPanel().getConnectionButton().setEnabled(false);
+                frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
             }
         }
         

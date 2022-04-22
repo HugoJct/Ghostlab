@@ -13,6 +13,7 @@ public class ConnectionPanel extends JPanel {
     JTextField playerIdField;
 
     JButton connectionButton = new JButton("Connect");
+    JButton disconnectButton = new JButton("Disconnect");
 
     public ConnectionPanel() {
         JLabel portLabel = new JLabel("Port : ");
@@ -35,6 +36,9 @@ public class ConnectionPanel extends JPanel {
         this.add(playerLabel);
         this.add(playerIdField);
         this.add(connectionButton);
+        this.add(disconnectButton);
+
+        disconnectButton.setEnabled(false);
 
     }
 
@@ -50,5 +54,8 @@ public class ConnectionPanel extends JPanel {
 
     public JButton getConnectionButton() {
         return connectionButton;
+    }
+    public JButton getDisconectionButton() {
+        return disconnectButton;
     }
 }

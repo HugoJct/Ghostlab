@@ -16,7 +16,7 @@ public class ControlGUI {
 
     public void connect() {
 
-        if (frame.getConnectionPanel().getIpField().getText().isEmpty() || frame.getConnectionPanel().getPortField().getText().isEmpty() || frame.getConnectionPanel().getplayerField().getText().isEmpty()) {
+        if (frame.getConnectionPanel().getIpField().getText().isEmpty() || frame.getConnectionPanel().getPortField().getText().isEmpty()) {
             frame.getConnectionPanel().setBackground(new Color(255, 102, 102));
             return;
         }
@@ -40,6 +40,7 @@ public class ControlGUI {
         if (Client.isConnected) {
             frame.getConnectionPanel().setBackground(new Color(178, 255, 102));
             frame.getConnectionPanel().getConnectionButton().setEnabled(false);
+            frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
         } else {
             frame.getConnectionPanel().setBackground(new Color(255, 102, 102));
         }
