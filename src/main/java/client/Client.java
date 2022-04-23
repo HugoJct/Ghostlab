@@ -2,6 +2,7 @@ package main.java.client;
 
 import java.io.IOException;
 
+import main.java.GameInfo;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.gui.ConsolePanel;
@@ -30,8 +31,8 @@ public class Client {
         }
     }
     public static void main(String[] args) {
-        if (args.length > 2) {
-            System.out.println("ATTENTION : " + args.length + " paramètres donnés alors que seulement 2 attendus... Erreurs potentielles (voir README.md)");
+        if (args.length > 3) {
+            System.out.println("ATTENTION : " + args.length + " paramètres donnés alors que seulement 3 max attendus... Erreurs potentielles (voir README.md)");
         }
         else if (args.length < 2) {
             System.out.println("Paramètres de connection non précisés... Attente des informations données à l'interface");
@@ -40,6 +41,14 @@ public class Client {
             Frame frame = new Frame();
             new ControlGUI(frame);
             new Client(args[0], Integer.parseInt(args[1]));
+
+            if (args.length == 3) {
+                GameInfo.playerID = args[2];
+            } else {
+                GameInfo.playerID = "unknUser";
+            }
+
+            System.out.println(GameInfo.playerID);
 
             if (isConnected) {
                 frame.getConnectionPanel().getConnectionButton().setEnabled(false);
