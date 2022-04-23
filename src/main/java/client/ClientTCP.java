@@ -18,6 +18,7 @@ import main.java.commands.in.CommandRcvTcpNbrGames;
 import main.java.commands.in.CommandRcvTcpPlayerGame;
 import main.java.commands.in.CommandRcvTcpPlayerId;
 import main.java.commands.in.CommandRcvTcpUnregisterOK;
+import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
@@ -81,7 +82,7 @@ public class ClientTCP extends Thread {
 
                     // si le socket est déconnecté : arrêter de lire
                     if (readVal == -1) {
-                        DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected !");
+                        DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
                         Client.isConnected = false;
                         break;
                     }
@@ -91,7 +92,7 @@ public class ClientTCP extends Thread {
                 }
                 useMessage(serverMsg);
             } catch(IOException e) {
-                DebugLogger.print(DebugType.CONFIRM, "Socket closed");
+                DebugLogger.print(DebugType.CONFIRM, "Socket closed : disconnected");
             }
         }
     }
@@ -148,6 +149,10 @@ public class ClientTCP extends Thread {
         try {
             clientSocket.close();
             Client.isConnected = false;
+            clientTCPCreated = false;
+            ClientUDP.clientUDPCreated = false;
+            Console.disconnectConsole();
+            Console.connectedConsole = false;
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
         }
