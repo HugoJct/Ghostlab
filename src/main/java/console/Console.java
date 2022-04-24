@@ -95,7 +95,7 @@ public class Console implements Runnable {
 
 
     // parsing de la commande et exécution de la fonction associée
-    private void useMessage(String strCommand) {
+    public static void useMessage(String strCommand) {
         if (strCommand.equals("")) {
             layout();
             return;
@@ -116,7 +116,7 @@ public class Console implements Runnable {
         }
     }
 
-    private void useMessageDebugMessage(String strCommand) {
+    private static void useMessageDebugMessage(String strCommand) {
         if (strCommand.equals("")) {
             layout();
             return;
@@ -135,7 +135,7 @@ public class Console implements Runnable {
         }
     }
 
-    private String[] breakCommand(String command) {
+    private static String[] breakCommand(String command) {
         return command.split(" ");
 	}
     

@@ -20,6 +20,7 @@ public class Frame extends JFrame {
   private ConsolePanel consolePanel;
   private ConnectionPanel connectionPanel;
   private GamePanel gamePanel;
+  private GameManagerPanel gameManagerPanel;
 
   public Frame() {
 
@@ -33,12 +34,14 @@ public class Frame extends JFrame {
     consolePanel = new ConsolePanel();
     connectionPanel = new ConnectionPanel();
     gamePanel = new GamePanel();
+    gameManagerPanel = new GameManagerPanel();
 
     Tabs tabs = new Tabs();
 
     tabs.setBounds(40, 20, 300, 300);
-    tabs.add("connection panel", connectionPanel);
-    tabs.add("game panel", gamePanel);
+    tabs.add("connection", connectionPanel);
+    tabs.add("game manager", gameManagerPanel);
+    tabs.add("game", gamePanel);
 
     mainPanel.add(tabs);
 
@@ -49,8 +52,15 @@ public class Frame extends JFrame {
 
   }
 
+  public void setGameManagerPanel(GameManagerPanel gp) {
+    this.gameManagerPanel = gp;
+  }
+
   public ConnectionPanel getConnectionPanel() {
     return connectionPanel;
+  }
+  public GameManagerPanel getGameManagerPanel() {
+    return gameManagerPanel;
   }
 
 }

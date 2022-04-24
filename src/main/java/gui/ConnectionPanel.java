@@ -8,12 +8,12 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 
 public class ConnectionPanel extends JPanel {
-    JTextField portField;
-    JTextField ipField;
-    JTextField playerIdField;
+    private JTextField portField;
+    private JTextField ipField;
+    private JTextField playerIdField;
 
-    JButton connectionButton = new JButton("Connect");
-    JButton disconnectButton = new JButton("Disconnect");
+    private JButton connectionButton = new JButton("Connect");
+    private JButton disconnectButton = new JButton("Disconnect");
 
     public ConnectionPanel() {
         JLabel portLabel = new JLabel("Port : ");
