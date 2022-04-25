@@ -30,7 +30,6 @@ replay_pid*
 *.d
 
 # Object files
-*.o
 *.ko
 *.obj
 *.elf
@@ -83,3 +82,4 @@ dkms.conf
 **/.vscode
 **/.idea
 **/*.iml
+**/out

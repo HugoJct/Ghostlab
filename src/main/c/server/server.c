@@ -10,6 +10,16 @@ int main(int argc, char **argv) {
 
 	/* The list of games existing on the server */
 	games = llist_create(NULL);
+	llist_push(games, game_create(2));
+	llist_push(games, game_create(2));
+	llist_push(games, game_create(2));
+	struct game* temp = llist_pop(games);
+	while (temp != NULL) {
+		puts("=======");
+		printf("ID: %d\n", temp->id);
+		debug_lab(temp->labyrinth);
+		temp = llist_pop(games);
+	}
 	
 	/* Check that the arguments are correct */
 	if(argc != 2) {

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "labs_parser.h"
 
 int game_id_counter = 0;
 int multi_diffusion_field = 3;
@@ -9,6 +10,7 @@ pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
 	new_game->players = llist_create(NULL);
+	new_game->labyrinth = parse_lab("assets/lab2.lab");
 
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
@@ -35,6 +37,11 @@ struct game* game_create(int cap) {
 
 void game_delete(struct game *g) {
 	llist_free(g->players);
+	for (int i = 0; i < g->labyrinth->height; i++) {
+	    free(g->labyrinth->cells[i]);
+	}
+	free(g->labyrinth->cells);
+	free(g->labyrinth);
 	free(g);
 }
 
