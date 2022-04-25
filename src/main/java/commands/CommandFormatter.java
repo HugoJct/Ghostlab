@@ -11,7 +11,7 @@ public class CommandFormatter {
 		int index = 0;
 
 		if (args.length == 1) {
-			format = args[0].getBytes();
+			format = (args[0] +"***").getBytes();
 			return format;
 		}
 
