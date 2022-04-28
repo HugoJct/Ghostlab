@@ -41,6 +41,7 @@ int server_socket_accept(int socket_fd) {
 void *server_socket_before_game_start(void *arg) {
 
 	int fd = *((int*) arg); 
+	extern llist *games;
 
 	while(1) {
 		char buf[100];	
