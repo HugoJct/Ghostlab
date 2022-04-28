@@ -5,7 +5,10 @@ void read_request(char *buf, int fd,char delimitor) {
 	int offset = 0;
 	while(stars_read != 3) {
 		int ret = recv(fd,buf+offset,1,0);
-		assert(ret >= 0);
+		if(ret < 0) {
+			perror("recv");
+			exit(EXIT_FAILURE);
+		}
 		if(buf[offset] == delimitor)
 			stars_read++;
 		else
@@ -69,6 +72,4 @@ void request_regis(char buf[], int fd) {
 		printf("non\n");		
 		send_regno(fd);
 	}
-
-	
 }

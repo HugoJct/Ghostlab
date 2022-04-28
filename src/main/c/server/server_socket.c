@@ -38,6 +38,38 @@ int server_socket_accept(int socket_fd) {
 	return fd;
 }
 
+void *server_socket_before_game_start(void *arg) {
+
+	int fd = *((int*) arg); 
+
+	while(1) {
+		char buf[100];	
+		request_read_tcp(buf,fd);
+
+		char cmd[6];
+		memcpy(cmd,buf,5);
+		cmd[5] = '\0';
+
+		if(strcmp(cmd,"UNREG") == 0) {
+			//TODO: remove the player from the game and then disconnect him
+			break;
+		} else if(strcmp(cmd,"SIZE?") == 0) {
+			//TODO: sendd labyrinth size
+		} else if(strcmp(cmd,"LIST?") == 0) {
+			//TODO: send game player list
+		} else if(strcmp(cmd,"GAME?") == 0) {
+			game_send_list(fd,games);
+		} else if(strcmp(cmd,"START") == 0) {
+			//TODO: modify player's readiness boolean
+			break;
+		} else {
+			send_dunno(fd);
+		}
+	}
+
+	return NULL;
+}
+
 void *server_socket_connection_prompt(void *arg) {
 
 	int fd = *((int*) arg);
@@ -47,7 +79,8 @@ void *server_socket_connection_prompt(void *arg) {
 
 	server_socket_receive_newpl_regis(fd);
 
-	free(arg);
+	pthread_t t;
+	pthread_create(&t,NULL,server_socket_before_game_start,arg);
 
 	return NULL;	
 }
@@ -77,6 +110,10 @@ void server_socket_receive_newpl_regis(int fd) {
 
 		} else if(strcmp(cmd,"GAME?") == 0) {
 			game_send_list(fd,games);
+		} else if(strcmp(cmd,"SIZE?") == 0) {
+			//TODO
+		} else if(strcmp(cmd,"LIST?") == 0) {
+			//TODO
 		} else {
 			send_dunno(fd);
 		}
