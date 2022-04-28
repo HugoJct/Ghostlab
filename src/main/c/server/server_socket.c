@@ -53,41 +53,32 @@ void *server_socket_connection_prompt(void *arg) {
 }
 
 void server_socket_receive_newpl_regis(int fd) { 		
-	int output = 1;
-
 	extern llist *games;
 
-	while(output != 0) {		//this function exits once the player sent REGIS or NEWPL
+	while(1) {		//this function exits once the player sent REGIS or NEWPL
 		char buf[100];
-		int ret = recv(fd,buf,100,0);
-		assert(ret >= 0);
+		request_read_tcp(buf,fd);
 
 		char cmd[6];
 		memcpy(cmd,buf,5);
 		cmd[5] = '\0';
 
-
-		output = 0;
-
 		if(strcmp(cmd,"NEWPL") == 0) {
 
 			printf("New game creation requested\n");
 			request_newpl(buf,fd);
-
+			break;
 
 		} else if(strcmp(cmd,"REGIS") == 0) {
 
 			printf("Game join request\n");
+			request_regis(buf,fd);
+			break;
 
-		} else if(strcmp(cmd,"LIST?") == 0) {
-			//TODO
-			output = 1;
 		} else if(strcmp(cmd,"GAME?") == 0) {
-			//TODO	
-			output = 1;
+			game_send_list(fd,games);
 		} else {
-			//TODO send DUNNO
-			output = -1;
+			send_dunno(fd);
 		}
 	}
 }

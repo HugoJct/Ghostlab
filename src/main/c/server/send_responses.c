@@ -17,3 +17,8 @@ void send_regno(int fd){
 	int ret = send(fd,buf,8,0);
 	assert(ret == 8);
 }
+
+void send_dunno(int fd) {
+	int ret = send(fd,"DUNNO***",3,0);
+	assert(ret >= 0);
+}

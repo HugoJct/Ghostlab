@@ -1,5 +1,27 @@
 #include "requests.h"
 
+void read_request(char *buf, int fd,char delimitor) {
+	int stars_read = 0;
+	int offset = 0;
+	while(stars_read != 3) {
+		int ret = recv(fd,buf+offset,1,0);
+		assert(ret >= 0);
+		if(buf[offset] == delimitor)
+			stars_read++;
+		else
+			stars_read = 0;
+		offset++;
+	}
+}
+
+void request_read_tcp(char *buf, int fd) {
+	read_request(buf,fd,'*');
+}
+
+void request_read_udp(char *buf, int fd) {
+	read_request(buf,fd,'+');
+}
+
 void request_newpl(char buf[],int fd) {
 	char name[8];
 	char porttmp[5];

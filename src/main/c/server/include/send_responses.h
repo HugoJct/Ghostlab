@@ -6,5 +6,6 @@
 
 void send_regok(int fd, uint8_t game_id);
 void send_regno(int fd);
+void send_dunno(int fd);
 
 #endif

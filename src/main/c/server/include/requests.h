@@ -8,5 +8,7 @@
 
 void request_newpl(char buf[],int fd);
 void request_regis(char buf[], int fd);
+void request_read_tcp(char *buf, int fd);
+void request_read_udp(char *buf, int fd);
 
 #endif
