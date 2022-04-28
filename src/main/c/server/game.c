@@ -137,7 +137,7 @@ void game_send_details(int socket_fd, llist *games) {
 	pthread_mutex_unlock(&game_list_mutex);
 }
 
-void game_send_list(int socket_fd, llist *games) {
+void game_send_games(int socket_fd, llist *games) {
 	game_send_count(socket_fd,games);
 	game_send_details(socket_fd,games);
 }
