@@ -11,7 +11,6 @@ public class GameInfo {
     public static String playerID;
     public static HashMap<Integer, Integer> gameIdNbrPlayers = new HashMap<>();
     public static HashMap<String, Integer> playerIdScore = new HashMap<>();
-    public static Fantom fantom;
     public static LinkedList<String> messagesHistory = new LinkedList<>();
 
     public static LinkedList<GameHistory> gameHistory = new LinkedList<>();

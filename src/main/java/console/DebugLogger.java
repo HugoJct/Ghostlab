@@ -2,6 +2,8 @@ package main.java.console;
 
 import java.util.HashMap;
 
+import main.java.gui.ConsolePanel;
+
 public class DebugLogger {
     
     // map with debug type (as integer) and related boolean value
@@ -9,20 +11,22 @@ public class DebugLogger {
     // copy of typeMap with string macro instead of boolean value
     public static HashMap<Integer, String> typeMapDirectory = new HashMap<Integer, String>();
 
-    private static String previousDebugMessage = "";
-
     // print debug message if debug type is enable
     public static void print(int debugType, String str) {
-        //if (!str.equals(previousDebugMessage)) {
+            
+            // print debug message if debug type is enable
             if(typeMap.get(debugType)) {
                 System.out.println(str);
-                previousDebugMessage = str;
+                    ConsolePanel.print(str);
+                    ConsolePanel.print("\n");
             } 
+
+            // print debug message in every case
             else if(typeMap.get(DebugType.ALL)) {
                 System.out.println(str);
-                previousDebugMessage = str;
+                    ConsolePanel.print(str);
+                    ConsolePanel.print("\n");
             }
-        //}
         Console.layout();
     }
 
@@ -35,6 +39,8 @@ public class DebugLogger {
         typeMapDirectory.put(DebugType.CONFIRM, "CONFIRM");
         typeMap.put(DebugType.HELP, true);
         typeMapDirectory.put(DebugType.HELP, "HELP");
+        typeMap.put(DebugType.COM, true);
+        typeMapDirectory.put(DebugType.COM, "HELP");
     }
 
 }

@@ -1,33 +1,69 @@
 package main.java.client;
 
-import java.io.IOException;
-
+import main.java.GameInfo;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
+import main.java.gui.ControlGUI;
+import main.java.gui.Frame;
 
-public abstract class Client implements Runnable {
+public class Client {
+    private ClientTCP clientTCP;
+    private ClientUDP clientUDP;
+    private static Console console;
 
     public static boolean isConnected = false;
+
+    public Client(String ip, int port) {
+        this.clientTCP = new ClientTCP(ip, port);
+        this.clientUDP = new ClientUDP(ip);
+        Console.connectConsole(clientTCP);
+        
+        if (ClientTCP.clientTCPCreated && ClientUDP.clientUDPCreated) {
+            Client.isConnected = true;
+            this.clientTCP.start();
+            this.clientUDP.start();
+        }
+    }
+
     public static void main(String[] args) {
-        if (args.length > 2) {
-            System.out.println("ATTENTION : " + args.length + " paramètres donnés alors que seulement 2 attendus... Erreurs potentielles (voir README.md)");
-        }
-        else if (args.length < 2) {
-            System.out.println("ERREUR : nombre de paramètres minimaux non atteint... arg1 -> ip , arg2 -> port (voir README.md)");
-            System.exit(1);
-        }
-        /* Thread t = new Thread(new Runnable() { 
-            public void run() {
 
-            }
-        }); */
-        
         DebugLogger.setTypeMap();
-        ClientTCP clientTCP = new ClientTCP(args[0], Integer.parseInt(args[1]));
-        new Console(clientTCP).start();
-        clientTCP.start();
+        Client client;
 
+        Console.createConsole();
+
+        if (args.length > 3) {
+            System.out.println("ATTENTION : " + args.length + " paramètres donnés alors que seulement 3 max attendus... Erreurs potentielles (voir README.md)");
+        }
+        else if (args.length < 3) {
+            System.out.println("Paramètres de connection non précisés... Attente des informations données à l'interface");
+            new ControlGUI(new Frame());
+        } else {
+            Frame frame = new Frame();
+            ControlGUI gui = new ControlGUI(frame);
+            client = new Client(args[0], Integer.parseInt(args[1]));
+            gui.setClient(client);
+            Console.connectConsole(client.clientTCP);
+            
+            if (args[2].length() == 8) {
+                GameInfo.playerID = args[2];
+            } else {
+                GameInfo.playerID = "unknUser";
+            }
+
+            if (isConnected) {
+                frame.getConnectionPanel().getConnectionButton().setEnabled(false);
+                frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
+            }
+        }
         
+    }
+
+    public ClientTCP getClientTCP() {
+        return this.clientTCP;
+    }
+    public Console getConsole() {
+        return this.console;
     }
 
 }

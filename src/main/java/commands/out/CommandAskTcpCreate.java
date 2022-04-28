@@ -2,6 +2,8 @@ package main.java.commands.out;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
@@ -21,31 +23,17 @@ public class CommandAskTcpCreate extends CommandTCP {
     public void execute(ClientTCP client, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "create game command (NEWPL)");
 
-        if (args.length < 3) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : NEWPL id port");
+        if (GameInfo.playerID.length() != 8) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
             return;
         }
 
-        if (args[1].length() > 8) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être de MAX 8 caractères");
-            return;
-        }
-
-        if (args[2].length() > 4) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille du port doit être de MAX 9999");
-            return;
-        }
+        String[] command = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP)};
 
         try {
-            int i = Integer.parseInt(args[2]);
-        } catch (NumberFormatException e) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le type de port donné n'est pas conforme");
-            return;
-        }
-
-        try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(args));
+            client.getOutputStream().write(CommandFormatter.formatForTCP(command));
             client.getOutputStream().flush();
+            DebugLogger.print(DebugType.CONFIRM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP);
         } catch (IOException e) {
             e.printStackTrace();
         }

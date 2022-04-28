@@ -23,46 +23,38 @@ public class CommandAskTcpJoin extends CommandTCP {
 
         DebugLogger.print(DebugType.CONFIRM, "ask join game command (REGIS)");
         
-        if (args.length < 4) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS id port m");
+        if (args.length < 2) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS numPartie");
             return;
         }
 
-        if (args[1].length() > 8) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être de MAX 8 caractères");
-            return;
-        }
-
-        if (args[2].length() > 4) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille du port doit être de MAX 9999");
+        if (GameInfo.playerID.length() != 8) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
             return;
         }
 
         try {
-            int i = Integer.parseInt(args[2]);
-        } catch (NumberFormatException e) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le type de port donné n'est pas conforme");
-            return;
-        }
-
-        try {
-            int i = Integer.parseInt(args[3]);
+            int i = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le type du numéro de la partie n'est pas conforme");
             return;
         }
 
-        if (!GameInfo.gameIdNbrPlayers.containsKey(Integer.parseInt(args[3]))) {
+        if (!GameInfo.gameIdNbrPlayers.containsKey(Integer.parseInt(args[1]))) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La partie donnée n'existe pas");
             return;
         }
 
+        String[] commande = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP), args[1]};
+
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(args));
+            client.getOutputStream().write(CommandFormatter.formatForTCP(commande));
             client.getOutputStream().flush();
+            DebugLogger.print(DebugType.CONFIRM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP + " " + args[1]);
         } catch(IOException e) { 
             e.printStackTrace();
         }
+
     }
     
 }
