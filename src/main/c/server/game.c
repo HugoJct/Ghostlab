@@ -160,7 +160,7 @@ int game_are_all_players_ready(struct game *g) {
 		cur = cur->next;
 	}
 
-	pthread_mutex_lock(&(g->game_lock));
+	pthread_mutex_unlock(&(g->game_lock));
 	return ready;
 }
 

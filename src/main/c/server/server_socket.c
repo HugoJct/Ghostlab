@@ -62,7 +62,7 @@ void *server_socket_before_game_start(void *arg) {
 		} else if(strcmp(cmd,"GAME?") == 0) {
 			game_send_list(fd,games);
 		} else if(strcmp(cmd,"START") == 0) {
-			//TODO: modify player's readiness boolean
+			c->player->ready = TRUE;
 			break;
 		} else {
 			send_dunno(fd);

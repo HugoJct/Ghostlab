@@ -12,6 +12,7 @@ struct player* player_create(char *name, int tcp_socket, int port) {
 	p->y = -1;
 	p->tcp_socket_fd = tcp_socket;
 	p->udp_port = port;
+	p->ready = FALSE;
 
 	return p;
 }	
