@@ -12,7 +12,7 @@ void send_regok(int fd, uint8_t game_id) {
 
 void send_regno(int fd){
 	char buf[8];
-	memcpy(buf,"REGOK***",8);
+	memcpy(buf,"REGNO***",8);
 
 	int ret = send(fd,buf,8,0);
 	assert(ret == 8);
