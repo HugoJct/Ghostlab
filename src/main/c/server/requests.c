@@ -25,7 +25,7 @@ void request_read_udp(char *buf, int fd) {
 	read_request(buf,fd,'+');
 }
 
-void request_newpl(char buf[],int fd) {
+struct client *request_newpl(char buf[],int fd) {
 	char name[8];
 	char porttmp[5];
 
@@ -38,14 +38,18 @@ void request_newpl(char buf[],int fd) {
 	struct player *p = player_create(name,fd,port);
 	game_add_player(g,p);
 
+	struct client *c = create_client(g,p,NULL);
+
 	uint8_t id = g->id;
 	send_regok(fd,id);
 
 	pthread_t t;
 	pthread_create(&t,NULL,game_start,g);
+
+	return c;
 }
 
-void request_regis(char buf[], int fd) {
+struct client *request_regis(char buf[], int fd) {
 
 	char name[8];
 	memcpy(name,buf+6,8);
@@ -64,12 +68,18 @@ void request_regis(char buf[], int fd) {
 
 	//TODO check if the game is in progress
 
+	struct client *c ;
+
 	if(requested_game != NULL) {
 		printf("Okay\n");
 		game_add_player(requested_game,p);	
 		send_regok(fd,game_nb);
+		
+		c = create_client(requested_game,p,NULL);
+
 	} else {
 		printf("non\n");		
 		send_regno(fd);
 	}
+	return c;
 }

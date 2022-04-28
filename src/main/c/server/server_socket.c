@@ -40,8 +40,9 @@ int server_socket_accept(int socket_fd) {
 
 void *server_socket_before_game_start(void *arg) {
 
-	int fd = *((int*) arg); 
 	extern llist *games;
+	struct client *c = (struct client *) arg;
+	int fd = *(c->fd);
 
 	while(1) {
 		char buf[100];	
@@ -78,16 +79,18 @@ void *server_socket_connection_prompt(void *arg) {
 	extern llist *games;
 	game_send_list(fd,games);
 
-	server_socket_receive_newpl_regis(fd);
+	struct client *c = server_socket_receive_newpl_regis(fd);
+	c->fd = arg;
 
 	pthread_t t;
-	pthread_create(&t,NULL,server_socket_before_game_start,arg);
+	pthread_create(&t,NULL,server_socket_before_game_start,c);
 
 	return NULL;	
 }
 
-void server_socket_receive_newpl_regis(int fd) { 		
+struct client *server_socket_receive_newpl_regis(int fd) { 		
 	extern llist *games;
+	struct client *c;
 
 	while(1) {		//this function exits once the player sent REGIS or NEWPL
 		char buf[100];
@@ -97,16 +100,17 @@ void server_socket_receive_newpl_regis(int fd) {
 		memcpy(cmd,buf,5);
 		cmd[5] = '\0';
 
+
 		if(strcmp(cmd,"NEWPL") == 0) {
 
 			printf("New game creation requested\n");
-			request_newpl(buf,fd);
+			c = request_newpl(buf,fd);
 			break;
 
 		} else if(strcmp(cmd,"REGIS") == 0) {
 
 			printf("Game join request\n");
-			request_regis(buf,fd);
+			c = request_regis(buf,fd);
 			break;
 
 		} else if(strcmp(cmd,"GAME?") == 0) {
@@ -119,4 +123,5 @@ void server_socket_receive_newpl_regis(int fd) {
 			send_dunno(fd);
 		}
 	}
+	return c;
 }
