@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
+import main.java.GameInfo;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -23,19 +24,20 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
 
         DebugLogger.print(DebugType.CONFIRM, "Command identified : LIST!");
 
-        byte b;
-        LinkedList<Integer> byteList = new LinkedList<Integer>();
+        int gameID, nbrPlayers;
+
         try {
             // read " "
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            client.getBufferedReader().read();
             // read "m" uint8
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
-            byteList.add((byte)b & 0xFF);
+            gameID = Integer.valueOf(client.getBufferedReader().read());
+
             // read " "
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            client.getBufferedReader().read();
             // read "s" uint8
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
-            byteList.add((byte)b & 0xFF);
+            nbrPlayers = client.getBufferedReader().read();
+
+            GameInfo.gameIdNbrPlayers.put(gameID, nbrPlayers);
 
             // read the three "***" to skip them
             client.getBufferedReader().read();

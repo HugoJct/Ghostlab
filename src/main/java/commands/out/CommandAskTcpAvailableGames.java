@@ -22,8 +22,6 @@ public class CommandAskTcpAvailableGames extends CommandTCP {
     public void execute(ClientTCP client, String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "ask available game command (GAME?)");
-        
-
 
         try {
             client.getOutputStream().write(CommandFormatter.formatForTCP(args));

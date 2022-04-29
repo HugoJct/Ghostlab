@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
-import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 

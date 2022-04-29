@@ -21,23 +21,26 @@ import main.java.commands.in.CommandRcvTcpUnregisterOK;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.gui.ControlGUI;
 
 
 public class ClientTCP extends Thread {
     private Socket clientSocket;
     private BufferedReader in;
     private PrintWriter out;
+    private ControlGUI gui;
 
     private HashMap<String,CommandTCP> commandRcvTcpList = new HashMap<String,CommandTCP>();
     
     public static boolean clientTCPCreated = false;
 
-    public ClientTCP(String ip, int port) {
+    public ClientTCP(String ip, int port, ControlGUI gui) {
         try {
             DebugLogger.print(DebugType.COM, "Création de la connection TCP avec le serveur...");
             this.clientSocket = new Socket(ip, port);
             this.out = new PrintWriter(clientSocket.getOutputStream());
             this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            this.gui = gui;
 
             // remplissage de la liste de commandes recevables
             commandRcvTcpList.put("DUNNO", new CommandRcvTcpDunno(out));
@@ -112,9 +115,12 @@ public class ClientTCP extends Thread {
 			if(s.equals(extractFirst(args[0]))) {
                 // appel de la fonction dans l'instance de la classe associée à la commande
 				commandRcvTcpList.get(s).execute(this, args);
+                gui.actualise();
                 return;
 			}
 		}
+
+        
 	}
 
     private String extractFirst(String str) {
@@ -156,5 +162,9 @@ public class ClientTCP extends Thread {
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
         }
+    }
+
+    public synchronized void setGUI(ControlGUI gui) {
+        this.gui = gui;
     }
 }

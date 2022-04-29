@@ -13,8 +13,8 @@ public class Client {
 
     public static boolean isConnected = false;
 
-    public Client(String ip, int port) {
-        this.clientTCP = new ClientTCP(ip, port);
+    public Client(String ip, int port, ControlGUI gui) {
+        this.clientTCP = new ClientTCP(ip, port, gui);
         this.clientUDP = new ClientUDP(ip);
         Console.connectConsole(clientTCP);
         
@@ -41,8 +41,7 @@ public class Client {
         } else {
             Frame frame = new Frame();
             ControlGUI gui = new ControlGUI(frame);
-            client = new Client(args[0], Integer.parseInt(args[1]));
-            gui.setClient(client);
+            client = new Client(args[0], Integer.parseInt(args[1]), gui);
             Console.connectConsole(client.clientTCP);
             
             if (args[2].length() == 8) {
