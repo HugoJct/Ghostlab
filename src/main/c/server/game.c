@@ -9,11 +9,10 @@ pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
-	new_game->players = llist_create(NULL);
-	new_game->labyrinth = parse_lab("assets/lab2.lab");
-
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
+	new_game->players = llist_create(NULL);
+	new_game->labyrinth = parse_lab("assets/lab3.lab");
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
