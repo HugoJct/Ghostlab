@@ -20,7 +20,6 @@ struct game* game_create(int);
 void game_print(void *game);
 void game_add_player(struct game *g, struct player *p);
 struct game* game_get_by_id(int id);
-void game_send_games(int, llist*);
 void *game_start(void *arg);
 
 #endif

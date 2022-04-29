@@ -61,7 +61,7 @@ void *server_socket_before_game_start(void *arg) {
 		} else if(strcmp(cmd,"LIST?") == 0) {
 			//TODO: send game player list
 		} else if(strcmp(cmd,"GAME?") == 0) {
-			game_send_games(fd,games);
+			send_games(fd,games);
 		} else if(strcmp(cmd,"START") == 0) {
 			c->player->ready = TRUE;
 			break;
@@ -78,7 +78,7 @@ void *server_socket_connection_prompt(void *arg) {
 	int fd = *((int*) arg);
 
 	extern llist *games;
-	game_send_games(fd,games);
+	send_games(fd,games);
 
 	struct client *c = server_socket_receive_newpl_regis(fd);
 	c->fd = arg;
@@ -115,11 +115,11 @@ struct client *server_socket_receive_newpl_regis(int fd) {
 			break;
 
 		} else if(strcmp(cmd,"GAME?") == 0) {
-			game_send_games(fd,games);
+			send_games(fd,games);
 		} else if(strcmp(cmd,"SIZE?") == 0) {
 			//TODO
 		} else if(strcmp(cmd,"LIST?") == 0) {
-			//TODO
+			request_list(buf,fd);
 		} else {
 			send_dunno(fd);
 		}

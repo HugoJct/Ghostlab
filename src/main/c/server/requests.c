@@ -83,3 +83,9 @@ struct client *request_regis(char buf[], int fd) {
 	}
 	return c;
 }
+
+void request_list(char *buf, int fd) {
+	uint8_t id = 0;
+	memcpy(&id,buf+6,1);
+	send_players_list(fd,id);
+}
