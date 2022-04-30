@@ -18,7 +18,8 @@ public class CommandRcvTcpDunno extends CommandTCP {
 
     @Override
     public void execute(ClientTCP client, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : DUNNO");
+        DebugLogger.print(DebugType.CONFIRM, "Commande identifiée : DUNNO");
+        DebugLogger.print(DebugType.COM, "SERVER : " + args[0]);
         try {
             // read the three "***" to skip them
             client.getBufferedReader().read();

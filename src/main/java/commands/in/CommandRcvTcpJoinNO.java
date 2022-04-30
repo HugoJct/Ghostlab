@@ -22,6 +22,7 @@ public class CommandRcvTcpJoinNO extends CommandTCP{
         DebugLogger.print(DebugType.CONFIRM, "Command identified : REGNO");
 
         try {
+            DebugLogger.print(DebugType.COM, "SERVER : " + args[0]);
             // read the three "***" to skip them
             client.getBufferedReader().read();
             client.getBufferedReader().read();

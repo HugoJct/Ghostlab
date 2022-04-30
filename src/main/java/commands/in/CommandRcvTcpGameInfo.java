@@ -25,10 +25,6 @@ public class CommandRcvTcpGameInfo extends CommandTCP{
     public void execute(ClientTCP client, String[] args) {
         
         DebugLogger.print(DebugType.CONFIRM, "Command identified : OGAME");
-
-        int stopCount = 0;
-        byte b;
-        
         
         try {
 
@@ -45,6 +41,7 @@ public class CommandRcvTcpGameInfo extends CommandTCP{
             int s = client.getBufferedReader().read();
 
             GameInfo.gameIdNbrPlayers.put(m, s);
+            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + m + " " + s);
 
             // read the three "***" to skip them
             client.getBufferedReader().read();

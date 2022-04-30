@@ -24,21 +24,24 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
 
         DebugLogger.print(DebugType.CONFIRM, "Command identified : LIST!");
 
-        int gameID, nbrPlayers;
+        int gameId, nbrPlayers;
 
         try {
             // read " "
             client.getBufferedReader().read();
             // read "m" uint8
-            gameID = Integer.valueOf(client.getBufferedReader().read());
-
+            gameId = client.getBufferedReader().read();
             // read " "
             client.getBufferedReader().read();
             // read "s" uint8
             nbrPlayers = client.getBufferedReader().read();
 
-            GameInfo.gameIdNbrPlayers.put(gameID, nbrPlayers);
+            GameInfo.gameIdNbrPlayers.put(gameId, nbrPlayers);
+            GameInfo.gameIdPlayersId.putIfAbsent(gameId, new LinkedList<>());
+            GameInfo.listId = gameId;
 
+            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + gameId + " " + nbrPlayers);
+            
             // read the three "***" to skip them
             client.getBufferedReader().read();
             client.getBufferedReader().read();

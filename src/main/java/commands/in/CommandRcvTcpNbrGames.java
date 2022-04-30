@@ -23,12 +23,13 @@ public class CommandRcvTcpNbrGames extends CommandTCP {
 
         DebugLogger.print(DebugType.CONFIRM, "Command identified : GAMES");
         
-        byte b;
         try {
             // read " "
             client.getBufferedReader().read();
             // read "n" uint8
             GameInfo.nbrGames = client.getBufferedReader().read();
+
+            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + GameInfo.nbrGames);
 
             // read the three "***" to skip them
             client.getBufferedReader().read();

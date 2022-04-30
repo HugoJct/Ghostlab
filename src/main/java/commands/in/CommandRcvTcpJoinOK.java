@@ -3,6 +3,7 @@ package main.java.commands.in;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import main.java.GameInfo;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -22,13 +23,18 @@ public class CommandRcvTcpJoinOK extends CommandTCP{
 
         DebugLogger.print(DebugType.CONFIRM, "Command identified : REGOK");
 
-        byte b;
+        int gameId;
         try {
             // read " "
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+           client.getBufferedReader().read();
             // read "m" uint8
-            b = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            gameId = client.getBufferedReader().read();
 
+            GameInfo.isInGame = true;
+            GameInfo.registredGameId = gameId;
+
+            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + gameId);
+            
             // read the three "***" to skip them
             client.getBufferedReader().read();
             client.getBufferedReader().read();
@@ -37,8 +43,7 @@ public class CommandRcvTcpJoinOK extends CommandTCP{
             e.printStackTrace();
             return;
         }    
-        
-        int uint8GameNum = b & 0xFF;
+    
     }
     
 }

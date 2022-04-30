@@ -33,6 +33,8 @@ public class DebugLogger {
     public static void setTypeMap() {
         typeMap.put(DebugType.ERROR, true);
         typeMapDirectory.put(DebugType.ERROR, "ERROR");
+        typeMap.put(DebugType.WARNING, true);
+        typeMapDirectory.put(DebugType.ERROR, "WARNING");
         typeMap.put(DebugType.ALL, false);
         typeMapDirectory.put(DebugType.ALL, "ALL");
         typeMap.put(DebugType.CONFIRM, true);
@@ -40,7 +42,7 @@ public class DebugLogger {
         typeMap.put(DebugType.HELP, true);
         typeMapDirectory.put(DebugType.HELP, "HELP");
         typeMap.put(DebugType.COM, true);
-        typeMapDirectory.put(DebugType.COM, "HELP");
+        typeMapDirectory.put(DebugType.COM, "COM");
     }
 
 }

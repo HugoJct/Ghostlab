@@ -15,6 +15,7 @@ import main.java.commands.in.CommandRcvUdpEndGame;
 import main.java.commands.in.CommandRcvUdpGhostPos;
 import main.java.commands.in.CommandRcvUdpMessage;
 import main.java.commands.in.CommandRcvUdpScore;
+import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
@@ -55,12 +56,12 @@ public class ClientUDP extends Thread {
                 success = true;
 
             } catch (SocketException e) {
-                DebugLogger.print(DebugType.ERROR, "...erreur : port UDP déjà utilisé");
+                DebugLogger.print(DebugType.ERROR, "[ClientUDP/ERREUR] : port UDP déjà utilisé");
                 attempt++;
                 port = r.nextInt(9999 - 1000) + 1000;
             }
             catch (UnknownHostException e) {
-                DebugLogger.print(DebugType.ERROR, "...erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
+                DebugLogger.print(DebugType.ERROR, "[ClientUDP/ERREUR] : : l'adresse IP de l'hôte ne peut être déterminée");
                 break;
             }
         }
@@ -80,8 +81,10 @@ public class ClientUDP extends Thread {
                 String message = new String(packet.getData(), 0, packet.getLength());
                 
                 String[] args = message.split(" ");
+
                 // suppression des caractères de fin de ligne "+++"
                 args[args.length-1].substring(args[args.length-1].length()-4, args[args.length-1].length()-1);
+                
                 if(commandRcvUdpList.containsKey(args[0])) {
                     commandRcvUdpList.get(args[0]).execute(this, args);
                 }
@@ -89,7 +92,8 @@ public class ClientUDP extends Thread {
                     DebugLogger.print(DebugType.CONFIRM, "Commande inconnue : " + args[0]);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                DebugLogger.print(DebugType.ERROR, "[ClientTCP/ERREUR] : erreur lors de la réception d'un message UDP");
+                Console.useMessage("killclient");
             }
         }
     }

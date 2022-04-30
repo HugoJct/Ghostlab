@@ -27,22 +27,24 @@ public class CommandRcvTcpMapSize extends CommandTCP {
         byte b1;
         byte b2;
         LinkedList<Integer> byteList = new LinkedList<Integer>();
+        int m, h, w;
         try {
             // read " "
-            b1 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
+            client.getBufferedReader().read();
             // read "m" uint8
-            b1 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
-            byteList.add((byte)b1 & 0xFF);
+            m = client.getBufferedReader().read();
             // read " "
             b1 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             // read "h" uint16
             b1 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             b2 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
-            byteList.add(((b1 & 0xFF) << 8) + (b2 & 0xFF));
+            h = ((b1 & 0xFF) << 8) + (b2 & 0xFF);
             // read "w" uint16
             b1 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
             b2 = (Integer.valueOf(client.getBufferedReader().read())).byteValue();
-            byteList.add(((b1 & 0xFF) << 8) + (b2 & 0xFF));
+            w = (((b1 & 0xFF) << 8) + (b2 & 0xFF));
+
+            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + m + " " + h + " " + w);
 
             // read the three "***" to skip them
             client.getBufferedReader().read();

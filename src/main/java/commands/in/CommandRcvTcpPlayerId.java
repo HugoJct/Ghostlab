@@ -2,7 +2,9 @@ package main.java.commands.in;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
+import main.java.GameInfo;
 import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -32,15 +34,19 @@ public class CommandRcvTcpPlayerId extends CommandTCP {
             e.printStackTrace();
         }
 
-        // read the id (8 char)
-        while(count < 8) {
-            try {
-                id += client.getBufferedReader().read();
-                count++;
+            try {       
+                // read the id (8 char)
+                while(count < 8) {
+                    id += client.getBufferedReader().read();
+                    count++;
+                }
+                // ajout de l'id à la liste d'id de la hashmap "gameIdPlayersId" dans GameInfo
+                LinkedList<String> tmpList = GameInfo.gameIdPlayersId.get(GameInfo.listId);
+                tmpList.add(id);
+                GameInfo.gameIdPlayersId.put(GameInfo.listId, tmpList);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
 
 
         try {

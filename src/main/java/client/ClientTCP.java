@@ -57,9 +57,9 @@ public class ClientTCP extends Thread {
 
             clientTCPCreated = true;
         } catch (UnknownHostException e) {
-            DebugLogger.print(DebugType.ERROR, "...Erreur critique : l'adresse IP de l'hôte ne peut être déterminée");
+            DebugLogger.print(DebugType.ERROR, "[ClientTCP/ERREUR] : L'adresse IP de l'hôte ne peut être déterminée");
         } catch (IOException e) {
-            System.out.println("...erreur critique : Numero de PORT INDISPONIBLE ou IP INCONNUE");
+            DebugLogger.print(DebugType.ERROR,"[ClientTCP/ERREUR] : Numero de PORT INDISPONIBLE ou IP INCONNUE");
         }
 
     }
@@ -161,6 +161,7 @@ public class ClientTCP extends Thread {
             Console.connectedConsole = false;
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
+            System.exit(1);
         }
     }
 

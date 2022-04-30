@@ -19,7 +19,6 @@ public class ControlGUI {
         frame.getGameManagerPanel().getJoinButton().addActionListener((event) -> joinGame());
         frame.getGameManagerPanel().getNewGameButton().addActionListener((event) -> createNewGame());
         frame.getGameManagerPanel().getRefreshButton().addActionListener((event) -> refreshGamesList());
-
         frame.getConnectionPanel().getDisconectionButton().addChangeListener((event) -> actualise());
     }
 
