@@ -125,3 +125,31 @@ void send_games(int socket_fd, llist *games) {
 	game_send_count(socket_fd,games);
 	game_send_details(socket_fd,games);
 }
+
+void send_size(int socket_fd, llist* games, uint8_t game_id) {
+	char buf[100];
+
+	pthread_mutex_lock(&game_list_mutex);
+
+	struct game *g = game_get_by_id(game_id);
+	if(!g) {
+		pthread_mutex_unlock(&game_list_mutex);
+		return;
+	}
+
+	uint8_t height = g->labyrinth->height;
+	uint8_t width = g->labyrinth->width;
+
+	char *cmd = "SIZE! ";
+	char *end = "***";
+
+	memcpy(buf, cmd, 5);
+	memcpy(buf+6, &game_id, 1);
+	memcpy(buf+8, &height, 1);
+	memcpy(buf+10, &width, 1);
+	memcpy(buf+11, end, 3);
+
+	int ret = send(socket_fd, buf, 14, 0);
+
+	pthread_mutex_unlock(&game_list_mutex);
+}
