@@ -59,7 +59,7 @@ void *server_socket_before_game_start(void *arg) {
 		} else if(strcmp(cmd,"SIZE?") == 0) {
 			//TODO: sendd labyrinth size
 		} else if(strcmp(cmd,"LIST?") == 0) {
-			//TODO: send game player list
+			request_list(buf,fd);
 		} else if(strcmp(cmd,"GAME?") == 0) {
 			send_games(fd,games);
 		} else if(strcmp(cmd,"START") == 0) {
