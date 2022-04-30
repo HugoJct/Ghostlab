@@ -58,7 +58,7 @@ void *server_socket_before_game_start(void *arg) {
 			break;
 		} else if(strcmp(cmd,"SIZE?") == 0) {
 			uint8_t game_id = buf[6];
-			send_size(fd, games, game_id);
+			send_size(fd, game_id);
 		} else if(strcmp(cmd,"LIST?") == 0) {
 			request_list(buf,fd);
 		} else if(strcmp(cmd,"GAME?") == 0) {

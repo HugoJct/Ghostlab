@@ -24,7 +24,8 @@ public class CommandFormatter {
 					format[index++] = (byte) Integer.parseInt(args[i]);		//to change if we want to handle integers greater than 1 byte
 					break;
 				} catch (NumberFormatException e) {
-					DebugLogger.print(DebugType.ERROR, "CommandFormater : L'argument numéro " + i + "ne représente pas une valeur numérique");
+					
+					DebugLogger.print(DebugType.ERROR, "CommandFormatter : L'argument numéro " + i + "ne représente pas une valeur numérique");
 				}
 
 			}
