@@ -24,6 +24,11 @@ public class CommandAskTcpPlayerGame extends CommandTCP {
         
         DebugLogger.print(DebugType.CONFIRM, "ask player game command (LIST?)");
 
+        if (args.length < 2) {
+            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le numéro de la partie n'a pas été précisé");
+            return;
+        }
+
         try {
             int i = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {

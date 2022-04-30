@@ -38,81 +38,91 @@ int server_socket_accept(int socket_fd) {
 	return fd;
 }
 
+void *server_socket_before_game_start(void *arg) {
+
+	extern llist *games;
+	struct client *c = (struct client *) arg;
+	int fd = *(c->fd);
+
+	while(1) {
+		char buf[100];	
+		request_read_tcp(buf,fd);
+
+		char cmd[6];
+		memcpy(cmd,buf,5);
+		cmd[5] = '\0';
+
+		if(strcmp(cmd,"UNREG") == 0) {
+			//TODO: remove the player from the game 
+			close(*(c->fd));
+			break;
+		} else if(strcmp(cmd,"SIZE?") == 0) {
+			//TODO: sendd labyrinth size
+		} else if(strcmp(cmd,"LIST?") == 0) {
+			request_list(buf,fd);
+		} else if(strcmp(cmd,"GAME?") == 0) {
+			send_games(fd,games);
+		} else if(strcmp(cmd,"START") == 0) {
+			c->player->ready = TRUE;
+			break;
+		} else {
+			send_dunno(fd);
+		}
+	}
+
+	return NULL;
+}
+
 void *server_socket_connection_prompt(void *arg) {
 
 	int fd = *((int*) arg);
 
 	extern llist *games;
-	game_send_list(fd,games);
+	send_games(fd,games);
 
-	server_socket_receive_newpl_regis(fd);
+	struct client *c = server_socket_receive_newpl_regis(fd);
+	c->fd = arg;
 
-	free(arg);
+	pthread_t t;
+	pthread_create(&t,NULL,server_socket_before_game_start,c);
 
 	return NULL;	
 }
 
-void server_socket_receive_newpl_regis(int fd) {
-
+struct client *server_socket_receive_newpl_regis(int fd) { 		
 	extern llist *games;
+	struct client *c;
 
-	char buf[100];
-	int ret = recv(fd,buf,100,0);
-	assert(ret >= 0);
+	while(1) {		//this function exits once the player sent REGIS or NEWPL
+		char buf[100];
+		request_read_tcp(buf,fd);
 
-	char cmd[6];
-	memcpy(cmd,buf,5);
-	cmd[5] = '\0';
+		char cmd[6];
+		memcpy(cmd,buf,5);
+		cmd[5] = '\0';
 
-	if(strcmp(cmd,"NEWPL") == 0) {
 
-		printf("New game creation requested\n");
+		if(strcmp(cmd,"NEWPL") == 0) {
 
-		char *name = (char *) malloc(8);
-		memcpy(name,buf+6,8);
+			printf("New game creation requested\n");
+			c = request_newpl(buf,fd);
+			break;
 
-		char porttmp[5];
-		memcpy(porttmp,buf+15,4);
-		porttmp[5] = '\0';
+		} else if(strcmp(cmd,"REGIS") == 0) {
 
-		int port = atoi(porttmp);
+			printf("Game join request\n");
+			c = request_regis(buf,fd);
+			break;
 
-		struct game *g = game_create(4);
-		struct player *p = player_create(name,fd,port);
-		game_add_player(g,p);
-
-		free(name);
-
-		pthread_t t;
-		pthread_create(&t,NULL,game_start,g);
-
-	} else if(strcmp(cmd,"REGIS") == 0) {
-
-		printf("Game join request\n");
-
-		char *name = malloc(8);
-		memcpy(name,buf+6,8);
-
-		char porttmp[5];
-		memcpy(porttmp,buf+15,4);
-		porttmp[5] = '\0';
-		int port = atoi(porttmp);
-
-		u_int8_t game_nb = 0;
-		memcpy(&game_nb,buf+20,1);
-
-		struct player *p = player_create(name,fd,port);
-
-		struct game *requested_game = game_get_by_id(game_nb);
-
-		//TODO check if the game is in progress
-
-		if(requested_game != NULL) {
-			printf("Okay\n");
-			game_add_player(requested_game,p);
-		} else
-			printf("non\n");
-
-		free(name);
+		} else if(strcmp(cmd,"GAME?") == 0) {
+			send_games(fd,games);
+		} else if(strcmp(cmd,"SIZE?") == 0) {
+			//TODO
+		} else if(strcmp(cmd,"LIST?") == 0) {
+			request_list(buf,fd);
+		} else {
+			send_dunno(fd);
+		}
 	}
+	return c;
 }

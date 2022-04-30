@@ -7,19 +7,24 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import main.java.GameInfo;
+import main.java.console.Console;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 public class GameManagerPanel extends JPanel {
-    private LinkedList<JRadioButton> gameListButtons;
+    private LinkedList<JRadioButton> gameListSelector;
+    private LinkedList<JButton> gameListRefreshButtons;
     private JButton joinButton;
     private JButton refreshButton;
     private JButton createButton;
     private ButtonGroup buttonGroup;
 
     public GameManagerPanel() {
-        gameListButtons = new LinkedList<>();
+        gameListSelector = new LinkedList<>();
+        gameListRefreshButtons = new LinkedList<>();
         joinButton = new JButton("join game");
         createButton = new JButton("new game");
         refreshButton = new JButton("refresh list");
@@ -27,7 +32,7 @@ public class GameManagerPanel extends JPanel {
 
         createButton.setEnabled(false);
 
-        GridLayout gameManagerLayout = new GridLayout(2, 2);
+        GridLayout gameManagerLayout = new GridLayout(3, 2);
         this.setLayout(gameManagerLayout);
         this.add(joinButton);
         this.add(createButton);
@@ -36,29 +41,37 @@ public class GameManagerPanel extends JPanel {
 
     public void listGames() {
 
-        if (gameListButtons.size() < GameInfo.nbrGames) {
-            GridLayout gameManagerLayout = new GridLayout(GameInfo.nbrGames+2, 2);
-            this.setLayout(gameManagerLayout);
-    
-            for (int i = gameListButtons.size() ; i < GameInfo.gameIdNbrPlayers.size() ; i++) {
-                JRadioButton b = new JRadioButton();
-                gameListButtons.add(b);
-                buttonGroup.add(b);
-                this.add(new JLabel("game n°" + i + ", " + GameInfo.gameIdNbrPlayers.get(i) + " joueurs inscrits"));
-                this.add(b);
-            }
-            this.add(joinButton);
-            this.add(createButton);
-            this.add(refreshButton);
-        }
+        freeGamesList();
+        GridLayout gameManagerLayout = new GridLayout(GameInfo.nbrGames+1, 3);
+        this.setLayout(gameManagerLayout);
 
+        for (int i = gameListSelector.size() ; i < GameInfo.gameIdNbrPlayers.size() ; i++) {
+            JRadioButton selector = new JRadioButton();
+            JButton button = new JButton("refresh game");
+            gameListSelector.add(selector);
+            gameListRefreshButtons.add(button);
+            buttonGroup.add(selector);
+            this.add(new JLabel("game n°" + i + ", " + GameInfo.gameIdNbrPlayers.get(i) + " joueurs inscrits"));
+            this.add(selector);
+            this.add(button);
+            int m = i;
+            button.addActionListener(new ActionListener(){
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Console.useMessage("LIST? " + m);
+                }
+            });
+        }
+        this.add(joinButton);
+        this.add(createButton);
+        this.add(refreshButton);
     }
 
     public void freeGamesList() {
-        gameListButtons.clear();
+        gameListSelector.clear();
+        gameListRefreshButtons.clear();
         this.removeAll();
-
-        createButton.setEnabled(false);
 
         GridLayout gameManagerLayout = new GridLayout(2, 2);
         this.setLayout(gameManagerLayout);
@@ -77,8 +90,8 @@ public class GameManagerPanel extends JPanel {
         return refreshButton;
     }
     public int getSelectedButtonID() {
-        for (int i = 0 ; i < gameListButtons.size() ; i++) {
-            if (gameListButtons.get(i).isSelected()) {
+        for (int i = 0 ; i < gameListSelector.size() ; i++) {
+            if (gameListSelector.get(i).isSelected()) {
                 return i;
             }
         }

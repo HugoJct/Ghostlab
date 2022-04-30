@@ -7,10 +7,12 @@ struct player* player_create(char *name, int tcp_socket, int port) {
 	memcpy(p->id,name,8);
 
 	p->score = 0;
+	p->ready = 0;
 	p->x = -1;
 	p->y = -1;
 	p->tcp_socket_fd = tcp_socket;
 	p->udp_port = port;
+	p->ready = FALSE;
 
 	return p;
 }	
@@ -27,4 +29,8 @@ void player_print(void *player) {
 	tmp_name[8] = '\0';
 
 	printf("name: %s score: %d x: %d y: %d port: %d",tmp_name,p->score,p->x,p->y,p->udp_port);
+}
+
+int player_is_ready(struct player *p) {
+	return p->ready;
 }

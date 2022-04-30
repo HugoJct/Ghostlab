@@ -16,11 +16,11 @@ public class ControlGUI {
         this.frame = frame;
         frame.getConnectionPanel().getConnectionButton().addActionListener((event) -> connect());
         frame.getConnectionPanel().getDisconectionButton().addActionListener((event) -> disconnect());
-        frame.getConnectionPanel().getDisconectionButton().addChangeListener((event) -> actualise());
-        frame.getConnectionPanel().getConnectionButton().addChangeListener((event) -> actualise());
         frame.getGameManagerPanel().getJoinButton().addActionListener((event) -> joinGame());
         frame.getGameManagerPanel().getNewGameButton().addActionListener((event) -> createNewGame());
         frame.getGameManagerPanel().getRefreshButton().addActionListener((event) -> refreshGamesList());
+
+        frame.getConnectionPanel().getDisconectionButton().addChangeListener((event) -> actualise());
     }
 
     private void joinGame() {
@@ -37,18 +37,26 @@ public class ControlGUI {
     }
 
     private void refreshGamesList() {
-        frame.getGameManagerPanel().listGames();
-        frame.repaint();
+
+        Console.useMessage("GAME?");
+
     }
 
     public void actualise() {
         if (Client.isConnected) {
             frame.getConnectionPanel().getConnectionButton().setEnabled(false);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
+            frame.getGameManagerPanel().listGames();
         } else {
             frame.getConnectionPanel().getConnectionButton().setEnabled(true);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(false);
+            frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
+            frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
+            frame.getGameManagerPanel().freeGamesList();
+            
         }
+        
+        frame.repaint();
     }
 
     public void connect() {
@@ -58,7 +66,7 @@ public class ControlGUI {
             return;
         }
 
-        client = new Client(frame.getConnectionPanel().getIpField().getText(), Integer.parseInt(frame.getConnectionPanel().getPortField().getText()));
+        client = new Client(frame.getConnectionPanel().getIpField().getText(), Integer.parseInt(frame.getConnectionPanel().getPortField().getText()), this);
 
         if (frame.getConnectionPanel().getplayerField().getText().isEmpty()) {
             GameInfo.playerID = "unknUser";
@@ -94,10 +102,6 @@ public class ControlGUI {
 
     public void disconnect() {
         client.getClientTCP().closeSocket();
-        frame.getGameManagerPanel().freeGamesList();
-        frame.repaint();
-        frame.getConnectionPanel().getConnectionButton().setEnabled(true);
-        frame.getConnectionPanel().getDisconectionButton().setEnabled(false);
-        frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
+        actualise();
     }
 }

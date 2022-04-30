@@ -85,61 +85,28 @@ struct game* game_get_by_id(int id) {
 	return g;
 }
 
-void game_send_count(int socket_fd, llist *games) {
-	char buf[100];
 
-	pthread_mutex_lock(&game_list_mutex);
-	u_int8_t games_number = llist_size(games);
 
-	char *cmd = "GAMES ";
-	char *end = "***";
+int game_are_all_players_ready(struct game *g) {
+	pthread_mutex_lock(&(g->game_lock));
 
-	memcpy(buf,cmd,6);
-	memcpy(buf+6,&games_number,1);
-	memcpy(buf+7,end,3);
-
-	int ret = send(socket_fd,buf,10,0);
-	assert(ret >= 0);	//not sure if this is optimal
-
-	pthread_mutex_unlock(&game_list_mutex);
-}
-
-void game_send_details(int socket_fd, llist *games) {
-	pthread_mutex_lock(&game_list_mutex);
-
-	struct node *cur = *games;
+	int ready = 1;
+	struct node *cur = *(g->players);
 	while(cur->data != NULL) {
+		struct player *p = cur->data;		
 
-		char buf[100];
-
-		struct game *g = (struct game*) cur->data;
-
-		u_int8_t game_id = g->id;
-		u_int8_t players_count = llist_size(g->players);
-		//u_int8_t players_count = 15;
-
-		char *cmd = "OGAME ";
-		char *end = "***";
-
-		memcpy(buf,cmd,6);
-		memcpy(buf+6,&game_id,1);
-		memcpy(buf+7,cmd+5,1);
-		memcpy(buf+8,&players_count,1);
-		memcpy(buf+9,end,3);
-
-		int ret = send(socket_fd,buf,12,0);
-		assert(ret >= 0);	//not sure if this is optimal
+		if(p->ready == 0) {
+			ready = 0;
+			break;
+		}
 
 		if(cur->next == NULL)
 			break;
 		cur = cur->next;
 	}
-	pthread_mutex_unlock(&game_list_mutex);
-}
 
-void game_send_list(int socket_fd, llist *games) {
-	game_send_count(socket_fd,games);
-	game_send_details(socket_fd,games);
+	pthread_mutex_unlock(&(g->game_lock));
+	return ready;
 }
 
 void *game_start(void *arg) {
@@ -148,12 +115,13 @@ void *game_start(void *arg) {
 
 	struct game *g = (struct game*) arg;
 
-	llist_print(games,game_print);
-	llist_print(g->players,player_print);
-
-	pause();
-
 	/* TODO handle game unfolding */
+	while(1) {
+		if(game_are_all_players_ready(g))
+			break;		
+	}
+	puts("All players are ready");
+	pause();
 
 	return NULL;
 }
