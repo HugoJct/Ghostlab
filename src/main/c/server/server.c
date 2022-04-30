@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 	games = llist_create(NULL);
 	
 	/* Check that the arguments are correct */
-	if(argc != 2) {
+	if (argc != 2) {
 		dprintf(2,"Wrong usage\n\tExpected usage: ./server <port>\n");
 		return EXIT_FAILURE;
 	}
