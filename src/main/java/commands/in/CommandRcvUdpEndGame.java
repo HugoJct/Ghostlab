@@ -21,7 +21,7 @@ public class CommandRcvUdpEndGame extends CommandUDP {
     @Override
     public void execute(ClientUDP clientTCP, String[] args) {
 
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : ENDGAME");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : ENDGAME");
 
         DebugLogger.print(DebugType.MESSAGE, "Partie terminée, " + args[1] + " gagne avec " + Integer.parseInt(args[2] + " points !"));
 

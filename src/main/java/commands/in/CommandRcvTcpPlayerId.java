@@ -1,11 +1,9 @@
 package main.java.commands.in;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import main.java.GameInfo;
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
@@ -20,44 +18,37 @@ public class CommandRcvTcpPlayerId extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP client, LinkedList<Integer> command) {
 
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : PLAYR");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : PLAYR");
 
         String id = "";
         int count = 0;
 
-        // read first char : " "
-        try {
-            client.getBufferedReader().read();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (command.size() < 17) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpPlayerId/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            return;
         }
 
-            try {       
-                // read the id (8 char)
-                while(count < 8) {
-                    id += client.getBufferedReader().read();
-                    count++;
-                }
-                // ajout de l'id à la liste d'id de la hashmap "gameIdPlayersId" dans GameInfo
-                LinkedList<String> tmpList = GameInfo.gameIdPlayersId.get(GameInfo.listId);
-                tmpList.add(id);
-                GameInfo.gameIdPlayersId.put(GameInfo.listId, tmpList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        try {
-            // read the three "***" to skip them
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-        } catch (IOException e) {
-            e.printStackTrace();
+        // read the id (8 char)
+        while(count < 8) {
+            id += (char) command.get(6 + count).byteValue();
+            count++;
         }
+
+        // ajout de l'id à la liste d'id de la hashmap "gameIdPlayersId" dans GameInfo
+        LinkedList<String> tmpList = GameInfo.gameIdPlayersId.get(GameInfo.listId);
+        tmpList.add(id);
+        GameInfo.gameIdPlayersId.put(GameInfo.listId, tmpList);
+
+        DebugLogger.print(DebugType.COM, "SERVER : PLAYR " + id);
                     
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, String[] args) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.LinkedList;
+
 import main.java.commands.CommandTCP;
 import main.java.commands.in.CommandRcvTcpDunno;
 import main.java.commands.in.CommandRcvTcpGameInfo;
@@ -74,12 +76,12 @@ public class ClientTCP extends Thread {
             
             try {
 
-                String serverMsg = "";
+                LinkedList<Integer> serverMsg = new LinkedList<>();
 
-                int pos = 0;
+                int offsetLimiter = 0;
                 int readVal = 0;
 
-                while(pos != 5) {
+                while(offsetLimiter < 3) {
 
                     readVal = in.read();
 
@@ -87,13 +89,22 @@ public class ClientTCP extends Thread {
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
                         Client.isConnected = false;
-                        break;
+                        ClientTCP.clientTCPCreated = false;
+                        ClientUDP.clientUDPCreated = false;
+                        return;
                     }
 
-                    serverMsg += (char)readVal;
-                    pos++;
+                    serverMsg.add(readVal);
+
+                    if (readVal == 42) {
+                        offsetLimiter++;
+                    } else {
+                        offsetLimiter = 0;
+                    }
                 }
+
                 useMessage(serverMsg);
+
             } catch(IOException e) {
                 DebugLogger.print(DebugType.CONFIRM, "Socket closed : disconnected");
             }
@@ -107,14 +118,17 @@ public class ClientTCP extends Thread {
     }
 
     // parsing de la commande
-	public void useMessage(String command) {
+	public void useMessage(LinkedList<Integer> command) {
         
-        String[] args = breakCommand(command);
+        String commandName = "";
+        for (int i = 0; i < 5; i++) {
+            commandName += (char) command.get(i).byteValue();
+        }
 		
 		for(String s : commandRcvTcpList.keySet()) {
-			if(s.equals(extractFirst(args[0]))) {
+			if(s.equals(extractFirst(commandName))) {
                 // appel de la fonction dans l'instance de la classe associée à la commande
-				commandRcvTcpList.get(s).execute(this, args);
+				commandRcvTcpList.get(s).execute(this, command);
                 gui.actualise();
                 return;
 			}

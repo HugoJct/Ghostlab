@@ -1,6 +1,8 @@
 package main.java.commands.out;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
+
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -21,7 +23,7 @@ public class CommandAskTcpJoin extends CommandTCP {
     @Override
     public void execute(ClientTCP client, String[] args) {
 
-        DebugLogger.print(DebugType.CONFIRM, "ask join game command (REGIS)");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask join game command (REGIS)");
         
         if (args.length < 2) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS numPartie");
@@ -55,6 +57,12 @@ public class CommandAskTcpJoin extends CommandTCP {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

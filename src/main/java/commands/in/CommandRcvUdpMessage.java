@@ -20,7 +20,7 @@ public class CommandRcvUdpMessage extends CommandUDP {
     @Override
     public void execute(ClientUDP clientTCP, String[] args) {
 
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : MESSA");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : MESSA");
 
         GameInfo.messagesHistory.add(args[1] + " : " + args[2]);
 

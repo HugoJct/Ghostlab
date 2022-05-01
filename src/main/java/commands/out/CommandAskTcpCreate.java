@@ -2,6 +2,7 @@ package main.java.commands.out;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
@@ -21,7 +22,7 @@ public class CommandAskTcpCreate extends CommandTCP {
 
     @Override
     public void execute(ClientTCP client, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "create game command (NEWPL)");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : create game command (NEWPL)");
 
         if (GameInfo.playerID.length() != 8) {
             DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
@@ -37,6 +38,12 @@ public class CommandAskTcpCreate extends CommandTCP {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

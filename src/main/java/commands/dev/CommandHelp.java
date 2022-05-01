@@ -1,6 +1,7 @@
 package main.java.commands.dev;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -29,7 +30,8 @@ public class CommandHelp extends CommandTCP {
         DebugLogger.print(DebugType.HELP, "#   debug CONFIRM <0/1> : ON/OFF confirmation lecture commande            #");
         DebugLogger.print(DebugType.HELP, "#   debug MESSAGE <0/1> : ON/OFF retour messages joueurs                  #");
         DebugLogger.print(DebugType.HELP, "#   debug COM <0/1> : ON/OFF retour div informations système              #");
-        DebugLogger.print(DebugType.HELP, "#   debug LIST <0/1> : affiche liste types debug                          #");
+        DebugLogger.print(DebugType.HELP, "#   debug FORMAT <0/1> : ON/OFF retour message après formatage            #");
+        DebugLogger.print(DebugType.HELP, "#   debug LIST : affiche liste types debug                                #");
         DebugLogger.print(DebugType.HELP, "# HELP :                                                                  #");
         DebugLogger.print(DebugType.HELP, "#   help : afficher liste commandes                                       #");
         DebugLogger.print(DebugType.HELP, "# INFOS :                                                                 #"); 
@@ -59,6 +61,12 @@ public class CommandHelp extends CommandTCP {
         DebugLogger.print(DebugType.HELP, "#   GAME? : demande au serveur la liste des parties disponibles           #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : GAME?***                       #");
         DebugLogger.print(DebugType.HELP, "###########################################################################");
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

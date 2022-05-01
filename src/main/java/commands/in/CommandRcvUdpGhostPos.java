@@ -1,12 +1,9 @@
 package main.java.commands.in;
 
-import java.io.PrintWriter;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import main.java.GameInfo;
 import main.java.client.ClientUDP;
-import main.java.commands.CommandFormatter;
 import main.java.commands.CommandUDP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
@@ -22,7 +19,7 @@ public class CommandRcvUdpGhostPos extends CommandUDP {
     @Override
     public void execute(ClientUDP clientTCP, String[] args) {
         
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : GHOST");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : GHOST");
 
         int GhostPosX = Integer.parseInt(args[1]);
         int GhostPosY = Integer.parseInt(args[2]);

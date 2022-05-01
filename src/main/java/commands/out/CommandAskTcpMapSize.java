@@ -2,9 +2,9 @@ package main.java.commands.out;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.GameInfo;
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
@@ -22,7 +22,7 @@ public class CommandAskTcpMapSize extends CommandTCP {
     @Override
     public void execute(ClientTCP client, String[] args) {
         
-        DebugLogger.print(DebugType.CONFIRM, "ask map size command (SIZE?)");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask map size command (SIZE?)");
 
         try {
             int i = Integer.parseInt(args[1]);
@@ -41,6 +41,12 @@ public class CommandAskTcpMapSize extends CommandTCP {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
         
     }
     

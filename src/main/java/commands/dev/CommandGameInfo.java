@@ -1,6 +1,7 @@
 package main.java.commands.dev;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.Map;
 
 import main.java.GameInfo;
@@ -17,7 +18,7 @@ public class CommandGameInfo extends CommandTCP {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : GAMEINFO");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : gameinfo");
 
         DebugLogger.print(DebugType.HELP, "Nombre de parties trouvées et disponibles : " + GameInfo.nbrGames);
         
@@ -28,6 +29,12 @@ public class CommandGameInfo extends CommandTCP {
         for (Map.Entry<Integer,Integer> entry : GameInfo.gameIdNbrPlayers.entrySet()) {
             DebugLogger.print(DebugType.HELP, "Game nbr : " + entry.getKey() + ", nombre de joueurs : " + entry.getValue());
         }
+        
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
         
     }
     

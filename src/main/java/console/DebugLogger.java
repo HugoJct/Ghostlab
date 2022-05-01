@@ -26,6 +26,8 @@ public class DebugLogger {
                 System.out.println(str);
                     ConsolePanel.print(str);
                     ConsolePanel.print("\n");
+            } else {
+                return;
             }
         Console.layout();
     }
@@ -43,6 +45,8 @@ public class DebugLogger {
         typeMapDirectory.put(DebugType.HELP, "HELP");
         typeMap.put(DebugType.COM, true);
         typeMapDirectory.put(DebugType.COM, "COM");
+        typeMap.put(DebugType.FORMAT, false);
+        typeMapDirectory.put(DebugType.FORMAT, "FORMAT");
     }
 
 }

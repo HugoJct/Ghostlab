@@ -1,13 +1,10 @@
 package main.java.commands.in;
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.lang.Integer;
 
 import main.java.GameInfo;
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
@@ -22,40 +19,30 @@ public class CommandRcvTcpGameInfo extends CommandTCP{
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP client, LinkedList<Integer> command) {
         
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : OGAME");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : OGAME");
         
-        try {
-
-            // read " "
-            client.getBufferedReader().read();
-            
-            // read "m" : game id
-            int m = client.getBufferedReader().read();
-
-            // read " "
-            client.getBufferedReader().read();
-
-            // read "s" : nbr players in game m
-            int s = client.getBufferedReader().read();
-
-            GameInfo.gameIdNbrPlayers.put(m, s);
-            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + m + " " + s);
-
-            // read the three "***" to skip them
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (command.size() < 12) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpGameInfo/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 
+        // read "m" : game id
+        int m = command.get(6);
+    
+        // read "s" : nbr players in game m
+        int s = command.get(8);
 
+        GameInfo.gameIdNbrPlayers.put(m, s);
+        DebugLogger.print(DebugType.COM, "SERVER : OGAME " + m + " " + s);
 
+    }
 
+    @Override
+    public void execute(ClientTCP clientTCP, String[] args) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

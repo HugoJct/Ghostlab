@@ -2,10 +2,10 @@ package main.java.commands.in;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.ByteBuffer;
 import java.util.LinkedList;
 
 import main.java.GameInfo;
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
@@ -20,36 +20,32 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP client, LinkedList<Integer> command) {
 
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : LIST!");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : LIST!");
 
-        int gameId, nbrPlayers;
-
-        try {
-            // read " "
-            client.getBufferedReader().read();
-            // read "m" uint8
-            gameId = client.getBufferedReader().read();
-            // read " "
-            client.getBufferedReader().read();
-            // read "s" uint8
-            nbrPlayers = client.getBufferedReader().read();
-
-            GameInfo.gameIdNbrPlayers.put(gameId, nbrPlayers);
-            GameInfo.gameIdPlayersId.putIfAbsent(gameId, new LinkedList<>());
-            GameInfo.listId = gameId;
-
-            DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + gameId + " " + nbrPlayers);
-            
-            // read the three "***" to skip them
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (command.size() < 12) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpPlayerGame/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
+
+        // read "m" uint8
+        int gameId = command.get(6);
+        // read "s" uint8
+        int nbrPlayers = command.get(8);
+
+        GameInfo.gameIdNbrPlayers.put(gameId, nbrPlayers);
+        GameInfo.gameIdPlayersId.putIfAbsent(gameId, new LinkedList<>());
+        GameInfo.listId = gameId;
+
+        DebugLogger.print(DebugType.COM, "SERVER : LIST! " + gameId + " " + nbrPlayers);
+        
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, String[] args) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

@@ -2,8 +2,8 @@ package main.java.commands.out;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
@@ -21,7 +21,7 @@ public class CommandAskTcpStart extends CommandTCP {
     @Override
     public void execute(ClientTCP client, String[] args) {
 
-        DebugLogger.print(DebugType.CONFIRM, "ask start game command (START)");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask start game command (START)");
 
         try {
             client.getOutputStream().write(CommandFormatter.formatForTCP(args));
@@ -30,6 +30,12 @@ public class CommandAskTcpStart extends CommandTCP {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

@@ -10,7 +10,6 @@ import main.java.gui.Frame;
 public class Client {
     private ClientTCP clientTCP;
     private ClientUDP clientUDP;
-    private static Console console;
 
     public static boolean isConnected = false;
 

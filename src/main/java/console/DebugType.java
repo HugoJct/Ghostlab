@@ -11,5 +11,6 @@ public class DebugType {
     public static int HELP = 3;
     public static int MESSAGE = 4;
     public static int COM = 5;
+    public static int FORMAT = 6;
     
 }

@@ -26,8 +26,11 @@ public class GameInfo {
     // marque si l'on est inscrit à une partie ou non
     public static boolean isInGame = false;
 
+    //marque si la partie registredGameId dans laquelle on est inscrit a été lancée ou non
+    public static boolean hasGameStarted = false;
+
     // marque l'id de la partie à la quelle on est inscrit
-    public static int registredGameId;
+    public static int registredGameId = -1;
 
     // marque le score de chaque joueur de la partie registredGameId
     public static HashMap<String, Integer> playerIdScore = new HashMap<>();

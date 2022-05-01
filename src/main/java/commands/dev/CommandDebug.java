@@ -1,6 +1,7 @@
 package main.java.commands.dev;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -15,7 +16,7 @@ public class CommandDebug extends CommandTCP {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "debug command");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : debug");
 
         if (args.length == 3) {
             int value;
@@ -95,6 +96,16 @@ public class CommandDebug extends CommandTCP {
                                 DebugLogger.typeMap.replace(DebugType.COM, true);
                             }
                             return;
+                        case "FORMAT": 
+                            if (value == 0) {
+                                System.out.println("debug FORMAT mode : disabled");  
+                                DebugLogger.typeMap.replace(DebugType.FORMAT, false);
+                            }
+                            else if (value == 1) {
+                                System.out.println("debug FORMAT mode : enabled");  
+                                DebugLogger.typeMap.replace(DebugType.FORMAT, true);
+                            }
+                            return;
                     }
                 }
             } catch(NumberFormatException e) {}
@@ -109,6 +120,12 @@ public class CommandDebug extends CommandTCP {
                 }
             }
             DebugLogger.print(DebugType.WARNING, "[CommandDebug/ATTENTION] : erreur de syntaxe");  
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }
