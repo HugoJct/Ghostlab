@@ -23,7 +23,7 @@ public class CommandRcvTcpNbrGames extends CommandTCP {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : GAMES");
         
         if (command.size() < 10) {
-            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpNbrGames/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpNbrGames/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 

@@ -25,7 +25,7 @@ public class CommandAskTcpCreate extends CommandTCP {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : create game command (NEWPL)");
 
         if (GameInfo.playerID.length() != 8) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
             return;
         }
 
@@ -34,7 +34,7 @@ public class CommandAskTcpCreate extends CommandTCP {
         try {
             client.getOutputStream().write(CommandFormatter.formatForTCP(command));
             client.getOutputStream().flush();
-            DebugLogger.print(DebugType.CONFIRM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP);
+            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP);
         } catch (IOException e) {
             e.printStackTrace();
         }

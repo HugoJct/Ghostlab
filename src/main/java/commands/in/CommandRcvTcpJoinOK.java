@@ -25,7 +25,7 @@ public class CommandRcvTcpJoinOK extends CommandTCP{
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : REGOK");
 
         if (command.size() < 10) {
-            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpJoinOK/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpJoinOK/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 

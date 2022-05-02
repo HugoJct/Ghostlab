@@ -25,7 +25,7 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : LIST!");
 
         if (command.size() < 12) {
-            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpPlayerGame/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerGame/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 

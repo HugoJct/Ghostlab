@@ -22,7 +22,7 @@ public class CommandRcvTcpMapSize extends CommandTCP {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : SIZE!");
         
         if (command.size() < 16) {
-            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpMapSize/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpMapSize/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 

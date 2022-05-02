@@ -26,7 +26,7 @@ public class CommandRcvTcpPlayerId extends CommandTCP {
         int count = 0;
 
         if (command.size() < 17) {
-            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpPlayerId/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerId/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 

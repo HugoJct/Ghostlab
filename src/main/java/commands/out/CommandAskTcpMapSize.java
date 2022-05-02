@@ -27,17 +27,18 @@ public class CommandAskTcpMapSize extends CommandTCP {
         try {
             int i = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le type du numéro de la partie n'est pas conforme");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] Le type du numéro de la partie n'est pas conforme");
             return;
         }
 
         if (!GameInfo.gameIdNbrPlayers.containsKey(Integer.parseInt(args[1]))) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La partie donnée n'existe pas");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] La partie donnée n'existe pas");
             return;
         }
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(args));
+            client.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0], args[1]}));
             client.getOutputStream().flush();
+            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }

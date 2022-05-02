@@ -24,8 +24,9 @@ public class CommandAskTcpStart extends CommandTCP {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask start game command (START)");
 
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(args));
+            client.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0]}));
             client.getOutputStream().flush();
+            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0]);
         } catch (IOException e) {
             e.printStackTrace();
         }

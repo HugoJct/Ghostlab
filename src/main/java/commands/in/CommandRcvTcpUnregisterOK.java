@@ -21,7 +21,7 @@ public class CommandRcvTcpUnregisterOK extends CommandTCP {
     public void execute(ClientTCP client, LinkedList<Integer> command) {
 
         if (command.size() < 10) {
-            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpUnregisterOK/ERREUR] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpUnregisterOK/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 
