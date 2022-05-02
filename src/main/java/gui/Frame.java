@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Frame extends JFrame {
 
@@ -14,7 +13,8 @@ public class Frame extends JFrame {
   private GamePanel gamePanel;
   private GameManagerPanel gameManagerPanel;
   private Tabs tabs;
-  private OptionsPanel optionsPanel;
+  private OptionsMenu optionsPanel;
+  private InteractivePanel interactivePanel;
 
   private JButton help;
   private JButton exit;
@@ -22,17 +22,16 @@ public class Frame extends JFrame {
   public Frame() {
 
     super();
-    setSize(600, 600);
+    setSize(1000, 600);
     setResizable(true);
     setTitle("Ghostlab");
-
-    JPanel mainPanel = new JPanel();
 
     consolePanel = new ConsolePanel();
     connectionPanel = new ConnectionPanel();
     gamePanel = new GamePanel();
     gameManagerPanel = new GameManagerPanel();
-    optionsPanel = new OptionsPanel();
+    optionsPanel = new OptionsMenu();
+    interactivePanel = new InteractivePanel(400, 600);
 
     help = new JButton("?");
     exit = new JButton("EXIT");
@@ -43,16 +42,16 @@ public class Frame extends JFrame {
 
     tabs = new Tabs();
 
-    tabs.setBounds(40, 20, 300, 300);
+    tabs.setBounds(40, 20, 300, 500);
     tabs.add("connection", connectionPanel);
     tabs.add("game manager", gameManagerPanel);
     tabs.add("game", gamePanel);
 
-    mainPanel.add(tabs);
+    interactivePanel.add(tabs);
 
     this.setJMenuBar(optionsPanel);
+    this.add(interactivePanel, BorderLayout.WEST);
     this.add(consolePanel, BorderLayout.EAST);
-    this.add(mainPanel, BorderLayout.WEST);
     this.pack();
     this.setVisible(true);
 
