@@ -1,28 +1,33 @@
 #include "requests.h"
 
-void read_request(char *buf, int fd,char delimitor) {
+int read_request(char *buf, int fd,char delimitor) {
 	int stars_read = 0;
 	int offset = 0;
-	while(stars_read != 3) {
-		int ret = recv(fd,buf+offset,1,0);
-		if(ret < 0) {
-			perror("recv");
-			exit(EXIT_FAILURE);
+	char tmp;
+	while(stars_read != 3) {	//while delimitor hasn't been read three times in a row
+		int ret = recv(fd,&tmp,1,0);
+		if(ret <= 0) {	//the client disconnected or an error occured (handled the same way)
+			puts("A client has disconnected");
+			return -1;
 		}
-		if(buf[offset] == delimitor)
+
+		memcpy(buf+offset,&tmp,1);
+
+		if(tmp == delimitor)
 			stars_read++;
 		else
 			stars_read = 0;
 		offset++;
 	}
+	return 0;
 }
 
-void request_read_tcp(char *buf, int fd) {
-	read_request(buf,fd,'*');
+int request_read_tcp(char *buf, int fd) {
+	return read_request(buf,fd,'*');
 }
 
-void request_read_udp(char *buf, int fd) {
-	read_request(buf,fd,'+');
+int request_read_udp(char *buf, int fd) {
+	return read_request(buf,fd,'+');
 }
 
 struct client *request_newpl(char buf[],int fd) {
@@ -51,14 +56,17 @@ struct client *request_newpl(char buf[],int fd) {
 
 struct client *request_regis(char buf[], int fd) {
 
+	//get name from buffer
 	char name[8];
 	memcpy(name,buf+6,8);
 
+	//get port from buffer then convert it to int
 	char porttmp[5];
 	memcpy(porttmp,buf+15,4);
 	porttmp[5] = '\0';
 	int port = atoi(porttmp);
 
+	//get game number from buffer
 	u_int8_t game_nb = 0;
 	memcpy(&game_nb,buf+20,1);
 
@@ -66,26 +74,26 @@ struct client *request_regis(char buf[], int fd) {
 
 	struct game *requested_game = game_get_by_id(game_nb);
 
-	//TODO check if the game is in progress
-
 	struct client *c ;
 
 	if(requested_game != NULL) {
-		printf("Okay\n");
-		game_add_player(requested_game,p);	
-		send_regok(fd,game_nb);
-		
-		c = create_client(requested_game,p,NULL);
 
-	} else {
-		printf("non\n");		
+		//TODO check if the game is in progress
+		
+		game_add_player(requested_game,p);	
+		send_regok(fd,game_nb);	//answer to the client
+		
+		c = create_client(requested_game,p,NULL);	//create the struct client to return 
+
+	} else {	//if the requested game does not exist, answer and return NULL
 		send_regno(fd);
+		return NULL;
 	}
 	return c;
 }
 
 void request_list(char *buf, int fd) {
 	uint8_t id = 0;
-	memcpy(&id,buf+6,1);
+	memcpy(&id,buf+6,1);	//extract id from buffer
 	send_players_list(fd,id);
 }
