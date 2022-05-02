@@ -31,16 +31,14 @@ int request_read_udp(char *buf, int fd) {
 }
 
 struct client *request_newpl(char buf[],int fd) {
-	char name[8];
 	char porttmp[5];
 
-	memcpy(name,buf+6,8);
 	memcpy(porttmp,buf+15,4);
 	porttmp[5] = '\0';
 	int port = atoi(porttmp);
 
 	struct game *g = game_create(4);
-	struct player *p = player_create(name,fd,port);
+	struct player *p = player_create(buf+6,fd,port);
 	game_add_player(g,p);
 
 	struct client *c = create_client(g,p,NULL);
