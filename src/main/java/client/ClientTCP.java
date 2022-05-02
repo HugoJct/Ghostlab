@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import main.java.GameInfo;
 import main.java.commands.CommandTCP;
 import main.java.commands.in.CommandRcvTcpDunno;
 import main.java.commands.in.CommandRcvTcpGameInfo;
@@ -173,6 +174,7 @@ public class ClientTCP extends Thread {
             ClientUDP.clientUDPCreated = false;
             Console.disconnectConsole();
             Console.connectedConsole = false;
+            GameInfo.clear();
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
             System.exit(1);

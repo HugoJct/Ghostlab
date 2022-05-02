@@ -24,6 +24,11 @@ public class CommandAskTcpCreate extends CommandTCP {
     public void execute(ClientTCP client, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : create game command (NEWPL)");
 
+        if (GameInfo.isInGame) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpCreate] : vous êtes déjà inscrit à une partie, vous ne pouvez pas en rejoindre une autre... Veuillez préalablement vous désinscrire : UNREG");
+            return;
+        }
+
         if (GameInfo.playerID.length() != 8) {
             DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
             return;

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
+import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
@@ -22,6 +23,13 @@ public class CommandAskTcpStart extends CommandTCP {
     public void execute(ClientTCP client, String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask start game command (START)");
+
+        if (!GameInfo.isInGame) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpStart] : impossible de demander le lancement, vous n'êtes dans aucune partie");
+        }
+        if (GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpStart] : impossible de demander le lancement, une partie est déjà en cours");
+        }
 
         try {
             client.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0]}));

@@ -25,7 +25,7 @@ public class CommandAskTcpJoin extends CommandTCP {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask join game command (REGIS)");
         
-        if (GameInfo.registredGameId == Integer.parseInt(args[1])) {
+        if (GameInfo.isInGame) {
             DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpJoin] : vous êtes déjà inscrit à une partie, vous ne pouvez pas en rejoindre une autre... Veuillez préalablement vous désinscrire : UNREG");
             return;
         }

@@ -61,5 +61,20 @@ public class GameInfo {
 
     public static LinkedList<GameHistory> gameHistory = new LinkedList<>();
 
+ 
+    public static void clear() {
+        GameInfo.gameIdNbrPlayers.clear();
+        GameInfo.isInGame = false;
+        GameInfo.hasGameStarted = false;
+        GameInfo.gameIdPlayersId.clear();
+        GameInfo.listId = -1;
+        GameInfo.nbrGames = -1;
+        GameInfo.portUDP = -1;
+        GameInfo.playerIdScore.clear();
+        GameInfo.messagesHistory.clear();
+        GameInfo.playerID = "";
+        GameInfo.registredGameId = -1;
+    }
     
+
 }

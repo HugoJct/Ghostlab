@@ -20,6 +20,7 @@ public class GameManagerPanel extends JPanel {
     private JButton joinButton;
     private JButton refreshButton;
     private JButton createButton;
+    private JButton startButton;
     private ButtonGroup buttonGroup;
 
     public GameManagerPanel() {
@@ -28,21 +29,24 @@ public class GameManagerPanel extends JPanel {
         joinButton = new JButton("join game");
         createButton = new JButton("new game");
         refreshButton = new JButton("refresh list");
+        startButton = new JButton("start game");
         buttonGroup = new ButtonGroup();
 
         createButton.setEnabled(false);
+        startButton.setEnabled(false);
 
-        GridLayout gameManagerLayout = new GridLayout(3, 2);
+        GridLayout gameManagerLayout = new GridLayout(2, 2);
         this.setLayout(gameManagerLayout);
         this.add(joinButton);
         this.add(createButton);
         this.add(refreshButton);
+        this.add(startButton);
     }
 
     public void listGames() {
 
         freeGamesList();
-        GridLayout gameManagerLayout = new GridLayout(GameInfo.nbrGames+1, 3);
+        GridLayout gameManagerLayout = new GridLayout(GameInfo.nbrGames+2, 3);
         this.setLayout(gameManagerLayout);
 
         for (int i = gameListSelector.size() ; i < GameInfo.gameIdNbrPlayers.size() ; i++) {
@@ -66,6 +70,9 @@ public class GameManagerPanel extends JPanel {
         this.add(joinButton);
         this.add(createButton);
         this.add(refreshButton);
+        this.add(startButton);
+
+        startButton.setEnabled(false);
     }
 
     public void freeGamesList() {
@@ -78,6 +85,8 @@ public class GameManagerPanel extends JPanel {
         this.add(joinButton);
         this.add(createButton);
         this.add(refreshButton);
+        this.add(startButton);
+        startButton.setEnabled(false);
     }
 
     public JButton getJoinButton() {
@@ -88,6 +97,9 @@ public class GameManagerPanel extends JPanel {
     }
     public JButton getRefreshButton() {
         return refreshButton;
+    }
+    public JButton getStartButton() {
+        return startButton;
     }
     public int getSelectedButtonID() {
         for (int i = 0 ; i < gameListSelector.size() ; i++) {

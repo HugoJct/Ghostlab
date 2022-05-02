@@ -19,6 +19,7 @@ public class ControlGUI {
         frame.getGameManagerPanel().getJoinButton().addActionListener((event) -> joinGame());
         frame.getGameManagerPanel().getNewGameButton().addActionListener((event) -> createNewGame());
         frame.getGameManagerPanel().getRefreshButton().addActionListener((event) -> refreshGamesList());
+        frame.getGameManagerPanel().getStartButton().addActionListener((event) -> startGame());
         frame.getExitButton().addActionListener((event) -> exit());
         frame.getHelpButton().addActionListener((event) -> help());
 
@@ -34,6 +35,10 @@ public class ControlGUI {
         Console.useMessage("help"); 
     }
 
+    private void startGame() {
+        System.out.println("");
+        Console.useMessage("START"); 
+    }
     private void joinGame() {
         int id = frame.getGameManagerPanel().getSelectedButtonID();
         if (id != -1) {
@@ -44,11 +49,12 @@ public class ControlGUI {
     }
 
     private void createNewGame() {
+        System.out.println("");
         Console.useMessage("NEWPL");
     }
 
     private void refreshGamesList() {
-
+        System.out.println("");
         Console.useMessage("GAME?");
 
     }
@@ -58,13 +64,15 @@ public class ControlGUI {
             frame.getConnectionPanel().getConnectionButton().setEnabled(false);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
             frame.getGameManagerPanel().listGames();
+            if (GameInfo.isInGame && !GameInfo.hasGameStarted) {
+                frame.getGameManagerPanel().getStartButton().setEnabled(true);
+            }
         } else {
             frame.getConnectionPanel().getConnectionButton().setEnabled(true);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(false);
             frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
             frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
             frame.getGameManagerPanel().freeGamesList();
-            
         }
         
         frame.repaint();
