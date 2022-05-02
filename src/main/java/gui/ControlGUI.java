@@ -19,7 +19,19 @@ public class ControlGUI {
         frame.getGameManagerPanel().getJoinButton().addActionListener((event) -> joinGame());
         frame.getGameManagerPanel().getNewGameButton().addActionListener((event) -> createNewGame());
         frame.getGameManagerPanel().getRefreshButton().addActionListener((event) -> refreshGamesList());
+        frame.getExitButton().addActionListener((event) -> exit());
+        frame.getHelpButton().addActionListener((event) -> help());
+
         frame.getConnectionPanel().getDisconectionButton().addChangeListener((event) -> actualise());
+    }
+
+    private void exit() {
+        System.out.println("");
+        Console.useMessage("kill"); 
+    }
+    private void help() {
+        System.out.println("");
+        Console.useMessage("help"); 
     }
 
     private void joinGame() {
