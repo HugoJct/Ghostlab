@@ -125,7 +125,8 @@ void *game_start(void *arg) {
 		if(game_are_all_players_ready(g)) {
 			if(llist_size(g->players) == 0) {
 				puts("All players disconnected");
-				//TODO: remove the game from the list 
+				llist_remove(games,g);
+				free(g);
 				return NULL;
 			}
 			break;		

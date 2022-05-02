@@ -48,7 +48,13 @@ void *server_socket_before_game_start(void *arg) {
 		char buf[100];	
 		int ret = request_read_tcp(buf,fd);
 		if(ret < 0) {	//the player disconnected
-			//TODO: remove the player from the game 
+
+			llist_remove(c->game->players,c->player);
+
+			free(c->player);
+			close(*(c->fd));
+			free(c->fd);
+			free(c);
 			break;
 		}
 
@@ -57,8 +63,16 @@ void *server_socket_before_game_start(void *arg) {
 		cmd[5] = '\0';
 
 		if(strcmp(cmd,"UNREG") == 0) {
-			//TODO: remove the player from the game 
+
+			uint8_t game_id = buf[6];
+			send_unrok(fd,game_id);
+
+			llist_remove(c->game->players,c->player);
+
+			free(c->player);
 			close(*(c->fd));
+			free(c->fd);
+			free(c);
 			break;
 		} else if(strcmp(cmd,"SIZE?") == 0) {
 			uint8_t game_id = buf[6];
@@ -74,7 +88,6 @@ void *server_socket_before_game_start(void *arg) {
 			send_dunno(fd);
 		}
 	}
-	puts("Launching game");
 
 	return NULL;
 }
@@ -131,7 +144,8 @@ struct client *server_socket_receive_newpl_regis(int fd) {
 		} else if(strcmp(cmd,"GAME?") == 0) {
 			send_games(fd,games);
 		} else if(strcmp(cmd,"SIZE?") == 0) {
-			//TODO
+			uint8_t game_id = buf[6];
+			send_size(fd, game_id);
 		} else if(strcmp(cmd,"LIST?") == 0) {
 			request_list(buf,fd);
 		} else {
