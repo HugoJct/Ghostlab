@@ -11,8 +11,8 @@
 #define BUFFER_SIZE 64
 
 typedef struct labyrinth {
-   int width;
-   int height;
+   u_int16_t width;
+   u_int16_t height;
    int** cells;
 } labyrinth;
 
