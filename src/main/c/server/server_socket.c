@@ -46,7 +46,11 @@ void *server_socket_before_game_start(void *arg) {
 
 	while(1) {
 		char buf[100];	
-		request_read_tcp(buf,fd);
+		int ret = request_read_tcp(buf,fd);
+		if(ret < 0) {	//the player disconnected
+			//TODO: remove the player from the game 
+			break;
+		}
 
 		char cmd[6];
 		memcpy(cmd,buf,5);
@@ -70,6 +74,7 @@ void *server_socket_before_game_start(void *arg) {
 			send_dunno(fd);
 		}
 	}
+	puts("Launching game");
 
 	return NULL;
 }
@@ -79,13 +84,17 @@ void *server_socket_connection_prompt(void *arg) {
 	int fd = *((int*) arg);
 
 	extern llist *games;
-	send_games(fd,games);
+	send_games(fd,games);	//send the available games to the client
 
-	struct client *c = server_socket_receive_newpl_regis(fd);
-	c->fd = arg;
+	struct client *c = server_socket_receive_newpl_regis(fd);	//wait for the client to be in a game
+	if( c == NULL)  {	//if c is NULL, then the client disconnected
+		free(c);
+		return NULL;	
+	}
+	c->fd = arg;		//update its file descriptor
 
 	pthread_t t;
-	pthread_create(&t,NULL,server_socket_before_game_start,c);
+	pthread_create(&t,NULL,server_socket_before_game_start,c);	//launch the thread handling the next phase
 
 	return NULL;	
 }
@@ -94,25 +103,29 @@ struct client *server_socket_receive_newpl_regis(int fd) {
 	extern llist *games;
 	struct client *c;
 
+	char buf[100];
+
 	while(1) {		//this function exits once the player sent REGIS or NEWPL
-		char buf[100];
-		request_read_tcp(buf,fd);
+		int ret = request_read_tcp(buf,fd);	//read the client input
+		if(ret < 0)	//the client disconnected
+			return NULL;
 
 		char cmd[6];
-		memcpy(cmd,buf,5);
+		memcpy(cmd,buf,5);	//isolate the command
 		cmd[5] = '\0';
-
 
 		if(strcmp(cmd,"NEWPL") == 0) {
 
 			printf("New game creation requested\n");
-			c = request_newpl(buf,fd);
+			c = request_newpl(buf,fd);	//isolate the command arguments then compute and answer
 			break;
 
 		} else if(strcmp(cmd,"REGIS") == 0) {
 
 			printf("Game join request\n");
 			c = request_regis(buf,fd);
+			if(c == NULL)	//if c is NULL then the player couldn't join the game 
+				continue;
 			break;
 
 		} else if(strcmp(cmd,"GAME?") == 0) {

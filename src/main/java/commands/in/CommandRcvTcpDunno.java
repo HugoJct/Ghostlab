@@ -1,7 +1,7 @@
 package main.java.commands.in;
 
 import java.io.PrintWriter;
-import java.io.IOException;
+import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -17,14 +17,16 @@ public class CommandRcvTcpDunno extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : DUNNO");
-        try {
-            // read the three "***" to skip them
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-        } catch(IOException e) { e.printStackTrace(); }
+    public void execute(ClientTCP client, LinkedList<Integer> command) {
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : DUNNO");
+        DebugLogger.print(DebugType.COM, "SERVER : DUNNO");
+
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, String[] args) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

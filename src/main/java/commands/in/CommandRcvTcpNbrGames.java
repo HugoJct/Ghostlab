@@ -1,10 +1,9 @@
 package main.java.commands.in;
 
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.GameInfo;
-import main.java.client.Client;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
@@ -19,26 +18,26 @@ public class CommandRcvTcpNbrGames extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP client, LinkedList<Integer> command) {
 
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : GAMES");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : GAMES");
         
-        byte b;
-        try {
-            // read " "
-            client.getBufferedReader().read();
-            // read "n" uint8
-            GameInfo.nbrGames = client.getBufferedReader().read();
-
-            // read the three "***" to skip them
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-            client.getBufferedReader().read();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (command.size() < 10) {
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpNbrGames/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
 
+        // read "n" uint8
+        GameInfo.nbrGames = command.get(6);
+
+        DebugLogger.print(DebugType.COM, "SERVER : GAMES " + GameInfo.nbrGames);
+
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, String[] args) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

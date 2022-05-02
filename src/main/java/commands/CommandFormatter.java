@@ -11,7 +11,7 @@ public class CommandFormatter {
 		int index = 0;
 
 		if (args.length == 1) {
-			format = (args[0] +"***").getBytes();
+			format = (args[0] + "***").getBytes();
 			return format;
 		}
 
@@ -43,8 +43,16 @@ public class CommandFormatter {
 
 		byte[] message = getByteArray(args);
 
-		for(int i=(message.length - 3);i<message.length;i++)
+		for(int i=(message.length - 3);i<message.length;i++) {
 			message[i] = (byte) '*';
+		}
+
+		// affichage message formaté/déformaté pour debug
+		String messageDebug = "";
+		for (int i = 0; i < message.length; i++) {
+			messageDebug += (char)message[i];
+		}
+		DebugLogger.print(DebugType.FORMAT, "MESSAGE FORMATED : " + messageDebug);
 
 		return message;
 	}

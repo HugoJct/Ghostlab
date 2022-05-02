@@ -1,6 +1,7 @@
 package main.java.commands.dev;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -15,7 +16,7 @@ public class CommandDebug extends CommandTCP {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "debug command");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : debug");
 
         if (args.length == 3) {
             int value;
@@ -33,6 +34,16 @@ public class CommandDebug extends CommandTCP {
                             else if (value == 1) {
                                 System.out.println("debug ERROR mode : enabled");  
                                 DebugLogger.typeMap.replace(DebugType.ERROR, true);
+                            }
+                            return;
+                        case "WARNING": 
+                            if (value == 0) {
+                                System.out.println("debug warning modes : disabled");  
+                                DebugLogger.typeMap.replace(DebugType.WARNING, false);
+                            }
+                            else if (value == 1) {
+                                System.out.println("debug warning modes : enabled");  
+                                DebugLogger.typeMap.replace(DebugType.WARNING, true);
                             }
                             return;
                         case "ALL": 
@@ -85,11 +96,21 @@ public class CommandDebug extends CommandTCP {
                                 DebugLogger.typeMap.replace(DebugType.COM, true);
                             }
                             return;
+                        case "FORMAT": 
+                            if (value == 0) {
+                                System.out.println("debug FORMAT mode : disabled");  
+                                DebugLogger.typeMap.replace(DebugType.FORMAT, false);
+                            }
+                            else if (value == 1) {
+                                System.out.println("debug FORMAT mode : enabled");  
+                                DebugLogger.typeMap.replace(DebugType.FORMAT, true);
+                            }
+                            return;
                     }
                 }
             } catch(NumberFormatException e) {}
         }
-            // list every debug type state
+            // liste tous les types de debug et leur état
             else if (args.length == 2) {
                 if (args[1].equals("LIST")) {
                     for(int i = -1 ; i<DebugLogger.typeMap.size()-1 ; i++) {
@@ -98,7 +119,13 @@ public class CommandDebug extends CommandTCP {
                     return;
                 }
             }
-            DebugLogger.print(DebugType.ERROR, "DEBUG : Command syntax error");  
+            DebugLogger.print(DebugType.WARNING, "[CommandDebug/ATTENTION] : erreur de syntaxe");  
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

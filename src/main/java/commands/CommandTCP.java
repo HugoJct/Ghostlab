@@ -1,6 +1,7 @@
 package main.java.commands;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 
@@ -17,5 +18,7 @@ public abstract class CommandTCP {
 		out.flush();
 	}
 
+	public abstract void execute(ClientTCP clientTCP, LinkedList<Integer> command);
 	public abstract void execute(ClientTCP clientTCP, String[] args);
+
 }

@@ -2,8 +2,9 @@ package main.java.commands.out;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
-import main.java.client.Client;
+import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
@@ -21,15 +22,29 @@ public class CommandAskUnregister extends CommandTCP{
     @Override
     public void execute(ClientTCP client, String[] args) {
         
-        DebugLogger.print(DebugType.CONFIRM, "ask unregistration command (UNREG)");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask unregistration command (UNREG)");
 
-        try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(args));
-            client.getOutputStream().flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!GameInfo.isInGame) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskUnregister] : impossible de se déconnecter, vous n'êtes pas dans une partie");
         }
+        else if(GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskUnregister] : impossible de se déconnecter, la partie a déjà commencé");
+        }
+        else {
+            try {
+                client.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0]}));
+                client.getOutputStream().flush();
+                DebugLogger.print(DebugType.COM, "CLIENT : " + args[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

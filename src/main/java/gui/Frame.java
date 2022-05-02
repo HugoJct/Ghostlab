@@ -1,19 +1,10 @@
 package main.java.gui;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class Frame extends JFrame {
 
@@ -21,32 +12,46 @@ public class Frame extends JFrame {
   private ConnectionPanel connectionPanel;
   private GamePanel gamePanel;
   private GameManagerPanel gameManagerPanel;
+  private Tabs tabs;
+  private OptionsMenu optionsPanel;
+  private InteractivePanel interactivePanel;
+
+  private JButton help;
+  private JButton exit;
 
   public Frame() {
 
     super();
-    setSize(600, 600);
+    setSize(1000, 600);
     setResizable(true);
     setTitle("Ghostlab");
-
-    JPanel mainPanel = new JPanel();
 
     consolePanel = new ConsolePanel();
     connectionPanel = new ConnectionPanel();
     gamePanel = new GamePanel();
     gameManagerPanel = new GameManagerPanel();
+    optionsPanel = new OptionsMenu();
+    interactivePanel = new InteractivePanel(400, 600);
 
-    Tabs tabs = new Tabs();
+    help = new JButton("?");
+    exit = new JButton("EXIT");
 
-    tabs.setBounds(40, 20, 300, 300);
+    optionsPanel.add(help);
+    optionsPanel.add(Box.createHorizontalGlue());
+    optionsPanel.add(exit);
+
+    tabs = new Tabs();
+
+    tabs.setBounds(40, 20, 300, 500);
     tabs.add("connection", connectionPanel);
     tabs.add("game manager", gameManagerPanel);
     tabs.add("game", gamePanel);
 
-    mainPanel.add(tabs);
+    interactivePanel.add(tabs);
 
+    this.setJMenuBar(optionsPanel);
+    this.add(interactivePanel, BorderLayout.WEST);
     this.add(consolePanel, BorderLayout.EAST);
-    this.add(mainPanel, BorderLayout.WEST);
     this.pack();
     this.setVisible(true);
 
@@ -54,6 +59,13 @@ public class Frame extends JFrame {
 
   public void setGameManagerPanel(GameManagerPanel gp) {
     this.gameManagerPanel = gp;
+  }
+
+  public JButton getExitButton() {
+    return exit;
+  }
+  public JButton getHelpButton() {
+    return help;
   }
 
   public ConnectionPanel getConnectionPanel() {

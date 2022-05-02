@@ -99,7 +99,7 @@ void *llist_pop(llist *list) {
     void *popped_data;
     struct node *head = *list;
 
-    if (list == NULL || head->data == NULL)
+    if (list == NULL || !head || head->data == NULL)
         return NULL;
     
     popped_data = head->data;

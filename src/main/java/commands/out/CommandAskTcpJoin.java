@@ -1,6 +1,8 @@
 package main.java.commands.out;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
+
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -21,40 +23,51 @@ public class CommandAskTcpJoin extends CommandTCP {
     @Override
     public void execute(ClientTCP client, String[] args) {
 
-        DebugLogger.print(DebugType.CONFIRM, "ask join game command (REGIS)");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask join game command (REGIS)");
         
+        if (GameInfo.isInGame) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpJoin] : vous êtes déjà inscrit à une partie, vous ne pouvez pas en rejoindre une autre... Veuillez préalablement vous désinscrire : UNREG");
+            return;
+        }
+
         if (args.length < 2) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS numPartie");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] Tout les paramètres de la commande ne sont pas renseignés. Rappel : REGIS numPartie");
             return;
         }
 
         if (GameInfo.playerID.length() != 8) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] La taille de votre id doit être d'exactement 8 caractères");
             return;
         }
 
         try {
             int i = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] Le type du numéro de la partie n'est pas conforme");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] Le type du numéro de la partie n'est pas conforme");
             return;
         }
 
         if (!GameInfo.gameIdNbrPlayers.containsKey(Integer.parseInt(args[1]))) {
-            DebugLogger.print(DebugType.ERROR, "[ATTENTION/CommandAskJoin] La partie donnée n'existe pas");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] La partie donnée n'existe pas");
             return;
         }
 
-        String[] commande = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP), args[1]};
+        String[] command = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP), args[1]};
 
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(commande));
+            client.getOutputStream().write(CommandFormatter.formatForTCP(command));
             client.getOutputStream().flush();
-            DebugLogger.print(DebugType.CONFIRM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP + " " + args[1]);
+            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP + " " + args[1]);
         } catch(IOException e) { 
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }

@@ -20,7 +20,7 @@ public class CommandRcvUdpScore extends CommandUDP {
     @Override
     public void execute(ClientUDP clientTCP, String[] args) {
 
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : SCORE");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : SCORE");
 
         GameInfo.playerIdScore.put(args[1], Integer.parseInt(args[2]));
 

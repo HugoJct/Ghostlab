@@ -1,6 +1,7 @@
 package main.java.commands.dev;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -15,8 +16,14 @@ public class CommandKillClient extends CommandTCP {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "kill command");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : kill client");
         clientTCP.closeSocket();
+    }
+
+    @Override
+    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
+        // TODO Auto-generated method stub
+        
     }
     
 }
