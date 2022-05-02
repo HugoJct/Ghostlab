@@ -140,18 +140,21 @@ void send_size(int socket_fd, uint8_t game_id) {
 	u_int16_t height = g->labyrinth->height;
 	u_int16_t width = g->labyrinth->width;
 
+	pthread_mutex_unlock(&game_list_mutex);
+
 	char *cmd = "SIZE! ";
+	char *spacing = " ";
 	char *end = "***";
 
-	memcpy(buf, cmd, 5);
+	memcpy(buf, cmd, 6);
 	memcpy(buf+6, &game_id, sizeof(u_int8_t));
+	memcpy(buf+7, spacing, 1);
 	u_int16_t inv_h = htons(height);
 	memcpy(buf+8, &inv_h, sizeof(u_int16_t));
+	memcpy(buf+10, spacing, 1);
 	u_int16_t inv_w = htons(width);
-	memcpy(buf+10, &inv_w, sizeof(u_int16_t));
-	memcpy(buf+11, end, 3);
+	memcpy(buf+11, &inv_w, sizeof(u_int16_t));
+	memcpy(buf+12, end, 3);
 
-	send(socket_fd, buf, 14, 0);
-
-	pthread_mutex_unlock(&game_list_mutex);
+	send(socket_fd, buf, 15, 0);
 }
