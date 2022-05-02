@@ -16,6 +16,9 @@ struct game* game_create(int cap) {
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
+	//TODO: only the port needs to be different from other games
+	//TODO: initialize diffusion sockets to check if the port is available
+
 	char *ip = (char *) malloc(15);
 	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
 	int ret = inet_aton(ip,&new_game->diffusion_ip);
@@ -24,13 +27,9 @@ struct game* game_create(int cap) {
 
 	new_game->diffusion_port = multi_diffusion_port++;
 
-	//pthread_mutex_lock(&game_list_mutex);
-
 	extern llist *games;
 	llist_push(games,new_game);
 	
-//	pthread_mutex_unlock(&game_list_mutex);
-
 	return new_game;
 }
 
@@ -123,8 +122,14 @@ void *game_start(void *arg) {
 
 	/* TODO handle game unfolding */
 	while(1) {
-		if(game_are_all_players_ready(g))
+		if(game_are_all_players_ready(g)) {
+			if(llist_size(g->players) == 0) {
+				puts("All players disconnected");
+				//TODO: remove the game from the list 
+				return NULL;
+			}
 			break;		
+		}
 	}
 	puts("All players are ready");
 	pause();
