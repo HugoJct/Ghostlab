@@ -9,6 +9,7 @@ pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
+	new_game->started = FALSE;
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
@@ -132,6 +133,7 @@ void *game_start(void *arg) {
 			break;		
 		}
 	}
+	g->started = TRUE;
 	puts("All players are ready");
 	pause();
 

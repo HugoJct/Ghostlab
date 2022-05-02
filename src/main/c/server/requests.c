@@ -74,10 +74,8 @@ struct client *request_regis(char buf[], int fd) {
 
 	struct client *c ;
 
-	if(requested_game != NULL) {
+	if(requested_game != NULL && requested_game->started == FALSE) {
 
-		//TODO check if the game is in progress
-		
 		game_add_player(requested_game,p);	
 		send_regok(fd,game_nb);	//answer to the client
 		

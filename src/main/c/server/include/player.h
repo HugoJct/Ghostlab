@@ -3,8 +3,6 @@
 
 #include "dependencies.h"
 
-enum boolean {FALSE,TRUE};
-
 struct player {
 	char id[8];
 	int score;
