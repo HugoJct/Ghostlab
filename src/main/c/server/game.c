@@ -9,6 +9,7 @@ pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 struct game* game_create(int cap) {
 	struct game *new_game = malloc(sizeof(struct game));	
+	new_game->started = FALSE;
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
@@ -29,14 +30,14 @@ struct game* game_create(int cap) {
 
 	extern llist *games;
 	llist_push(games,new_game);
-	
+
 	return new_game;
 }
 
 void game_delete(struct game *g) {
 	llist_free(g->players);
 	for (int i = 0; i < g->labyrinth->height; i++) {
-	    free(g->labyrinth->cells[i]);
+		free(g->labyrinth->cells[i]);
 	}
 	free(g->labyrinth->cells);
 	free(g->labyrinth);
@@ -95,13 +96,17 @@ struct game* game_get_by_id(int id) {
 int game_are_all_players_ready(struct game *g) {
 	pthread_mutex_lock(&(g->game_lock));
 
-	int ready = 1;
+	int ready = TRUE;
 	struct node *cur = *(g->players);
+	if(cur->data == NULL) {
+		pthread_mutex_unlock(&(g->game_lock));
+		return FALSE;
+	}
 	while(cur->data != NULL) {
 		struct player *p = cur->data;		
 
-		if(p->ready == 0) {
-			ready = 0;
+		if(p->ready == FALSE) {
+			ready = FALSE;
 			break;
 		}
 
@@ -122,15 +127,20 @@ void *game_start(void *arg) {
 
 	/* TODO handle game unfolding */
 	while(1) {
-		if(game_are_all_players_ready(g)) {
-			if(llist_size(g->players) == 0) {
-				puts("All players disconnected");
-				//TODO: remove the game from the list 
-				return NULL;
-			}
+		/* 	To delete the game if it is empty
+		if(llist_size(g->players) == 0) {
+			puts("All players disconnected");
+			llist_remove(games,g);
+			free(g);
+			return NULL;
+		}
+		*/
+
+		if(llist_size(g->players) != 0 &&  game_are_all_players_ready(g)) {
 			break;		
 		}
 	}
+	g->started = TRUE;
 	puts("All players are ready");
 	pause();
 

@@ -9,6 +9,7 @@
 struct game {
 	int id;
 	int max_capacity;
+	int started;
 	struct in_addr diffusion_ip;
 	u_int16_t diffusion_port;
 	llist *players;

@@ -89,9 +89,7 @@ public class ClientTCP extends Thread {
                     // si le socket est déconnecté : arrêter de lire
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
-                        Client.isConnected = false;
-                        ClientTCP.clientTCPCreated = false;
-                        ClientUDP.clientUDPCreated = false;
+                        closeSocket();
                         return;
                     }
 
