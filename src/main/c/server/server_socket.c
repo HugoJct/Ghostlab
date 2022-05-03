@@ -68,10 +68,13 @@ void *server_socket_before_game_start(void *arg) {
 
 			llist_remove(c->game->players,c->player);
 
+			int *socket_fd = c->fd;
 			free(c->player);
-			close(*(c->fd));
-			free(c->fd);
 			free(c);
+
+			pthread_t t;
+			pthread_create(&t,NULL,server_socket_connection_prompt,socket_fd);
+
 			break;
 		} else if(strcmp(cmd,"SIZE?") == 0) {
 			uint8_t game_id = buf[6];

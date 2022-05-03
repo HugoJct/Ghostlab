@@ -54,10 +54,6 @@ struct client *request_newpl(char buf[],int fd) {
 
 struct client *request_regis(char buf[], int fd) {
 
-	//get name from buffer
-	char name[8];
-	memcpy(name,buf+6,8);
-
 	//get port from buffer then convert it to int
 	char porttmp[5];
 	memcpy(porttmp,buf+15,4);
@@ -68,7 +64,7 @@ struct client *request_regis(char buf[], int fd) {
 	u_int8_t game_nb = 0;
 	memcpy(&game_nb,buf+20,1);
 
-	struct player *p = player_create(name,fd,port);
+	struct player *p = player_create(buf+6,fd,port);
 
 	struct game *requested_game = game_get_by_id(game_nb);
 
