@@ -64,8 +64,7 @@ void *server_socket_before_game_start(void *arg) {
 
 		if(strcmp(cmd,"UNREG") == 0) {
 
-			uint8_t game_id = buf[6];
-			send_unrok(fd,game_id);
+			send_unrok(fd,c->game->id);
 
 			llist_remove(c->game->players,c->player);
 
