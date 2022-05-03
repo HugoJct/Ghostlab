@@ -55,9 +55,8 @@ struct client *request_newpl(char buf[],int fd) {
 struct client *request_regis(char buf[], int fd) {
 
 	//get port from buffer then convert it to int
-	char porttmp[5];
+	char porttmp[5] = {0,0,0,0,0};
 	memcpy(porttmp,buf+15,4);
-	porttmp[5] = '\0';
 	int port = atoi(porttmp);
 
 	//get game number from buffer
