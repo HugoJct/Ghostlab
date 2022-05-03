@@ -99,7 +99,6 @@ void *server_socket_connection_prompt(void *arg) {
 	int fd = *((int*) arg);
 
 	extern llist *games;
-	send_games(fd,games);	//send the available games to the client
 
 	struct client *c = server_socket_receive_newpl_regis(fd);	//wait for the client to be in a game
 	if( c == NULL)  {	//if c is NULL, then the client disconnected

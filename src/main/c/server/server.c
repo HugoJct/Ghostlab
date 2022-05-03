@@ -29,6 +29,8 @@ int main(int argc, char **argv) {
 		int *new_player = (int *) malloc(sizeof(int));
 		*new_player = server_socket_accept(server_socket_fd);
 		
+		send_games(*new_player,games);	//send the available games to the client
+
 		pthread_t t;
 		pthread_create(&t,NULL,server_socket_connection_prompt,new_player);
 	}
