@@ -32,6 +32,8 @@ public class CommandRcvTcpUnregisterOK extends CommandTCP {
 
         GameInfo.isInGame = false;
         GameInfo.registredGameId = -1;
+
+        DebugLogger.print(DebugType.COM, "SERVER : UNROK " + gameId);
     }
 
     @Override
