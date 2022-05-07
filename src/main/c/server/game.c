@@ -2,7 +2,6 @@
 #include "labs_parser.h"
 
 int game_id_counter = 0;
-int multi_diffusion_field = 3;
 int multi_diffusion_port = 1999;
 
 pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -17,15 +16,8 @@ struct game* game_create(int cap) {
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
-	//TODO: only the port needs to be different from other games
-	//TODO: initialize diffusion sockets to check if the port is available
-
-	char *ip = (char *) malloc(15);
-	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
-	int ret = inet_aton(ip,&new_game->diffusion_ip);
+	int ret = inet_aton("225.12.35.42",&new_game->diffusion_ip);
 	assert(ret != 0);
-	free(ip);
-
 	new_game->diffusion_port = multi_diffusion_port++;
 
 	new_game->remaining_ghosts = MAX_GHOST_NUMBER;

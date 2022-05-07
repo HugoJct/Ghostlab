@@ -26,14 +26,14 @@ void server_socket_init(int socket, int port) {
 int server_socket_accept(int socket_fd) {
 
 	struct sockaddr_in remote;
-	socklen_t size_remote = sizeof(remote);
+	socklen_t size_remote = sizeof(struct sockaddr_in);
 	int fd = accept(socket_fd,(struct sockaddr *) &remote,&size_remote);
 
 	if(fd < 0) {
 		perror("Accept");
 		exit(EXIT_FAILURE);
 	}
-	printf("A client has connected\n");
+	printf("A client has connected: %s\n",inet_ntoa(remote.sin_addr));
 
 	return fd;
 }
