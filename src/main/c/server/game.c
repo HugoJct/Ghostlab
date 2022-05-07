@@ -145,9 +145,11 @@ void *game_start(void *arg) {
 		if(llist_size(g->players) != 0 &&  game_are_all_players_ready(g)) {
 			break;		
 		}
+		usleep(300000);		//wait for 0.3 seconds before checking again
 	}
 	g->started = TRUE;
 	puts("All players are ready");
+
 	pause();
 
 	return NULL;

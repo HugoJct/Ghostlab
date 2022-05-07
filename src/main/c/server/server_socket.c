@@ -91,6 +91,56 @@ void *server_socket_before_game_start(void *arg) {
 		}
 	}
 
+	// TODO: launch new thread for game unfolding here
+
+	return NULL;
+}
+
+void *server_socket_during_game(void *arg) {
+
+	struct client *c = arg;
+	int fd = *(c->fd);
+	struct game *g = c->game;
+
+	while(1) {
+		if(g->started)
+			break;
+		usleep(300000);		//wait for 0.3 seconds before checking again
+	}
+
+	send_welco(fd,g);
+
+	char buf[100];
+	while(1) {
+		int ret = request_read_tcp(buf,fd);
+		if(ret < 0) {
+			//handle disconnection
+		}
+
+		char cmd[6];
+		memcpy(cmd,buf,5);
+		cmd[5] = '\0';
+
+		if(strcmp("UPMOV",cmd) == 0) {
+
+		} else if(strcmp("LEMOV",cmd) == 0) {
+
+		} else if(strcmp("DOMOV",cmd) == 0) {
+
+		} else if(strcmp("RIMOV",cmd) == 0) {
+
+		} else if(strcmp("IQUIT",cmd) == 0) {
+	
+		} else if(strcmp("GLIS?",cmd) == 0) {
+	
+		} else if(strcmp("MALL?",cmd) == 0) {
+	
+		} else if(strcmp("MESS?",cmd) == 0) {
+	
+		}
+
+	}
+	
 	return NULL;
 }
 
