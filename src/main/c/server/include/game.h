@@ -5,6 +5,9 @@
 #include "llist.h"
 #include "player.h"
 #include "labs_parser.h"
+#include "ghosts.h"
+
+#define MAX_GHOST_NUMBER 5
 
 struct game {
 	int id;
@@ -15,6 +18,8 @@ struct game {
 	llist *players;
 	pthread_mutex_t game_lock;
 	labyrinth *labyrinth;
+	struct ghost ghosts[MAX_GHOST_NUMBER];
+	int remaining_ghosts;
 };
 
 struct game* game_create(int);

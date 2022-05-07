@@ -7,6 +7,7 @@
 llist *games;
 
 int main(int argc, char **argv) {
+	srand(time(NULL));
 
 	/* The list of games existing on the server */
 	games = llist_create(NULL);

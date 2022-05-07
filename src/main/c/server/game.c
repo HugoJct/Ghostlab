@@ -28,6 +28,12 @@ struct game* game_create(int cap) {
 
 	new_game->diffusion_port = multi_diffusion_port++;
 
+	new_game->remaining_ghosts = MAX_GHOST_NUMBER;
+	for(int i=0; i < MAX_GHOST_NUMBER; i++) {
+		new_game->ghosts[i].x = rand() % new_game->labyrinth->width;
+		new_game->ghosts[i].y = rand() % new_game->labyrinth->height;
+	}
+
 	extern llist *games;
 	llist_push(games,new_game);
 
