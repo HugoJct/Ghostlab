@@ -15,6 +15,7 @@ struct game {
 	int started;
 	struct in_addr diffusion_ip;
 	u_int16_t diffusion_port;
+	int socket_fd;
 	llist *players;
 	pthread_mutex_t game_lock;
 	labyrinth *labyrinth;

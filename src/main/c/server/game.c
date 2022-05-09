@@ -20,6 +20,8 @@ struct game* game_create(int cap) {
 	assert(ret != 0);
 	new_game->diffusion_port = multi_diffusion_port++;
 
+	new_game->socket_fd = socket(PF_INET,SOCK_DGRAM,0);
+
 	new_game->remaining_ghosts = MAX_GHOST_NUMBER;
 	for(int i=0; i < MAX_GHOST_NUMBER; i++) {
 		new_game->ghosts[i].x = rand() % new_game->labyrinth->width;
