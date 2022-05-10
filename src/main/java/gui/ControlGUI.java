@@ -20,6 +20,7 @@ public class ControlGUI {
         frame.getGameManagerPanel().getNewGameButton().addActionListener((event) -> createNewGame());
         frame.getGameManagerPanel().getRefreshButton().addActionListener((event) -> refreshGamesList());
         frame.getGameManagerPanel().getStartButton().addActionListener((event) -> startGame());
+        frame.getGameManagerPanel().getLeaveButton().addActionListener((event) -> leaveGame());
         frame.getExitButton().addActionListener((event) -> exit());
         frame.getHelpButton().addActionListener((event) -> help());
 
@@ -38,6 +39,11 @@ public class ControlGUI {
     private void startGame() {
         System.out.println("");
         Console.useMessage("START"); 
+    }
+
+    private void leaveGame() {
+        System.out.println("");
+        Console.useMessage("UNREG"); 
     }
     private void joinGame() {
         int id = frame.getGameManagerPanel().getSelectedButtonID();
@@ -66,6 +72,7 @@ public class ControlGUI {
             frame.getGameManagerPanel().listGames();
             if (GameInfo.isInGame && !GameInfo.hasGameStarted) {
                 frame.getGameManagerPanel().getStartButton().setEnabled(true);
+                frame.getGameManagerPanel().getLeaveButton().setEnabled(true);
             }
         } else {
             frame.getConnectionPanel().getConnectionButton().setEnabled(true);

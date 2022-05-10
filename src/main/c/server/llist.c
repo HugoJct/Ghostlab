@@ -21,6 +21,25 @@ llist *llist_create(void *new_data) {
     return new_list;
 }
 
+void llist_remove(llist *list, void *elem) {
+	pthread_mutex_lock(&game_list_mutex);
+
+	if((*list)->data == elem) {
+		(*list)->data = NULL;
+		pthread_mutex_unlock(&game_list_mutex);
+		return;
+	}
+
+	struct node *cur = *list;	
+	while(cur->next->data != elem)
+		cur = cur->next;
+	struct node *to_free = cur->next;
+	cur->next = cur->next->next;
+
+	free(to_free);
+	pthread_mutex_unlock(&game_list_mutex);
+}
+
 void llist_free(llist *list) {
     struct node *curr = *list;
     struct node *next;

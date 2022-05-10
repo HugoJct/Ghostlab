@@ -11,6 +11,9 @@ typedef struct node * llist;
 /* llist_create: Create a linked list */
 llist *llist_create(void *data);
 
+/* remove the given element from the list */
+void llist_remove(llist *list, void *elem);
+
 /* llist_free: Free a linked list */
 void llist_free(llist *list);
 

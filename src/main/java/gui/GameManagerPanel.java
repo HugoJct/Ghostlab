@@ -21,6 +21,7 @@ public class GameManagerPanel extends JPanel {
     private JButton refreshButton;
     private JButton createButton;
     private JButton startButton;
+    private JButton leaveButton;
     private ButtonGroup buttonGroup;
 
     public GameManagerPanel() {
@@ -30,10 +31,12 @@ public class GameManagerPanel extends JPanel {
         createButton = new JButton("new game");
         refreshButton = new JButton("refresh list");
         startButton = new JButton("start game");
+        leaveButton = new JButton("leave game");
         buttonGroup = new ButtonGroup();
 
         createButton.setEnabled(false);
         startButton.setEnabled(false);
+        leaveButton.setEnabled(false);
 
         GridLayout gameManagerLayout = new GridLayout(2, 2);
         this.setLayout(gameManagerLayout);
@@ -41,6 +44,7 @@ public class GameManagerPanel extends JPanel {
         this.add(createButton);
         this.add(refreshButton);
         this.add(startButton);
+        this.add(leaveButton);
     }
 
     public void listGames() {
@@ -71,8 +75,10 @@ public class GameManagerPanel extends JPanel {
         this.add(createButton);
         this.add(refreshButton);
         this.add(startButton);
+        this.add(leaveButton);
 
         startButton.setEnabled(false);
+        leaveButton.setEnabled(false);
     }
 
     public void freeGamesList() {
@@ -86,7 +92,9 @@ public class GameManagerPanel extends JPanel {
         this.add(createButton);
         this.add(refreshButton);
         this.add(startButton);
+        this.add(leaveButton);
         startButton.setEnabled(false);
+        leaveButton.setEnabled(false);
     }
 
     public JButton getJoinButton() {
@@ -100,6 +108,9 @@ public class GameManagerPanel extends JPanel {
     }
     public JButton getStartButton() {
         return startButton;
+    }
+    public JButton getLeaveButton() {
+        return leaveButton;
     }
     public int getSelectedButtonID() {
         for (int i = 0 ; i < gameListSelector.size() ; i++) {

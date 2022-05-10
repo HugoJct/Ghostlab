@@ -12,4 +12,6 @@
 #include <arpa/inet.h>
 #include <string.h>
 
+enum boolean {FALSE,TRUE};
+
 #endif

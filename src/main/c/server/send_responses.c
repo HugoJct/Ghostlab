@@ -23,6 +23,16 @@ void send_dunno(int fd) {
 	assert(ret >= 0);
 }
 
+void send_unrok(int fd, uint8_t game_id) {
+	char buf[10];
+	memcpy(buf, "UNROK ", 6);
+	memcpy(buf + 6, &game_id, 1);
+	memcpy(buf + 7, "***", 3);
+
+	int ret = send(fd, buf, 10, 0);
+	assert(ret == 10);
+}
+
 void send_player_count(int fd, int id) {
 	struct game *g = game_get_by_id(id);
 
