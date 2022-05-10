@@ -21,8 +21,17 @@ public class CommandRcvUdpGhostPos extends CommandUDP {
         
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : GHOST");
 
-        int GhostPosX = Integer.parseInt(args[1]);
-        int GhostPosY = Integer.parseInt(args[2]);
+        if (args.length < 3) {
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvUdpGhostPos/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+        }
+
+        try {
+            int GhostPosX = Integer.parseInt(args[1]);
+            int GhostPosY = Integer.parseInt(args[2]);
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvUdpGhostPos/ERROR] : les informations de coordonnées données par le serveur ne sont pas conformes, cette commande sera ignorée");
+        }
+
 
     }
     
