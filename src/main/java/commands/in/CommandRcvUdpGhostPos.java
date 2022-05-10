@@ -23,6 +23,7 @@ public class CommandRcvUdpGhostPos extends CommandUDP {
 
         if (args.length < 3) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvUdpGhostPos/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            return;
         }
 
         try {

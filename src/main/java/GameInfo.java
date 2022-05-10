@@ -15,6 +15,9 @@ public class GameInfo {
     // le port UDP utilisé par le client
     public static int portUDP;
 
+    public static int portMulticast;
+    public static int ipMulticast;
+
     // marque l'id du client joueur
     public static String playerID;
 
@@ -43,6 +46,11 @@ public class GameInfo {
     // marque l'historique des messages de la partie en cours registredGameId
     public static LinkedList<String> messagesHistory = new LinkedList<>();
 
+    // marque la taille en hauteur du labyrinthe
+    public static int gameHeight;
+
+    // marque la taille en largeur du labyrinthe
+    public static int gameWidth;
 
     /*
      * informations générales parties disponibles

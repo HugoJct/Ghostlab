@@ -2,6 +2,7 @@ package main.java.commands.in;
 
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.nio.ByteBuffer;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -29,9 +30,9 @@ public class CommandRcvTcpMapSize extends CommandTCP {
         // read "m" uint8
         int m = command.get(6);
         // read "h" uint16
-        int h = ((command.get(8) & 0xFF) << 8) + (command.get(9) & 0xFF);
+        int h = ByteBuffer.wrap(new byte[] { command.get(7).byteValue(), command.get(8).byteValue() }).getInt();
         // read "w" uint16
-        int w = ((command.get(11) & 0xFF) << 8) + (command.get(12) & 0xFF);
+        int w = ByteBuffer.wrap(new byte[] { command.get(11).byteValue(), command.get(12).byteValue() }).getInt();
 
         DebugLogger.print(DebugType.COM, "SERVER : SIZE! " + m + " " + h + " " + w);
 

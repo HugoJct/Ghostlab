@@ -21,6 +21,7 @@ import main.java.commands.in.CommandRcvTcpNbrGames;
 import main.java.commands.in.CommandRcvTcpPlayerGame;
 import main.java.commands.in.CommandRcvTcpPlayerId;
 import main.java.commands.in.CommandRcvTcpUnregisterOK;
+import main.java.commands.in.CommandRcvTcpWelco;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
@@ -55,6 +56,7 @@ public class ClientTCP extends Thread {
             commandRcvTcpList.put("LIST!", new CommandRcvTcpPlayerGame(out));
             commandRcvTcpList.put("PLAYR", new CommandRcvTcpPlayerId(out));
             commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
+            commandRcvTcpList.put("WELCO", new CommandRcvTcpWelco(out));
 
             DebugLogger.print(DebugType.COM, "...succès");
 

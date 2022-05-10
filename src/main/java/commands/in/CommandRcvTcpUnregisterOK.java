@@ -20,12 +20,12 @@ public class CommandRcvTcpUnregisterOK extends CommandTCP {
     @Override
     public void execute(ClientTCP client, LinkedList<Integer> command) {
 
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : UNROK");
+
         if (command.size() < 10) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpUnregisterOK/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
             return;
         }
-
-        DebugLogger.print(DebugType.CONFIRM, "Command identified : UNROK");
 
         // read "m" uint8
         int gameId = command.get(6);

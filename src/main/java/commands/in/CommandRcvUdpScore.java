@@ -24,6 +24,7 @@ public class CommandRcvUdpScore extends CommandUDP {
 
         if(args.length < 5) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvUdpScore/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            return;
         }
 
         GameInfo.playerIdScore.put(args[1], Integer.parseInt(args[2]));

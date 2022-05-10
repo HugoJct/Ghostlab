@@ -25,6 +25,7 @@ public class CommandRcvUdpEndGame extends CommandUDP {
 
         if (args.length < 3) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvUdpEndGame/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
+            return;
         }
 
         DebugLogger.print(DebugType.MESSAGE, "Partie terminée, " + args[1] + " gagne avec " + Integer.parseInt(args[2] + " points !"));
