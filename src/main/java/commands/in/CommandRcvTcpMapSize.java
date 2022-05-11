@@ -3,6 +3,7 @@ package main.java.commands.in;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
@@ -29,10 +30,19 @@ public class CommandRcvTcpMapSize extends CommandTCP {
 
         // read "m" uint8
         int m = command.get(6);
-        // read "h" uint16
-        int h = ByteBuffer.wrap(new byte[] { command.get(7).byteValue(), command.get(8).byteValue() }).getInt();
-        // read "w" uint16
-        int w = ByteBuffer.wrap(new byte[] { command.get(11).byteValue(), command.get(12).byteValue() }).getInt();
+        int h;
+        int w;
+        if (ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN)) {
+            // read "h" uint16
+            h = Integer.reverseBytes(ByteBuffer.wrap(new byte[] { command.get(7).byteValue(), command.get(8).byteValue() }).getInt());
+            // read "w" uint16
+            w = Integer.reverseBytes(ByteBuffer.wrap(new byte[] { command.get(11).byteValue(), command.get(12).byteValue() }).getInt());
+        } else {
+            // read "h" uint16
+            h = ByteBuffer.wrap(new byte[] { command.get(7).byteValue(), command.get(8).byteValue() }).getInt();
+            // read "w" uint16
+            w = ByteBuffer.wrap(new byte[] { command.get(11).byteValue(), command.get(12).byteValue() }).getInt();
+        }
 
         DebugLogger.print(DebugType.COM, "SERVER : SIZE! " + m + " " + h + " " + w);
 

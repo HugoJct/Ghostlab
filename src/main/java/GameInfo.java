@@ -16,7 +16,7 @@ public class GameInfo {
     public static int portUDP;
 
     public static int portMulticast;
-    public static int ipMulticast;
+    public static String ipMulticast;
 
     // marque l'id du client joueur
     public static String playerID;
@@ -68,6 +68,8 @@ public class GameInfo {
      */
 
     public static LinkedList<GameHistory> gameHistory = new LinkedList<>();
+
+    public static int nbrGhosts;
 
  
     public static void clear() {

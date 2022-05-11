@@ -43,6 +43,36 @@ public class CommandRcvTcpWelco extends CommandTCP {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour h et/ou w ne sont pas conformes, ces informations seront ignorées");
         }
 
+        try {
+            GameInfo.nbrGhosts = command.get(14).byteValue();
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour f nombre de fantômes ne sont pas conformes, ces informations seront ignorées");
+        }
+
+        String ip = "";
+
+        try {
+            for (int i = 16 ; i < 31 ; i++) {
+                if ((char) command.get(i).byteValue() == '#') {
+                    break;
+                }
+                ip += (char) command.get(i).byteValue();
+            }
+            GameInfo.ipMulticast = ip;
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour l'ip de multicast ne sont pas conformes, ces informations seront ignorées");
+        }
+
+        String port = "";
+
+        try {
+            for (int i = 33 ; i < 37 ; i++) {
+                port += (char) command.get(i).byteValue();
+            }
+            GameInfo.portMulticast = Integer.parseInt(port);
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour le port de mutlicast ne sont pas conformes, ces informations seront ignorées");
+        }
         
     }
 
