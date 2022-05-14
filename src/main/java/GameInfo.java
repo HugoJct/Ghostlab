@@ -15,8 +15,8 @@ public class GameInfo {
     // le port UDP utilisé par le client
     public static int portUDP;
 
-    public static int portMulticast;
-    public static String ipMulticast;
+    public static int portMulticast = -1;
+    public static String ipMulticast = "";
 
     // marque l'id du client joueur
     public static String playerID;

@@ -24,6 +24,7 @@ public class ClientUDP extends Thread {
     private DatagramSocket socket;
     private MulticastSocket multSocket;
     private InetAddress address;
+    private boolean multicastEnable = false;
 
     private HashMap<String,CommandUDP> commandRcvUdpList = new HashMap<String,CommandUDP>();
     
@@ -75,6 +76,9 @@ public class ClientUDP extends Thread {
     public void run() {
 
         while(Client.isConnected) {
+            if (!multicastEnable && GameInfo.portMulticast != -1 && !GameInfo.ipMulticast.equals("")) {
+                joinMulticast();
+            }
             try {
                 byte[] buf = new byte[256];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -101,13 +105,18 @@ public class ClientUDP extends Thread {
         clientUDPCreated = false;
         socket.close();
         multSocket.close();
+        GameInfo.ipMulticast = "";
+        GameInfo.portUDP = -1;
+        multicastEnable = false;
     }
 
     public void joinMulticast() {
         try {
             multSocket = new MulticastSocket(GameInfo.portMulticast);
             multSocket.joinGroup(InetAddress.getByName(GameInfo.ipMulticast));
+            multicastEnable = true;
         } catch (IOException e) {
+            DebugLogger.print(DebugType.ERROR, "[ClientUDP/ERREUR] : erreur lors de la connexion au multicast");
             e.printStackTrace();
         }
 
