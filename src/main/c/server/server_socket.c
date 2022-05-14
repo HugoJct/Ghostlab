@@ -122,13 +122,13 @@ void *server_socket_during_game(void *arg) {
 		cmd[5] = '\0';
 
 		if(strcmp("UPMOV",cmd) == 0) {
-
+			request_movement(buf,c,UP);
 		} else if(strcmp("LEMOV",cmd) == 0) {
-
+			request_movement(buf,c,LEFT);
 		} else if(strcmp("DOMOV",cmd) == 0) {
-
+			request_movement(buf,c,DOWN);
 		} else if(strcmp("RIMOV",cmd) == 0) {
-
+			request_movement(buf,c,RIGHT);
 		} else if(strcmp("IQUIT",cmd) == 0) {
 	
 		} else if(strcmp("GLIS?",cmd) == 0) {

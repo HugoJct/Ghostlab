@@ -88,3 +88,25 @@ void request_list(char *buf, int fd) {
 	memcpy(&id,buf+6,1);	//extract id from buffer
 	send_players_list(fd,id);
 }
+
+void request_movement(char *buf, struct client *c, int direction) {
+	char distbuf[4];
+	memcpy(distbuf,buf+6,3);
+	distbuf[3] = '\0';	
+	
+	int dist = atoi(distbuf);
+
+	int dist_moved = player_move(c,dist,direction);
+	//TODO: respond to client 
+}
+
+
+
+
+
+
+
+
+
+
+
