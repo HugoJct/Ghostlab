@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import main.java.GameInfo;
 import main.java.client.ClientUDP;
 
-public abstract class CommandUDP {
+public abstract class CommandUDP extends Command {
 
 	private DatagramSocket socket;
 	private InetAddress addr;

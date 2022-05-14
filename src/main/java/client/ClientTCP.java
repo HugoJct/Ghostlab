@@ -10,7 +10,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.commands.CommandTCP;
 import main.java.commands.in.CommandRcvTcpDunno;
 import main.java.commands.in.CommandRcvTcpGameInfo;
@@ -74,6 +73,8 @@ public class ClientTCP extends Thread {
 
         DebugLogger.print(DebugType.CONFIRM, "Début de l'écoute TCP");
         
+        boolean ignore = false;
+
         // tant que le socket est connecté
         while(Client.isConnected) {
             
@@ -91,8 +92,9 @@ public class ClientTCP extends Thread {
                     // si le socket est déconnecté : arrêter de lire
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
-                        closeSocket();
-                        return;
+                        Console.useMessage("killclient");
+                        ignore = true;
+                        break;
                     }
 
                     serverMsg.add(readVal);
@@ -104,12 +106,23 @@ public class ClientTCP extends Thread {
                     }
                 }
 
-                useMessage(serverMsg);
+                if (!ignore) {
+                    useMessage(serverMsg);
+                }
 
             } catch(IOException e) {
                 DebugLogger.print(DebugType.CONFIRM, "Socket closed : disconnected");
             }
         }
+
+        try {
+            clientSocket.close();
+            clientTCPCreated = false;
+        } catch (IOException e) {
+            DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
+            System.exit(1);
+        }
+
     }
 
     // envoie du message sur la sortie vers le serveur
@@ -149,10 +162,6 @@ public class ClientTCP extends Thread {
         
     }
 
-    private String[] breakCommand(String command) {
-        return command.split(" ");
-	}
-
     public PrintWriter getPrintWriter() {
         return this.out;
     }
@@ -165,21 +174,6 @@ public class ClientTCP extends Thread {
         return this.in;
     }
 
-
-    public void closeSocket() {
-        try {
-            clientSocket.close();
-            Client.isConnected = false;
-            clientTCPCreated = false;
-            ClientUDP.clientUDPCreated = false;
-            Console.disconnectConsole();
-            Console.connectedConsole = false;
-            GameInfo.clear();
-        } catch (IOException e) {
-            DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
-            System.exit(1);
-        }
-    }
 
     public synchronized void setGUI(ControlGUI gui) {
         this.gui = gui;

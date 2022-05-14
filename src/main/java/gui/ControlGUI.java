@@ -127,7 +127,7 @@ public class ControlGUI {
     }
 
     public void disconnect() {
-        client.getClientTCP().closeSocket();
+        Client.disconnect();
         actualise();
     }
 }

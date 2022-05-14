@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import main.java.console.DebugType;
 
 public class ClientUDP extends Thread {
     private DatagramSocket socket;
+    private MulticastSocket multSocket;
     private InetAddress address;
 
     private HashMap<String,CommandUDP> commandRcvUdpList = new HashMap<String,CommandUDP>();
@@ -96,11 +98,21 @@ public class ClientUDP extends Thread {
                 Console.useMessage("killclient");
             }
         }
+        clientUDPCreated = false;
+        socket.close();
+        multSocket.close();
     }
 
-    public DatagramSocket getSocket() {
-        return socket;
+    public void joinMulticast() {
+        try {
+            multSocket = new MulticastSocket(GameInfo.portMulticast);
+            multSocket.joinGroup(InetAddress.getByName(GameInfo.ipMulticast));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
+
     public InetAddress getAddr() {
         return address;
     }

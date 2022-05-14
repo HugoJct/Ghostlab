@@ -1,7 +1,5 @@
 package main.java.console;
 
-import java.util.HashMap;
-
 public class DebugType {
     
     public static int ERROR = -1;

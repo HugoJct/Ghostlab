@@ -84,6 +84,11 @@ public class Client {
         
     }
 
+    public static void disconnect() {
+        isConnected = false;
+        GameInfo.clear(); 
+    }
+
     public ClientTCP getClientTCP() {
         return this.clientTCP;
     }
