@@ -41,7 +41,7 @@ public class Console implements Runnable {
         commandList.put("LIST?", new CommandAskTcpPlayerGame(clientTcp.getPrintWriter()));
         commandList.put("START", new CommandAskTcpStart(clientTcp.getPrintWriter()));
         commandList.put("UNREG", new CommandAskUnregister(clientTcp.getPrintWriter()));
-        
+
         commandList.put("UPMOV", new CommandAskTcpMoveUp(clientTcp.getPrintWriter()));
         commandList.put("DOMOV", new CommandAskTcpMoveDown(clientTcp.getPrintWriter()));
         commandList.put("LEMOV", new CommandAskTcpMoveLeft(clientTcp.getPrintWriter()));
@@ -72,17 +72,18 @@ public class Console implements Runnable {
     @Override
     public void run() {
 
-        Scanner sc = new Scanner(System.in);
-        String consoleMsg;
-        layout();
-        while(true) {
+        try (Scanner sc = new Scanner(System.in)) {
+            String consoleMsg;
+            layout();
+            while(true) {
 
-            /* 
-            * on collecte l'input console a traiter
-            */
-            consoleMsg = sc.nextLine();
-            useMessage(consoleMsg);
+                /* 
+                * on collecte l'input console a traiter
+                */
+                consoleMsg = sc.nextLine();
+                useMessage(consoleMsg);
 
+            }
         }
     }
 
