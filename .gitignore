@@ -79,8 +79,6 @@ Mkfile.old
 dkms.conf
 
 # IDE settings
-**/out
 **/.vscode
 **/.idea
 **/*.iml
-**/out
