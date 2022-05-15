@@ -38,6 +38,7 @@ int player_is_ready(struct player *p) {
 int player_move(struct client *c, int count, int direction) {
 	int **lab = c->game->labyrinth->cells;
 	int moved = 0;
+	int ghost = 0;
 
 	int x = c->player->x;
 	int y = c->player->y;
@@ -45,12 +46,20 @@ int player_move(struct client *c, int count, int direction) {
 	for(int i=0;i<count;i++) {
 
 		if(direction == UP && (y == 0 || lab[y-moved][x] == 1)) {
+			if(game_is_there_ghost(x,y))
+				ghost++;
 			break;
 		} else if(direction == DOWN && ((y == c->game->labyrinth->height - 1)  || lab[y+moved][x] == 1)) {
+			if(game_is_there_ghost(x,y))
+				ghost++;
 			break;
 		} else if(direction == LEFT && ( x == 0 || lab[y][x-moved] == 1)) {
+			if(game_is_there_ghost(x,y))
+				ghost++;
 			break;
 		} else if(direction == RIGHT && ((y == c->game->labyrinth->width - 1) || lab[y][x+moved] == 1)) {
+			if(game_is_there_ghost(x,y))
+				ghost++;
 			break;
 		}
 		moved++;
@@ -70,6 +79,8 @@ int player_move(struct client *c, int count, int direction) {
 			c->player->x += moved;
 			break;
 	}
+
+	c->player->score += ghost * GHOST_VALUE;
 
 	return moved;
 }

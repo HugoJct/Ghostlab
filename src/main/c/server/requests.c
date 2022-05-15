@@ -94,10 +94,17 @@ void request_movement(char *buf, struct client *c, int direction) {
 	memcpy(distbuf,buf+6,3);
 	distbuf[3] = '\0';	
 	
+	int player_score = c->player->score;
+
 	int dist = atoi(distbuf);
 
 	int dist_moved = player_move(c,dist,direction);
-	//TODO: respond to client 
+	
+	if( player_score != c->player->score) { //if the player found a ghost
+		//TODO: respond MOVE!
+	} else {
+		//TODO: repond MOVEF
+	}
 }
 
 

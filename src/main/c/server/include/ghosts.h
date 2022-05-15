@@ -3,6 +3,8 @@
 
 #include "dependencies.h"
 
+#define GHOST_VALUE 50
+
 struct ghost {
 	int x;
 	int y;

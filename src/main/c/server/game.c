@@ -125,7 +125,6 @@ void *game_start(void *arg) {
 
 	struct game *g = (struct game*) arg;
 
-	/* TODO handle game unfolding */
 	while(1) {
 		/* 	To delete the game if it is empty
 		if(llist_size(g->players) == 0) {
@@ -145,6 +144,14 @@ void *game_start(void *arg) {
 	puts("All players are ready");
 
 	pause();
+	//TODO: write a game stop condition
 
 	return NULL;
+}
+
+int game_is_there_ghost(int x, int y) {
+	//TODO: write this function to check whether there is a ghost at the specified coordinates or not
+	(void) x;
+	(void) y;	
+	return 0;
 }
