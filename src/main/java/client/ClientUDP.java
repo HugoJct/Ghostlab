@@ -105,9 +105,8 @@ public class ClientUDP extends Thread {
         clientUDPCreated = false;
         socket.close();
         multSocket.close();
-        GameInfo.ipMulticast = "";
-        GameInfo.portUDP = -1;
         multicastEnable = false;
+        Client.disconnect();
     }
 
     public void joinMulticast() {

@@ -41,16 +41,20 @@ public class GameInfo {
     // marque la liste des joueurs présents dans chaque partie clé
     public static HashMap<Integer, LinkedList<String>> gameIdPlayersId = new HashMap<>();
     // marque le dernier id de la partie pour laquelle nous avons reçu LIST!
-    public static int listId;
+    public static int listId = -1;
 
     // marque l'historique des messages de la partie en cours registredGameId
     public static LinkedList<String> messagesHistory = new LinkedList<>();
 
     // marque la taille en hauteur du labyrinthe
-    public static int gameHeight;
+    public static int gameHeight = -1;
 
     // marque la taille en largeur du labyrinthe
-    public static int gameWidth;
+    public static int gameWidth = -1;
+
+    // marque la position du joueur en x et y
+    public static int playerX = -1;
+    public static int playerY = -1;
 
     /*
      * informations générales parties disponibles
@@ -73,17 +77,23 @@ public class GameInfo {
 
  
     public static void clear() {
-        GameInfo.gameIdNbrPlayers.clear();
-        GameInfo.isInGame = false;
-        GameInfo.hasGameStarted = false;
-        GameInfo.gameIdPlayersId.clear();
-        GameInfo.listId = -1;
-        GameInfo.nbrGames = -1;
-        GameInfo.portUDP = -1;
-        GameInfo.playerIdScore.clear();
-        GameInfo.messagesHistory.clear();
-        GameInfo.playerID = "";
-        GameInfo.registredGameId = -1;
+        gameIdNbrPlayers.clear();
+        isInGame = false;
+        hasGameStarted = false;
+        gameIdPlayersId.clear();
+        listId = -1;
+        nbrGames = -1;
+        portUDP = -1;
+        playerIdScore.clear();
+        messagesHistory.clear();
+        playerID = "";
+        registredGameId = -1;
+        ipMulticast = "";
+        portUDP = -1;
+        playerX = -1;
+        playerY = -1;
+        gameHeight = -1;
+        gameWidth = -1;
     }
     
 

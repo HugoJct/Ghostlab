@@ -118,6 +118,7 @@ public class ClientTCP extends Thread {
         try {
             clientSocket.close();
             clientTCPCreated = false;
+            Client.disconnect();
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
             System.exit(1);
