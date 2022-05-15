@@ -19,13 +19,13 @@ public class CommandAskTcpAvailableGames extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP clientTCP, String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask available game command (GAME?)");
 
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0]}));
-            client.getOutputStream().flush();
+            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0]}));
+            clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0]);
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,6 +17,10 @@ import main.java.commands.out.CommandAskTcpAvailableGames;
 import main.java.commands.out.CommandAskTcpCreate;
 import main.java.commands.out.CommandAskTcpJoin;
 import main.java.commands.out.CommandAskTcpMapSize;
+import main.java.commands.out.CommandAskTcpMoveDown;
+import main.java.commands.out.CommandAskTcpMoveLeft;
+import main.java.commands.out.CommandAskTcpMoveRight;
+import main.java.commands.out.CommandAskTcpMoveUp;
 import main.java.commands.out.CommandAskTcpPlayerGame;
 import main.java.commands.out.CommandAskTcpStart;
 import main.java.commands.out.CommandAskUnregister;
@@ -37,6 +41,11 @@ public class Console implements Runnable {
         commandList.put("LIST?", new CommandAskTcpPlayerGame(clientTcp.getPrintWriter()));
         commandList.put("START", new CommandAskTcpStart(clientTcp.getPrintWriter()));
         commandList.put("UNREG", new CommandAskUnregister(clientTcp.getPrintWriter()));
+        
+        commandList.put("UPMOV", new CommandAskTcpMoveUp(clientTcp.getPrintWriter()));
+        commandList.put("DOMOV", new CommandAskTcpMoveDown(clientTcp.getPrintWriter()));
+        commandList.put("LEMOV", new CommandAskTcpMoveLeft(clientTcp.getPrintWriter()));
+        commandList.put("RIMOV", new CommandAskTcpMoveRight(clientTcp.getPrintWriter()));
         
     }
 
