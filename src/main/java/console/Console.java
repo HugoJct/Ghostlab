@@ -68,16 +68,10 @@ public class Console implements Runnable {
     public void run() {
 
         try (Scanner sc = new Scanner(System.in)) {
-            String consoleMsg;
             layout();
             while(true) {
-
-                /* 
-                * on collecte l'input console a traiter
-                */
-                consoleMsg = sc.nextLine();
-                useMessage(consoleMsg);
-
+                // on collecte l'input console à traiter
+                useMessage(sc.nextLine());
             }
         }
     }
@@ -92,12 +86,16 @@ public class Console implements Runnable {
     // parsing de la commande et exécution de la fonction associée
     public static void useMessage(String strCommand) {
         
+        // si la commande est vide, on ne fait rien
         if (strCommand.equals("")) {
             layout();
             return;
         }
 
+        // on récupère la commande sous forme d'arguments
         String[] args = breakCommand(strCommand);
+
+        // on stock l'instance de la commande associée dans une variable Command
         Command command = commandList.get(args[0]);
 
         if (command instanceof CommandTCP) {

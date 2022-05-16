@@ -70,6 +70,7 @@ public class ClientTCP extends Thread {
 
         DebugLogger.print(DebugType.CONFIRM, "Début de l'écoute TCP");
         
+        // défini si le traitement de la commande doit être ignoré ou non
         boolean ignore = false;
 
         // tant que le socket est connecté
@@ -77,16 +78,20 @@ public class ClientTCP extends Thread {
             
             try {
 
+                // liste stockant la commande, caractère par caracère, sous sa forme entière (0-65535)
                 LinkedList<Integer> serverMsg = new LinkedList<>();
 
+                // compte le nombre d'étoiles lu (caractère de fin de message)
                 int offsetLimiter = 0;
                 int readVal = 0;
 
+                // tant que le caractère de fin de message (3 étoiles) n'est pas lu, on ajoute les caractères à la liste
                 while(offsetLimiter < 3) {
 
+                    // lit le premier caractère sur le buffer
                     readVal = in.read();
 
-                    // si le socket est déconnecté : arrêter de lire
+                    // si le socket est déconnecté : on arrête de lire et on ne traite pas la commande
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
                         Console.useMessage("killclient");
@@ -94,8 +99,12 @@ public class ClientTCP extends Thread {
                         break;
                     }
 
+                    // ajoute le caractère à la liste
                     serverMsg.add(readVal);
 
+                    /* si la valeur ascii du caractère lu équivaut à une étoile, on incrémente le compteur, 
+                     * sinon on le réinitialise à 0 car on déduit que les étoiles précédemment lu ne sont pas des délimiteurs de fin de message
+                     */
                     if (readVal == 42) {
                         offsetLimiter++;
                     } else {
@@ -103,6 +112,7 @@ public class ClientTCP extends Thread {
                     }
                 }
 
+                // si la variable d'ignorance est à false, on traite la commande
                 if (!ignore) {
                     useMessage(serverMsg);
                 }
@@ -133,15 +143,24 @@ public class ClientTCP extends Thread {
 	public void useMessage(LinkedList<Integer> command) {
         
         String commandName = "";
+
+        // on récupère l'en-tête de la commande (son premier argument) pour sélectionner l'exécution associée
         for (int i = 0; i < 5; i++) {
             commandName += (char) command.get(i).byteValue();
         }
 		
+        // on parcourt la liste de commandes pour trouver la commande correspondante
 		for(String s : commandRcvTcpList.keySet()) {
+
 			if(s.equals(extractFirst(commandName))) {
+
                 // appel de la fonction dans l'instance de la classe associée à la commande
 				commandRcvTcpList.get(s).execute(this, command);
+
+                // actualisation de l'interface graphique
                 gui.actualise();
+
+                // on arrête de parcourir la liste des commandes
                 return;
 			}
 		}
