@@ -8,24 +8,8 @@ import main.java.client.ClientTCP;
 import main.java.commands.Command;
 import main.java.commands.CommandDev;
 import main.java.commands.CommandTCP;
-import main.java.commands.dev.CommandDebug;
-import main.java.commands.dev.CommandGameInfo;
-import main.java.commands.dev.CommandHelp;
-import main.java.commands.dev.CommandKill;
-import main.java.commands.dev.CommandKillClient;
-import main.java.commands.out.CommandAskTcpAvailableGames;
-import main.java.commands.out.CommandAskTcpCreate;
-import main.java.commands.out.CommandAskTcpDropGame;
-import main.java.commands.out.CommandAskTcpJoin;
-import main.java.commands.out.CommandAskTcpMapSize;
-import main.java.commands.out.CommandAskTcpMoveDown;
-import main.java.commands.out.CommandAskTcpMoveLeft;
-import main.java.commands.out.CommandAskTcpMoveRight;
-import main.java.commands.out.CommandAskTcpMoveUp;
-import main.java.commands.out.CommandAskTcpPlayerGame;
-import main.java.commands.out.CommandAskTcpPlayersInGame;
-import main.java.commands.out.CommandAskTcpStart;
-import main.java.commands.out.CommandAskUnregister;
+import main.java.commands.dev.*;
+import main.java.commands.out.*;
 
 public class Console implements Runnable {
     private static ClientTCP clientTCP;
@@ -69,6 +53,13 @@ public class Console implements Runnable {
         commandList.put("LIST?", new CommandAskTcpPlayerGame(null));
         commandList.put("START", new CommandAskTcpStart(null));
         commandList.put("UNREG", new CommandAskUnregister(null));
+
+        commandList.put("UPMOV", new CommandAskTcpMoveUp(null));
+        commandList.put("DOMOV", new CommandAskTcpMoveDown(null));
+        commandList.put("LEMOV", new CommandAskTcpMoveLeft(null));
+        commandList.put("RIMOV", new CommandAskTcpMoveRight(null));
+        commandList.put("IQUIT", new CommandAskTcpDropGame(null));
+        commandList.put("GLIS?", new CommandAskTcpPlayersInGame(null));
 
         new Thread(new Console()).start();
     }
