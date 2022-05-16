@@ -11,15 +11,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import main.java.commands.CommandTCP;
+import main.java.commands.in.CommandRcvTcpBye;
 import main.java.commands.in.CommandRcvTcpDunno;
 import main.java.commands.in.CommandRcvTcpGameInfo;
 import main.java.commands.in.CommandRcvTcpJoinNO;
 import main.java.commands.in.CommandRcvTcpJoinOK;
 import main.java.commands.in.CommandRcvTcpMapSize;
 import main.java.commands.in.CommandRcvTcpNbrGames;
+import main.java.commands.in.CommandRcvTcpNbrPlayersInGame;
+import main.java.commands.in.CommandRcvTcpNewPos;
+import main.java.commands.in.CommandRcvTcpNewPosPoints;
 import main.java.commands.in.CommandRcvTcpPlayerGame;
 import main.java.commands.in.CommandRcvTcpPlayerId;
 import main.java.commands.in.CommandRcvTcpPlayerPos;
+import main.java.commands.in.CommandRcvTcpPlayersPosScoreInGame;
 import main.java.commands.in.CommandRcvTcpUnregisterOK;
 import main.java.commands.in.CommandRcvTcpWelco;
 import main.java.console.Console;
@@ -58,6 +63,11 @@ public class ClientTCP extends Thread {
             commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
             commandRcvTcpList.put("WELCO", new CommandRcvTcpWelco(out));
             commandRcvTcpList.put("POSIT", new CommandRcvTcpPlayerPos(out));
+            commandRcvTcpList.put("MOVE!", new CommandRcvTcpNewPos(out));
+            commandRcvTcpList.put("MOVEF", new CommandRcvTcpNewPosPoints(out));
+            commandRcvTcpList.put("GOBYE", new CommandRcvTcpBye(out));
+            commandRcvTcpList.put("GLIS!", new CommandRcvTcpNbrPlayersInGame(out));
+            commandRcvTcpList.put("GPLYR", new CommandRcvTcpPlayersPosScoreInGame(out));
 
             DebugLogger.print(DebugType.COM, "...succès");
 
