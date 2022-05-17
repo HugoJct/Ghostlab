@@ -91,13 +91,13 @@ void *server_socket_before_game_start(void *arg) {
 		}
 	}
 
-	// TODO: launch new thread for game unfolding here
+	pthread_t t;
+	pthread_create(&t,NULL,server_socket_during_game,c);
 
 	return NULL;
 }
 
 void *server_socket_during_game(void *arg) {
-
 	struct client *c = arg;
 	int fd = *(c->fd);
 	struct game *g = c->game;

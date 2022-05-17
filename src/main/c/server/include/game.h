@@ -6,6 +6,7 @@
 #include "player.h"
 #include "labs_parser.h"
 #include "ghosts.h"
+#include "server_socket.h"
 
 #define MAX_GHOST_NUMBER 5
 
