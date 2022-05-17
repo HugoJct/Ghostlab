@@ -77,7 +77,7 @@ public class GameInfo {
 
     public static LinkedList<GameHistory> gameHistory = new LinkedList<>();
 
-    public static int nbrGhosts;
+    public static int nbrGhosts = -1;
 
  
     public static void clear() {
@@ -98,6 +98,7 @@ public class GameInfo {
         gameWidth = -1;
         nbrPlayers = -1;
         playerIdPosition.clear();
+        nbrGhosts = -1;
     }
     
 

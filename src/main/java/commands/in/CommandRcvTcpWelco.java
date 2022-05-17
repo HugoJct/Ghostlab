@@ -3,6 +3,7 @@ package main.java.commands.in;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
@@ -29,16 +30,26 @@ public class CommandRcvTcpWelco extends CommandTCP {
         }
 
         try {
-            GameInfo.registredGameId = command.get(1).byteValue();
+            GameInfo.registredGameId = command.get(6).byteValue();
         } catch(NumberFormatException e) {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour m ne sont pas conformes, ces informations seront ignorées");
         }
 
         try {
-            // read "h" uint16
-            GameInfo.gameHeight = ByteBuffer.wrap(new byte[] { command.get(9).byteValue(), command.get(10).byteValue() }).getInt();
-            // read "w" uint16
-            GameInfo.gameWidth = ByteBuffer.wrap(new byte[] { command.get(12).byteValue(), command.get(13).byteValue() }).getInt();
+
+            if (ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN)) {
+                // read "h" uint16
+                GameInfo.gameHeight = (command.get(8).byteValue() << 8) +  command.get(9).byteValue();
+                // read "w" uint16
+                GameInfo.gameWidth = (command.get(11).byteValue() << 8) +  command.get(12).byteValue();     
+
+
+            } else {
+                // read "h" uint16
+                GameInfo.gameHeight = (command.get(9).byteValue() << 8) +  command.get(8).byteValue();
+                // read "w" uint16
+                GameInfo.gameWidth = (command.get(12).byteValue() << 8) +  command.get(11).byteValue();
+            }
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour h et/ou w ne sont pas conformes, ces informations seront ignorées");
         }
@@ -66,7 +77,7 @@ public class CommandRcvTcpWelco extends CommandTCP {
         String port = "";
 
         try {
-            for (int i = 33 ; i < 37 ; i++) {
+            for (int i = 32 ; i < 36 ; i++) {
                 port += (char) command.get(i).byteValue();
             }
             GameInfo.portMulticast = Integer.parseInt(port);
@@ -74,6 +85,8 @@ public class CommandRcvTcpWelco extends CommandTCP {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour le port de mutlicast ne sont pas conformes, ces informations seront ignorées");
         }
         
+        DebugLogger.print(DebugType.CONFIRM, "SERVER : " + GameInfo.registredGameId + " " + GameInfo.gameHeight + " " + GameInfo.gameWidth + " " + GameInfo.nbrGhosts + " " + GameInfo.ipMulticast + " " + GameInfo.portMulticast);
+
     }
 
     @Override

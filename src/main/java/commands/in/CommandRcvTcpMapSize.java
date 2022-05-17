@@ -32,16 +32,18 @@ public class CommandRcvTcpMapSize extends CommandTCP {
         int m = command.get(6);
         int h;
         int w;
+
         if (ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN)) {
             // read "h" uint16
-            h = Integer.reverseBytes(ByteBuffer.wrap(new byte[] { command.get(7).byteValue(), command.get(8).byteValue() }).getInt());
+            h = (command.get(8).byteValue() << 8) +  command.get(9).byteValue();
             // read "w" uint16
-            w = Integer.reverseBytes(ByteBuffer.wrap(new byte[] { command.get(11).byteValue(), command.get(12).byteValue() }).getInt());
+            w = (command.get(11).byteValue() << 8) +  command.get(12).byteValue();     
+
         } else {
             // read "h" uint16
-            h = ByteBuffer.wrap(new byte[] { command.get(7).byteValue(), command.get(8).byteValue() }).getInt();
+            h = (command.get(9).byteValue() << 8) +  command.get(8).byteValue();
             // read "w" uint16
-            w = ByteBuffer.wrap(new byte[] { command.get(11).byteValue(), command.get(12).byteValue() }).getInt();
+            w = (command.get(12).byteValue() << 8) +  command.get(11).byteValue();
         }
 
         DebugLogger.print(DebugType.COM, "SERVER : SIZE! " + m + " " + h + " " + w);
