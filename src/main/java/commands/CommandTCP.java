@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 
-public abstract class CommandTCP {
+public abstract class CommandTCP extends Command {
 
 	private PrintWriter out;
 

@@ -92,7 +92,12 @@ public class ControlGUI {
             return;
         }
 
-        client = new Client(frame.getConnectionPanel().getIpField().getText(), Integer.parseInt(frame.getConnectionPanel().getPortField().getText()), this);
+        try {
+            client = new Client(frame.getConnectionPanel().getIpField().getText(), Integer.parseInt(frame.getConnectionPanel().getPortField().getText()), this);
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.ERROR, "[ERREUR/ControlGUI] : le port doit représenter une valeur entière");
+        }
+        
 
         if (frame.getConnectionPanel().getplayerField().getText().isEmpty()) {
             GameInfo.playerID = "unknUser";
@@ -127,7 +132,7 @@ public class ControlGUI {
     }
 
     public void disconnect() {
-        client.getClientTCP().closeSocket();
+        Client.disconnect();
         actualise();
     }
 }

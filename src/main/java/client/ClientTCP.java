@@ -10,18 +10,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.commands.CommandTCP;
-import main.java.commands.in.CommandRcvTcpDunno;
-import main.java.commands.in.CommandRcvTcpGameInfo;
-import main.java.commands.in.CommandRcvTcpJoinNO;
-import main.java.commands.in.CommandRcvTcpJoinOK;
-import main.java.commands.in.CommandRcvTcpMapSize;
-import main.java.commands.in.CommandRcvTcpNbrGames;
-import main.java.commands.in.CommandRcvTcpPlayerGame;
-import main.java.commands.in.CommandRcvTcpPlayerId;
-import main.java.commands.in.CommandRcvTcpUnregisterOK;
-import main.java.commands.in.CommandRcvTcpWelco;
+import main.java.commands.in.*;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
@@ -57,6 +47,12 @@ public class ClientTCP extends Thread {
             commandRcvTcpList.put("PLAYR", new CommandRcvTcpPlayerId(out));
             commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
             commandRcvTcpList.put("WELCO", new CommandRcvTcpWelco(out));
+            commandRcvTcpList.put("POSIT", new CommandRcvTcpPlayerPos(out));
+            commandRcvTcpList.put("MOVE!", new CommandRcvTcpNewPos(out));
+            commandRcvTcpList.put("MOVEF", new CommandRcvTcpNewPosPoints(out));
+            commandRcvTcpList.put("GOBYE", new CommandRcvTcpBye(out));
+            commandRcvTcpList.put("GLIS!", new CommandRcvTcpNbrPlayersInGame(out));
+            commandRcvTcpList.put("GPLYR", new CommandRcvTcpPlayersPosScoreInGame(out));
 
             DebugLogger.print(DebugType.COM, "...succès");
 
@@ -74,29 +70,41 @@ public class ClientTCP extends Thread {
 
         DebugLogger.print(DebugType.CONFIRM, "Début de l'écoute TCP");
         
+        // défini si le traitement de la commande doit être ignoré ou non
+        boolean ignore = false;
+
         // tant que le socket est connecté
         while(Client.isConnected) {
             
             try {
 
+                // liste stockant la commande, caractère par caracère, sous sa forme entière (0-65535)
                 LinkedList<Integer> serverMsg = new LinkedList<>();
 
+                // compte le nombre d'étoiles lu (caractère de fin de message)
                 int offsetLimiter = 0;
                 int readVal = 0;
 
+                // tant que le caractère de fin de message (3 étoiles) n'est pas lu, on ajoute les caractères à la liste
                 while(offsetLimiter < 3) {
 
+                    // lit le premier caractère sur le buffer
                     readVal = in.read();
 
-                    // si le socket est déconnecté : arrêter de lire
+                    // si le socket est déconnecté : on arrête de lire et on ne traite pas la commande
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
-                        closeSocket();
-                        return;
+                        Console.useMessage("killclient");
+                        ignore = true;
+                        break;
                     }
 
+                    // ajoute le caractère à la liste
                     serverMsg.add(readVal);
 
+                    /* si la valeur ascii du caractère lu équivaut à une étoile, on incrémente le compteur, 
+                     * sinon on le réinitialise à 0 car on déduit que les étoiles précédemment lu ne sont pas des délimiteurs de fin de message
+                     */
                     if (readVal == 42) {
                         offsetLimiter++;
                     } else {
@@ -104,12 +112,25 @@ public class ClientTCP extends Thread {
                     }
                 }
 
-                useMessage(serverMsg);
+                // si la variable d'ignorance est à false, on traite la commande
+                if (!ignore) {
+                    useMessage(serverMsg);
+                }
 
             } catch(IOException e) {
                 DebugLogger.print(DebugType.CONFIRM, "Socket closed : disconnected");
             }
         }
+
+        try {
+            clientSocket.close();
+            clientTCPCreated = false;
+            Client.disconnect();
+        } catch (IOException e) {
+            DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
+            System.exit(1);
+        }
+
     }
 
     // envoie du message sur la sortie vers le serveur
@@ -122,15 +143,24 @@ public class ClientTCP extends Thread {
 	public void useMessage(LinkedList<Integer> command) {
         
         String commandName = "";
+
+        // on récupère l'en-tête de la commande (son premier argument) pour sélectionner l'exécution associée
         for (int i = 0; i < 5; i++) {
             commandName += (char) command.get(i).byteValue();
         }
 		
+        // on parcourt la liste de commandes pour trouver la commande correspondante
 		for(String s : commandRcvTcpList.keySet()) {
+
 			if(s.equals(extractFirst(commandName))) {
+
                 // appel de la fonction dans l'instance de la classe associée à la commande
 				commandRcvTcpList.get(s).execute(this, command);
+
+                // actualisation de l'interface graphique
                 gui.actualise();
+
+                // on arrête de parcourir la liste des commandes
                 return;
 			}
 		}
@@ -149,10 +179,6 @@ public class ClientTCP extends Thread {
         
     }
 
-    private String[] breakCommand(String command) {
-        return command.split(" ");
-	}
-
     public PrintWriter getPrintWriter() {
         return this.out;
     }
@@ -165,21 +191,6 @@ public class ClientTCP extends Thread {
         return this.in;
     }
 
-
-    public void closeSocket() {
-        try {
-            clientSocket.close();
-            Client.isConnected = false;
-            clientTCPCreated = false;
-            ClientUDP.clientUDPCreated = false;
-            Console.disconnectConsole();
-            Console.connectedConsole = false;
-            GameInfo.clear();
-        } catch (IOException e) {
-            DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
-            System.exit(1);
-        }
-    }
 
     public synchronized void setGUI(ControlGUI gui) {
         this.gui = gui;

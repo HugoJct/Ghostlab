@@ -20,7 +20,7 @@ public class CommandAskTcpPlayerGame extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP clientTCP, String[] args) {
         
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask player game command (LIST?)");
 
@@ -42,8 +42,8 @@ public class CommandAskTcpPlayerGame extends CommandTCP {
         }
 
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0], args[1]}));
-            client.getOutputStream().flush();
+            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0], args[1]}));
+            clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1]);
         } catch (IOException e) {
             e.printStackTrace();

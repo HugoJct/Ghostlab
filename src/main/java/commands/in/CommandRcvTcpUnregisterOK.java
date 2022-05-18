@@ -38,7 +38,6 @@ public class CommandRcvTcpUnregisterOK extends CommandTCP {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        // TODO Auto-generated method stub
         
     }
     

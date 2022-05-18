@@ -21,7 +21,7 @@ public class CommandAskTcpJoin extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP clientTCP, String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : ask join game command (REGIS)");
         
@@ -55,8 +55,8 @@ public class CommandAskTcpJoin extends CommandTCP {
         String[] command = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP), args[1]};
 
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(command));
-            client.getOutputStream().flush();
+            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(command));
+            clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP + " " + args[1]);
         } catch(IOException e) { 
             e.printStackTrace();

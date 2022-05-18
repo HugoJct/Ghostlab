@@ -1,21 +1,13 @@
 package main.java.commands.dev;
 
-import java.io.PrintWriter;
-import java.util.LinkedList;
-
-import main.java.client.ClientTCP;
-import main.java.commands.CommandTCP;
+import main.java.commands.CommandDev;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
-public class CommandDebug extends CommandTCP {
-
-    public CommandDebug(PrintWriter pw) {
-        super(pw);
-    }
+public class CommandDebug extends CommandDev {
 
     @Override
-    public void execute(ClientTCP clientTCP, String[] args) {
+    public void execute(String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : debug");
 
         if (args.length == 3) {
@@ -120,12 +112,6 @@ public class CommandDebug extends CommandTCP {
                 }
             }
             DebugLogger.print(DebugType.WARNING, "[CommandDebug/ATTENTION] : erreur de syntaxe");  
-    }
-
-    @Override
-    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
-        // TODO Auto-generated method stub
-        
     }
     
 }

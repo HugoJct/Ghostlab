@@ -21,7 +21,7 @@ public class CommandAskTcpCreate extends CommandTCP {
     }
 
     @Override
-    public void execute(ClientTCP client, String[] args) {
+    public void execute(ClientTCP clientTCP, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : create game command (NEWPL)");
 
         if (GameInfo.isInGame) {
@@ -37,8 +37,8 @@ public class CommandAskTcpCreate extends CommandTCP {
         String[] command = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP)};
 
         try {
-            client.getOutputStream().write(CommandFormatter.formatForTCP(command));
-            client.getOutputStream().flush();
+            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(command));
+            clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP);
         } catch (IOException e) {
             e.printStackTrace();
