@@ -11,5 +11,6 @@ void send_unrok(int fd, uint8_t game_id);
 void send_players_list(int fd, int id);
 void send_games(int socket_fd, llist *games);
 void send_size(int socket_fd, uint8_t game_id);
+void send_welco(int fd, struct game *g);
 
 #endif

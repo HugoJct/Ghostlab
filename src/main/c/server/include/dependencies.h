@@ -11,6 +11,7 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <time.h>
 
 enum boolean {FALSE,TRUE};
 

@@ -2,7 +2,6 @@
 #include "labs_parser.h"
 
 int game_id_counter = 0;
-int multi_diffusion_field = 3;
 int multi_diffusion_port = 1999;
 
 pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -13,20 +12,21 @@ struct game* game_create(int cap) {
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
-	new_game->labyrinth = parse_lab("assets/lab3.lab");
+	new_game->labyrinth = parse_lab("assets/lab2.lab");
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
-	//TODO: only the port needs to be different from other games
-	//TODO: initialize diffusion sockets to check if the port is available
-
-	char *ip = (char *) malloc(15);
-	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
-	int ret = inet_aton(ip,&new_game->diffusion_ip);
+	int ret = inet_aton("225.12.35.42",&new_game->diffusion_ip);
 	assert(ret != 0);
-	free(ip);
-
 	new_game->diffusion_port = multi_diffusion_port++;
+
+	new_game->socket_fd = socket(PF_INET,SOCK_DGRAM,0);
+
+	new_game->remaining_ghosts = MAX_GHOST_NUMBER;
+	for(int i=0; i < MAX_GHOST_NUMBER; i++) {
+		new_game->ghosts[i].x = rand() % new_game->labyrinth->width;
+		new_game->ghosts[i].y = rand() % new_game->labyrinth->height;
+	}
 
 	extern llist *games;
 	llist_push(games,new_game);
@@ -125,7 +125,6 @@ void *game_start(void *arg) {
 
 	struct game *g = (struct game*) arg;
 
-	/* TODO handle game unfolding */
 	while(1) {
 		/* 	To delete the game if it is empty
 		if(llist_size(g->players) == 0) {
@@ -139,10 +138,20 @@ void *game_start(void *arg) {
 		if(llist_size(g->players) != 0 &&  game_are_all_players_ready(g)) {
 			break;		
 		}
+		usleep(300000);		//wait for 0.3 seconds before checking again
 	}
 	g->started = TRUE;
 	puts("All players are ready");
+
 	pause();
+	//TODO: write a game stop condition
 
 	return NULL;
+}
+
+int game_is_there_ghost(int x, int y) {
+	//TODO: write this function to check whether there is a ghost at the specified coordinates or not
+	(void) x;
+	(void) y;	
+	return 0;
 }

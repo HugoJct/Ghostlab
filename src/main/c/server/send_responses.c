@@ -168,3 +168,36 @@ void send_size(int socket_fd, uint8_t game_id) {
 
 	send(socket_fd, buf, 15, 0);
 }
+
+void send_welco(int fd, struct game *g) {
+	char buf[100];
+
+	memcpy(buf,"WELCO ",6);
+	memcpy(buf+6,&g->id,1);
+	memcpy(buf+7," ",1);
+	memcpy(buf+8,&g->labyrinth->height,2);
+	memcpy(buf+10," ",1);
+	memcpy(buf+11,&g->labyrinth->width,2);
+	memcpy(buf+13," ",1);
+	memcpy(buf+14,&g->remaining_ghosts,1);
+	memcpy(buf+15," ",1);
+	
+	//formatting and copying ip address
+	char ip[15];
+	memset(ip,'#',15);
+	char *ipaddr = inet_ntoa(g->diffusion_ip);
+	memcpy(ip,ipaddr,strlen(ipaddr));
+	memcpy(buf+16,ip,15);
+	//******************
+
+	memcpy(buf+31," ",1);
+
+	char port[5];
+	sprintf(port,"%hu",g->diffusion_port);
+
+	memcpy(buf+32,port,4);
+	memcpy(buf+36,"***",3);
+
+	int ret = send(fd,buf,39,0);
+	assert(ret >= 0);
+}

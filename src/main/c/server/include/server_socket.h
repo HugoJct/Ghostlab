@@ -19,4 +19,6 @@ void *server_socket_connection_prompt(void *arg);
 //this funcion acts as a lobby when the player jsut connected, waiting for the messages that can be sent by the player when it is not in a game
 struct client *server_socket_receive_newpl_regis(int fd);
 
+void *server_socket_during_game(void *arg);
+
 #endif
