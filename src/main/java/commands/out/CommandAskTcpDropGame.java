@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
+import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
@@ -27,6 +28,11 @@ public class CommandAskTcpDropGame extends CommandTCP {
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : IQUIT");
+
+        if (!GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.ERROR, "[CommandAskTcpDropGame/WARNING] : le jeu n'a pas encore commencé, cette commande sera ignorée");
+            return;
+        }
 
         try {
             clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {"IQUIT"}));

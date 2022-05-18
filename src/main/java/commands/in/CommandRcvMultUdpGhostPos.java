@@ -10,14 +10,10 @@ import main.java.console.DebugType;
 
 // GHOST x y+++
 
-public class CommandRcvUdpGhostPos extends CommandUDP {
-
-    public CommandRcvUdpGhostPos(DatagramSocket socket, InetAddress addr) {
-        super(socket, addr);
-    }
+public class CommandRcvMultUdpGhostPos extends CommandUDP {
 
     @Override
-    public void execute(ClientUDP clientTCP, String[] args) {
+    public void execute(String[] args) {
         
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : GHOST");
 

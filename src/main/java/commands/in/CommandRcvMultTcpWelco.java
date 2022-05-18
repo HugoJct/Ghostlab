@@ -7,15 +7,16 @@ import java.nio.ByteOrder;
 
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
+import main.java.client.Multicast;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
 // WELCO m h w f ip port***
 
-public class CommandRcvTcpWelco extends CommandTCP {
+public class CommandRcvMultTcpWelco extends CommandTCP {
 
-    public CommandRcvTcpWelco(PrintWriter pw) {
+    public CommandRcvMultTcpWelco(PrintWriter pw) {
         super(pw);
     }
 
@@ -84,7 +85,11 @@ public class CommandRcvTcpWelco extends CommandTCP {
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour le port de mutlicast ne sont pas conformes, ces informations seront ignorées");
         }
+
+        GameInfo.hasGameStarted = true;
         
+        new Multicast().start();    
+
         DebugLogger.print(DebugType.CONFIRM, "SERVER : " + GameInfo.registredGameId + " " + GameInfo.gameHeight + " " + GameInfo.gameWidth + " " + GameInfo.nbrGhosts + " " + GameInfo.ipMulticast + " " + GameInfo.portMulticast);
 
     }

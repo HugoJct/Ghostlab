@@ -11,14 +11,10 @@ import main.java.console.DebugType;
 
 // MESSA id mess+++
 
-public class CommandRcvUdpMessage extends CommandUDP {
-
-    public CommandRcvUdpMessage(DatagramSocket socket, InetAddress addr) {
-        super(socket, addr);
-    }
+public class CommandRcvMultUdpMessage extends CommandUDP {
 
     @Override
-    public void execute(ClientUDP clientTCP, String[] args) {
+    public void execute(String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : MESSA");
 

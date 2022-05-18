@@ -11,14 +11,10 @@ import main.java.console.DebugType;
 
 // SCORE id p x y+++
 
-public class CommandRcvUdpScore extends CommandUDP {
-
-    public CommandRcvUdpScore(DatagramSocket socket, InetAddress addr) {
-        super(socket, addr);
-    }
+public class CommandRcvMultUdpScore extends CommandUDP {
 
     @Override
-    public void execute(ClientUDP clientTCP, String[] args) {
+    public void execute(String[] args) {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : SCORE");
 

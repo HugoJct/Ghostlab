@@ -46,7 +46,7 @@ public class ClientTCP extends Thread {
             commandRcvTcpList.put("LIST!", new CommandRcvTcpPlayerGame(out));
             commandRcvTcpList.put("PLAYR", new CommandRcvTcpPlayerId(out));
             commandRcvTcpList.put("UNROK", new CommandRcvTcpUnregisterOK(out));
-            commandRcvTcpList.put("WELCO", new CommandRcvTcpWelco(out));
+            commandRcvTcpList.put("WELCO", new CommandRcvMultTcpWelco(out));
             commandRcvTcpList.put("POSIT", new CommandRcvTcpPlayerPos(out));
             commandRcvTcpList.put("MOVE!", new CommandRcvTcpNewPos(out));
             commandRcvTcpList.put("MOVEF", new CommandRcvTcpNewPosPoints(out));
