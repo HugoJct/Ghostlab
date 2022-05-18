@@ -81,6 +81,9 @@ public class ClientUDP extends Thread {
                 String message = new String(packet.getData(), 0, packet.getLength());
                 
                 String[] args = message.split(" ");
+
+                // suppression des caractères de fin de ligne "+++"
+                args[args.length-1].substring(args[args.length-1].length()-4, args[args.length-1].length()-1);
                 
                 if(commandRcvUdpList.containsKey(args[0])) {
                     commandRcvUdpList.get(args[0]).execute(args);

@@ -90,8 +90,10 @@ public class Client {
     }
 
     public static void disconnect() {
-        isConnected = false;
-        GameInfo.clear(); 
+        if (isConnected) {
+            isConnected = false;
+            GameInfo.clear(); 
+        }
     }
 
     public ClientTCP getClientTCP() {
