@@ -57,6 +57,7 @@ public class Console implements Runnable {
         commandList.put("kill", new CommandKill());
         commandList.put("killclient", new CommandKillClient());
         commandList.put("gameinfo", new CommandGameInfo());
+        commandList.put("historical", new CommandListHistorical());
 
         // remplissage de la liste des commandes tcp non fonctionnelles
         commandList.put("GAME?", new CommandAskTcpAvailableGames(null));

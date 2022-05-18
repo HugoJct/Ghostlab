@@ -1,7 +1,10 @@
 package main.java;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class GameInfo {
     
@@ -82,7 +85,12 @@ public class GameInfo {
  
     public static void clear() {
 
-        
+        String winner = ""; 
+        if (!playerIdScore.isEmpty()) {
+            winner = Collections.max(playerIdScore.entrySet(), Map.Entry.comparingByValue()).getKey();
+        }
+
+        gameHistory.add(new GameHistory(playerID, playerIdScore, messagesHistory, winner));
 
         gameIdNbrPlayers.clear();
         isInGame = false;
@@ -102,6 +110,11 @@ public class GameInfo {
         nbrPlayers = -1;
         playerIdPosition.clear();
         nbrGhosts = -1;
+    }
+
+
+    private static Object getValue() {
+        return null;
     }
     
 

@@ -9,7 +9,7 @@ public class CommandKillClient extends CommandDev {
 
     @Override
     public void execute(String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "COMMAND : kill client");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : killclient");
 
         if (Client.isConnected) {
             Client.disconnect();
