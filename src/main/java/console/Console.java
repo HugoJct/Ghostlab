@@ -22,6 +22,7 @@ import main.java.commands.out.tcp.CommandAskTcpMoveUp;
 import main.java.commands.out.tcp.CommandAskTcpPlayerGame;
 import main.java.commands.out.tcp.CommandAskTcpPlayersInGame;
 import main.java.commands.out.tcp.CommandAskTcpSendMessage;
+import main.java.commands.out.tcp.CommandAskTcpSendMessageAll;
 import main.java.commands.out.tcp.CommandAskTcpStart;
 import main.java.commands.out.tcp.CommandAskTcpUnregister;
 
@@ -50,6 +51,7 @@ public class Console implements Runnable {
         commandList.put("GLIS?", new CommandAskTcpPlayersInGame(clientTcp.getPrintWriter()));
 
         commandList.put("SEND?", new CommandAskTcpSendMessage(clientTcp.getPrintWriter()));
+        commandList.put("MALL?", new CommandAskTcpSendMessageAll(clientTcp.getPrintWriter()));
         
     }
 
@@ -79,6 +81,7 @@ public class Console implements Runnable {
         commandList.put("GLIS?", new CommandAskTcpPlayersInGame(null));
 
         commandList.put("SEND?", new CommandAskTcpSendMessage(null));
+        commandList.put("MALL?", new CommandAskTcpSendMessageAll(null));
 
         new Thread(new Console()).start();
     }
