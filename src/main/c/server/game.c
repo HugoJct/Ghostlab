@@ -143,8 +143,13 @@ void *game_start(void *arg) {
 	g->started = TRUE;
 	puts("All players are ready");
 
-	pause();
-	//TODO: write a game stop condition
+	while(1) {
+		if(g->remaining_ghosts == 0 || llist_size(g->players) == 0)
+			break;
+		usleep(300000);
+	}
+
+	//TODO: send winner and disconnect all players
 
 	return NULL;
 }

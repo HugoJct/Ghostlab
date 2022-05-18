@@ -30,22 +30,22 @@ public class CommandAskTcpSendMessageAll extends CommandTCP {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : MALL?");
 
         if (!GameInfo.isInGame) {
-            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessage] : impossible d'envoyer un message, vous n'êtes pas dans une partie");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessageAll] : impossible d'envoyer un message, vous n'êtes pas dans une partie");
             return;
         }
 
-        if(GameInfo.hasGameStarted) {
-            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessage] : impossible d'envoyer un message, la partie a déjà commencé");
+        if(!GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessageAll] : impossible d'envoyer un message, la partie n'est pas commencée");
             return;
         }
 
         if (args.length < 2) {
-            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessage] : il manque des arguments");
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessageAll] : il manque des arguments");
             return;
         }
         
         try {
-            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0], args[1]}));
+            clientTCP.getOutputStream().write((args[0] +" "+args[1]+"***").getBytes());
             clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1]);
         } catch (IOException e) {

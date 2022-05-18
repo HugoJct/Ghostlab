@@ -1,8 +1,16 @@
 #include "multicast.h"
 
 void multicast_send(char *buf, int len, struct game *g) {
-	int ret = sendto(g->socket_fd,buf,len,0,(struct sockaddr *) &g->diffusion_ip,(socklen_t) sizeof(struct sockaddr_in));
-	assert(ret >= 0);
+	struct sockaddr_in addr = {
+		.sin_family = PF_INET,
+		.sin_port = htons(g->diffusion_port),
+		.sin_addr = g->diffusion_ip
+	};
+	int ret = sendto(g->socket_fd,buf,len,0,(struct sockaddr *) &addr,(socklen_t) sizeof(struct sockaddr_in));
+	if(ret < 0) {
+		perror("send");
+		exit(1);
+	}
 }
 
 void multicast_messa(char *messa, struct client *c) {
