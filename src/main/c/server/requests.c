@@ -107,13 +107,17 @@ void request_movement(char *buf, struct client *c, int direction) {
 	}
 }
 
+void request_mall(char *buf, struct client *c) {
+	char mess[201];
+	int count = 0;
+	int i = 0;
+	while(1) {
+		if(buf[i] == '*')
+			break;
+		count++;
+	}
+	memcpy(mess,buf,count);
+	mess[200] = '\0';
 
-
-
-
-
-
-
-
-
-
+	multicast_messa(mess,c);
+}

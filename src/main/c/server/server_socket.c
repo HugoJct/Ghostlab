@@ -114,7 +114,13 @@ void *server_socket_during_game(void *arg) {
 	while(1) {
 		int ret = request_read_tcp(buf,fd);
 		if(ret < 0) {
-			//handle disconnection
+			llist_remove(c->game->players,c->player);
+
+			free(c->player);
+			close(*(c->fd));
+			free(c->fd);
+			free(c);
+			break;
 		}
 
 		char cmd[6];
@@ -134,7 +140,7 @@ void *server_socket_during_game(void *arg) {
 		} else if(strcmp("GLIS?",cmd) == 0) {
 	
 		} else if(strcmp("MALL?",cmd) == 0) {
-	
+			request_mall(buf,c);
 		} else if(strcmp("MESS?",cmd) == 0) {
 	
 		}

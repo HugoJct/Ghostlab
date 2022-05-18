@@ -6,6 +6,7 @@
 #include "player.h"
 #include "requests.h"
 #include "send_responses.h"
+#include "multicast.h"
 
 //initializes the server's attributes
 void server_socket_init(int , int);
