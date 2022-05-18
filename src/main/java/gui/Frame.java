@@ -6,15 +6,20 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import main.java.gui.menu.Game;
+import main.java.gui.menu.Menu;
+import main.java.gui.menu.Options;
+import main.java.gui.menu.Tabs;
+
 public class Frame extends JFrame {
 
   private ConsolePanel consolePanel;
   private ConnectionPanel connectionPanel;
-  private GamePanel gamePanel;
+  private Game gamePanel;
   private GameManagerPanel gameManagerPanel;
   private Tabs tabs;
-  private OptionsMenu optionsPanel;
-  private InteractivePanel interactivePanel;
+  private Options optionsPanel;
+  private Menu interactivePanel;
 
   private JButton help;
   private JButton exit;
@@ -28,10 +33,10 @@ public class Frame extends JFrame {
 
     consolePanel = new ConsolePanel();
     connectionPanel = new ConnectionPanel();
-    gamePanel = new GamePanel();
+    gamePanel = new Game();
     gameManagerPanel = new GameManagerPanel();
-    optionsPanel = new OptionsMenu();
-    interactivePanel = new InteractivePanel(400, 600);
+    optionsPanel = new Options();
+    interactivePanel = new Menu(400, 600);
 
     help = new JButton("?");
     exit = new JButton("EXIT");

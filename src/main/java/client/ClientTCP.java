@@ -12,10 +12,26 @@ import java.util.LinkedList;
 
 import main.java.commands.CommandTCP;
 import main.java.commands.in.*;
+import main.java.commands.in.tcp.CommandRcvTcpBye;
+import main.java.commands.in.tcp.CommandRcvTcpDunno;
+import main.java.commands.in.tcp.CommandRcvTcpGameInfo;
+import main.java.commands.in.tcp.CommandRcvTcpJoinNO;
+import main.java.commands.in.tcp.CommandRcvTcpJoinOK;
+import main.java.commands.in.tcp.CommandRcvTcpMapSize;
+import main.java.commands.in.tcp.CommandRcvTcpNbrGames;
+import main.java.commands.in.tcp.CommandRcvTcpNbrPlayersInGame;
+import main.java.commands.in.tcp.CommandRcvTcpNewPos;
+import main.java.commands.in.tcp.CommandRcvTcpNewPosPoints;
+import main.java.commands.in.tcp.CommandRcvTcpPlayerGame;
+import main.java.commands.in.tcp.CommandRcvTcpPlayerId;
+import main.java.commands.in.tcp.CommandRcvTcpPlayerPos;
+import main.java.commands.in.tcp.CommandRcvTcpPlayersPosScoreInGame;
+import main.java.commands.in.tcp.CommandRcvTcpUnregisterOK;
+import main.java.commands.in.udp_multicast.CommandRcvMultTcpWelco;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
-import main.java.gui.ControlGUI;
+import main.java.gui.controller.ControlGUI;
 
 
 public class ClientTCP extends Thread {

@@ -81,6 +81,9 @@ public class GameInfo {
 
  
     public static void clear() {
+
+        
+
         gameIdNbrPlayers.clear();
         isInGame = false;
         hasGameStarted = false;

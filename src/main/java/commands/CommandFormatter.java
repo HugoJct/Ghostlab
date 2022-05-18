@@ -57,16 +57,6 @@ public class CommandFormatter {
 		return message;
 	}
 
-	public static byte[] formatForUDP(String[] args) {
-
-		byte[] message = getByteArray(args);
-
-		for(int i=(message.length - 4);i<message.length;i++)
-			message[i] = (byte) '+';
-		
-		return message;
-	}
-
 	private static int getSize(String args[]) {
 		int size = 0;
 

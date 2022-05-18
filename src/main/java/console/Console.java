@@ -10,6 +10,19 @@ import main.java.commands.CommandDev;
 import main.java.commands.CommandTCP;
 import main.java.commands.dev.*;
 import main.java.commands.out.*;
+import main.java.commands.out.tcp.CommandAskTcpAvailableGames;
+import main.java.commands.out.tcp.CommandAskTcpCreate;
+import main.java.commands.out.tcp.CommandAskTcpDropGame;
+import main.java.commands.out.tcp.CommandAskTcpJoin;
+import main.java.commands.out.tcp.CommandAskTcpMapSize;
+import main.java.commands.out.tcp.CommandAskTcpMoveDown;
+import main.java.commands.out.tcp.CommandAskTcpMoveLeft;
+import main.java.commands.out.tcp.CommandAskTcpMoveRight;
+import main.java.commands.out.tcp.CommandAskTcpMoveUp;
+import main.java.commands.out.tcp.CommandAskTcpPlayerGame;
+import main.java.commands.out.tcp.CommandAskTcpPlayersInGame;
+import main.java.commands.out.tcp.CommandAskTcpStart;
+import main.java.commands.out.tcp.CommandAskTcpUnregister;
 
 public class Console implements Runnable {
     private static ClientTCP clientTCP;
@@ -26,7 +39,7 @@ public class Console implements Runnable {
         commandList.put("SIZE?", new CommandAskTcpMapSize(clientTcp.getPrintWriter()));
         commandList.put("LIST?", new CommandAskTcpPlayerGame(clientTcp.getPrintWriter()));
         commandList.put("START", new CommandAskTcpStart(clientTcp.getPrintWriter()));
-        commandList.put("UNREG", new CommandAskUnregister(clientTcp.getPrintWriter()));
+        commandList.put("UNREG", new CommandAskTcpUnregister(clientTcp.getPrintWriter()));
 
         commandList.put("UPMOV", new CommandAskTcpMoveUp(clientTcp.getPrintWriter()));
         commandList.put("DOMOV", new CommandAskTcpMoveDown(clientTcp.getPrintWriter()));
@@ -52,7 +65,7 @@ public class Console implements Runnable {
         commandList.put("SIZE?", new CommandAskTcpMapSize(null));
         commandList.put("LIST?", new CommandAskTcpPlayerGame(null));
         commandList.put("START", new CommandAskTcpStart(null));
-        commandList.put("UNREG", new CommandAskUnregister(null));
+        commandList.put("UNREG", new CommandAskTcpUnregister(null));
 
         commandList.put("UPMOV", new CommandAskTcpMoveUp(null));
         commandList.put("DOMOV", new CommandAskTcpMoveDown(null));

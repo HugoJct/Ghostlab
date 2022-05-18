@@ -12,11 +12,11 @@ import java.util.Random;
 
 import main.java.GameInfo;
 import main.java.commands.CommandUDP;
-import main.java.commands.in.CommandRcvMultUdpEndGame;
-import main.java.commands.in.CommandRcvMultUdpGhostPos;
-import main.java.commands.in.CommandRcvMultUdpMessage;
-import main.java.commands.in.CommandRcvMultUdpScore;
-import main.java.commands.in.CommandRcvUdpPrivateMess;
+import main.java.commands.in.udp.CommandRcvUdpPrivateMess;
+import main.java.commands.in.udp_multicast.CommandRcvMultUdpEndGame;
+import main.java.commands.in.udp_multicast.CommandRcvMultUdpGhostPos;
+import main.java.commands.in.udp_multicast.CommandRcvMultUdpMessage;
+import main.java.commands.in.udp_multicast.CommandRcvMultUdpScore;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;

@@ -4,8 +4,8 @@ import main.java.GameInfo;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
-import main.java.gui.ControlGUI;
 import main.java.gui.Frame;
+import main.java.gui.controller.ControlGUI;
 
 public class Client {
     private ClientTCP clientTCP;
