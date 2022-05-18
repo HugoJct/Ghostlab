@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import main.java.commands.CommandTCP;
-import main.java.commands.in.*;
 import main.java.commands.in.tcp.CommandRcvTcpBye;
 import main.java.commands.in.tcp.CommandRcvTcpDunno;
 import main.java.commands.in.tcp.CommandRcvTcpGameInfo;
