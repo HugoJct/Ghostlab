@@ -1,8 +1,7 @@
-package main.java.commands.in.udp_multicast;
+package main.java.commands.in.tcp;
 
 import java.io.PrintWriter;
 import java.util.LinkedList;
-import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import main.java.GameInfo;
@@ -90,7 +89,7 @@ public class CommandRcvMultTcpWelco extends CommandTCP {
         
         new Multicast().start();    
 
-        DebugLogger.print(DebugType.CONFIRM, "SERVER : " + GameInfo.registredGameId + " " + GameInfo.gameHeight + " " + GameInfo.gameWidth + " " + GameInfo.nbrGhosts + " " + GameInfo.ipMulticast + " " + GameInfo.portMulticast);
+        DebugLogger.print(DebugType.CONFIRM, "SERVER : WELCO " + GameInfo.registredGameId + " " + GameInfo.gameHeight + " " + GameInfo.gameWidth + " " + GameInfo.nbrGhosts + " " + GameInfo.ipMulticast + " " + GameInfo.portMulticast);
 
     }
 

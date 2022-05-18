@@ -25,7 +25,7 @@ public class CommandRcvMultUdpMessage extends CommandUDP {
             return;
         }
 
-        DebugLogger.print(DebugType.MESSAGE, args[1] + " : " + args[2]);
+        DebugLogger.print(DebugType.MESSAGE, "SERVER_" + args[1] + " : " + args[2]);
 
         GameInfo.messagesHistory.add(args[1] + " : " + args[2]);
 
