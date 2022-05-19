@@ -63,7 +63,12 @@ public class GameManagerPanel extends JPanel {
             buttonGroup.add(selector);
 
             if (!GameInfo.games.isEmpty()) {
-                this.add(new JLabel("game n°" + i + ", joueurs inscrits : " + GameInfo.games.get(i).getNbrPlayers() + ", taille du labyrinthe : [" + GameInfo.games.get(i).getHeight() + ", " + GameInfo.games.get(i).getWidth() + "]"));
+
+                if (GameInfo.games.get(i).getHeight() == -1 || GameInfo.games.get(i).getWidth() == -1) {
+                    this.add(new JLabel("game n°" + i + ", joueurs inscrits : " + GameInfo.games.get(i).getNbrPlayers()));
+                } else {
+                    this.add(new JLabel("game n°" + i + ", joueurs inscrits : " + GameInfo.games.get(i).getNbrPlayers() + ", taille du labyrinthe : [" + GameInfo.games.get(i).getHeight() + ", " + GameInfo.games.get(i).getWidth() + "]"));
+                }
                 this.add(selector);
                 this.add(button);
             }
