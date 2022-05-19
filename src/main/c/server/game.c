@@ -13,7 +13,7 @@ struct game* game_create(int cap) {
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
 	new_game->labyrinth = parse_lab("assets/lab3.lab");
-	debug_lab(new_game->labyrinth);
+	debug_lab(new_game->labyrinth); //print the labyrinth
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
@@ -136,15 +136,6 @@ void *game_start(void *arg) {
 	struct game *g = (struct game*) arg;
 
 	while(1) {
-		/* 	To delete the game if it is empty
-		if(llist_size(g->players) == 0) {
-			puts("All players disconnected");
-			llist_remove(games,g);
-			free(g);
-			return NULL;
-		}
-		*/
-
 		if(llist_size(g->players) != 0 &&  game_are_all_players_ready(g)) {
 			break;		
 		}
@@ -152,6 +143,9 @@ void *game_start(void *arg) {
 	}
 	g->started = TRUE;
 	puts("All players are ready");
+
+	pthread_t t;
+	pthread_create(&t,NULL,ghosts_move,g);
 
 	while(1) {
 		if(g->remaining_ghosts == 0 || llist_size(g->players) == 0)
