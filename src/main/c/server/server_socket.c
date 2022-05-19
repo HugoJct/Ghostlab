@@ -138,7 +138,7 @@ void *server_socket_during_game(void *arg) {
 		} else if(strcmp("IQUIT",cmd) == 0) {
 			
 		} else if(strcmp("GLIS?",cmd) == 0) {
-	
+			request_game_list(c);
 		} else if(strcmp("MALL?",cmd) == 0) {
 			request_mall(buf+6,c);
 		} else if(strcmp("MESS?",cmd) == 0) {

@@ -107,6 +107,16 @@ void request_movement(char *buf, struct client *c, int direction) {
 	}
 }
 
+void request_game_list(struct client *c) {
+	// Send GLIS! s
+	char* response = malloc(BUFFER_SIZE);
+	sprintf(response,"GLIS! %d***", llist_size(c->game->players));
+	// TODO: Send to player (address = c->udp_addr and port = c->player->udp_port)
+
+
+	// TODO: Send GPLYR id x y p for all players
+}
+
 void request_mall(char *buf, struct client *c) {
 	char mess[201];
 	int count = 0;
