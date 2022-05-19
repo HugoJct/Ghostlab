@@ -201,3 +201,41 @@ void send_welco(int fd, struct game *g) {
 	int ret = send(fd,buf,39,0);
 	assert(ret >= 0);
 }
+
+void send_move(int fd, int x, int y) {
+	char buf[100];
+
+	char x_tmp[4];
+	char y_tmp[4];
+
+	sprintf(x_tmp,"%d",x);
+	sprintf(y_tmp,"%d",y);
+
+	char x_pos[3];
+	memset(x_pos,'0',3);
+	char y_pos[3];
+	memset(y_pos,'0',3);
+
+	if(x < 10)
+		memcpy(x_pos+2,x_tmp,1);
+	else if(x < 100)
+		memcpy(x_pos+1,x_tmp,2);
+	else
+		memcpy(x_pos,x_tmp,3);
+
+	if(y < 10)
+		memcpy(y_pos+2,y_tmp,1);
+	else if(y < 100)
+		memcpy(y_pos+1,y_tmp,2);
+	else
+		memcpy(y_pos,y_tmp,3);
+
+	memcpy(buf,"MOVE! ",6);
+	memcpy(buf+6,&x_pos,3);
+	memcpy(buf+9," ",1);
+	memcpy(buf+10,&y_pos,3);
+	memcpy(buf+13,"***",3);
+
+	int ret = send(fd,buf,16,0);
+	assert(ret >= 0);
+}
