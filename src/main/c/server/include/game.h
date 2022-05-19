@@ -8,7 +8,7 @@
 #include "ghosts.h"
 #include "server_socket.h"
 
-#define MAX_GHOST_NUMBER 5
+#define MAX_GHOST_NUMBER 1
 
 struct game {
 	int id;
