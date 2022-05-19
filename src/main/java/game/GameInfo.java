@@ -1,9 +1,7 @@
 package main.java.game;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class GameInfo {
     
