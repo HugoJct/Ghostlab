@@ -116,8 +116,9 @@ void request_mall(char *buf, struct client *c) {
 			break;
 		count++;
 	}
+	//TODO: add sceurity to prevent buf overflow
 	memcpy(mess,buf,count);
-	mess[200] = '\0';
+	mess[count] = '\0';
 
 	multicast_messa(mess,c);
 }
