@@ -2,6 +2,7 @@
 
 char *format_3digits(int x) {
 	char *format = malloc(3);
+	memset(format,'0',3);
 
 	char tmp[4];
 	sprintf(tmp,"%d",x);
@@ -18,6 +19,7 @@ char *format_3digits(int x) {
 
 char *format_4digits(int x) {
 	char *format = malloc(4);
+	memset(format,'0',4);
 
 	char tmp[5];
 
