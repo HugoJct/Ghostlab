@@ -148,8 +148,10 @@ void *game_start(void *arg) {
 	pthread_create(&t,NULL,ghosts_move,g);
 
 	while(1) {
-		if(g->remaining_ghosts == 0 || llist_size(g->players) == 0)
+		if(g->remaining_ghosts == 0)
 			break;
+		if(llist_size(g->players) == 0)
+			return NULL;
 		usleep(300000);
 	}
 	puts("Game over");
