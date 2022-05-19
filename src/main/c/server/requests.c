@@ -73,7 +73,7 @@ struct client *request_regis(char buf[], int fd) {
 
 		game_add_player(requested_game,p);	
 		send_regok(fd,game_nb);	//answer to the client
-		
+
 		c = create_client(requested_game,p,NULL);	//create the struct client to return 
 
 	} else {	//if the requested game does not exist, answer and return NULL
@@ -93,14 +93,14 @@ void request_movement(char *buf, struct client *c, int direction) {
 	char distbuf[4];
 	memcpy(distbuf,buf+6,3);
 	distbuf[3] = '\0';	
-	
+
 	int player_score = c->player->score;
 
 	int dist = atoi(distbuf);
 	player_move(c,dist,direction);
 
 	int fd = *((int*) c->fd);
-	
+
 	if( player_score != c->player->score) { //if the player found a ghost
 		send_movef(fd,c->player->x,c->player->y,c->player->score);
 	} else {
@@ -121,4 +121,15 @@ void request_mall(char *buf, struct client *c) {
 	mess[count] = '\0';
 
 	multicast_messa(mess,c);
+}
+
+void request_iquit(struct client *c) {
+	send(*(c->fd),"GOBYE***",8,0);	
+	llist_remove(c->game->players,c->player);
+
+	free(c->player);
+	close(*(c->fd));
+	free(c->fd);
+	free(c);
+
 }

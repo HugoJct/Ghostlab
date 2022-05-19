@@ -137,7 +137,8 @@ void *server_socket_during_game(void *arg) {
 		} else if(strcmp("RIMOV",cmd) == 0) {
 			request_movement(buf,c,RIGHT);
 		} else if(strcmp("IQUIT",cmd) == 0) {
-			
+			request_iquit(c);			
+			break;
 		} else if(strcmp("GLIS?",cmd) == 0) {
 	
 		} else if(strcmp("MALL?",cmd) == 0) {

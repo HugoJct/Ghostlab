@@ -5,7 +5,12 @@ void *ghosts_move(void *arg) {
 	struct game *g = (struct game *) arg;
 
 	while(g->remaining_ghosts > 0) {
+		
 		usleep(GHOST_MOVE_FREQUENCY);	
+
+		if(llist_size(g->players) == 0)
+			break;
+
 		for(int i=0;i<MAX_GHOST_NUMBER;i++) {
 			if(g->ghosts[i].x != -1) {
 				while(1) {

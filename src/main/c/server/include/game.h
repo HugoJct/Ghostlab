@@ -36,5 +36,6 @@ struct game* game_get_by_id(int id);
 void *game_start(void *arg);
 int game_is_there_ghost(struct client *c,int x, int y);
 struct player *game_get_winner(struct game *g);
+void game_delete(struct game *g);
 
 #endif
