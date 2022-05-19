@@ -8,8 +8,8 @@ struct player* player_create(char *name, int tcp_socket, int port) {
 
 	p->score = 0;
 	p->ready = 0;
-	p->x = -1;
-	p->y = -1;
+	p->x = 2;
+	p->y = 2;
 	p->tcp_socket_fd = tcp_socket;
 	p->udp_port = port;
 	p->ready = FALSE;
@@ -36,6 +36,8 @@ int player_is_ready(struct player *p) {
 }
 
 int player_move(struct client *c, int count, int direction) {
+	if(count == 0)
+		return 0;
 	int **lab = c->game->labyrinth->cells;
 	int moved = 0;
 	int ghost = 0;
@@ -44,25 +46,40 @@ int player_move(struct client *c, int count, int direction) {
 	int y = c->player->y;
 
 	for(int i=0;i<count;i++) {
+		moved++;
 
-		if(direction == UP && (y == 0 || lab[y-moved][x] == 1)) {
-			if(game_is_there_ghost(x,y))
-				ghost++;
+		if(direction == UP && (y == 0 || (y-moved) < 0 || lab[y-moved][x] == 1)) {
+			moved--;
 			break;
-		} else if(direction == DOWN && ((y == c->game->labyrinth->height - 1)  || lab[y+moved][x] == 1)) {
-			if(game_is_there_ghost(x,y))
-				ghost++;
+		} else if(direction == DOWN && ((y == c->game->labyrinth->height - 1)  || (y+moved == c->game->labyrinth->height) || lab[y+moved][x] == 1)) {
+			moved--;
 			break;
-		} else if(direction == LEFT && ( x == 0 || lab[y][x-moved] == 1)) {
-			if(game_is_there_ghost(x,y))
-				ghost++;
+		} else if(direction == LEFT && ( x == 0 || (x-moved) < 0 || lab[y][x-moved] == 1)) {
+			moved--;
 			break;
-		} else if(direction == RIGHT && ((y == c->game->labyrinth->width - 1) || lab[y][x+moved] == 1)) {
-			if(game_is_there_ghost(x,y))
-				ghost++;
+		} else if(direction == RIGHT && ((x == c->game->labyrinth->width - 1) || (x+moved == c->game->labyrinth->width) || lab[y][x+moved] == 1)) {
+			moved--;
 			break;
 		}
-		moved++;
+
+		switch(direction) {
+			case UP:
+				if(game_is_there_ghost(c,x,y-moved))
+					ghost++;
+				break;
+			case DOWN:
+				if(game_is_there_ghost(c,x,y+moved))
+					ghost++;
+				break;
+			case LEFT:
+				if(game_is_there_ghost(c,x-moved,y))
+					ghost++;
+				break;
+			case RIGHT:
+				if(game_is_there_ghost(c,x+moved,y))
+					ghost++;
+				break;
+		}
 	}
 
 	switch(direction) {

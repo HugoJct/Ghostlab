@@ -10,6 +10,11 @@
 
 #define MAX_GHOST_NUMBER 5
 
+struct ghost {
+	int x;
+	int y;
+};
+
 struct game {
 	int id;
 	int max_capacity;
@@ -29,6 +34,7 @@ void game_print(void *game);
 void game_add_player(struct game *g, struct player *p);
 struct game* game_get_by_id(int id);
 void *game_start(void *arg);
-int game_is_there_ghost(int x, int y);
+int game_is_there_ghost(struct client *c,int x, int y);
+struct player *game_get_winner(struct game *g);
 
 #endif

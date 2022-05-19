@@ -3,11 +3,12 @@ package main.java.commands.in.tcp;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Player;
 
 // MOVEF x y p***
 
@@ -33,23 +34,22 @@ public class CommandRcvTcpNewPosPoints extends CommandTCP {
         for (int i = 6 ; i < 9 ; i++) {
             x += (char) command.get(i).byteValue();
         }
-        for (int i = 9 ; i < 12 ; i++) {
+        for (int i = 10 ; i < 13 ; i++) {
             y += (char) command.get(i).byteValue();
         }
-        for (int i = 13 ; i < 17 ; i++) {
+        for (int i = 14 ; i < 18 ; i++) {
             points += (char) command.get(i).byteValue();
         }
     
         try {
-            GameInfo.playerIdPosition.put(GameInfo.playerID, new Integer[] {Integer.parseInt(x), Integer.parseInt(y)});
+            GameInfo.players.put(GameInfo.playerID, new Player(Integer.parseInt(points), Integer.parseInt(x), Integer.parseInt(y)));
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerPos/WARNING] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, cette commande sera ignorée");
             return;
         }
 
         try {
-            int newPoints = Integer.parseInt(points);
-            GameInfo.playerIdScore.merge(GameInfo.playerID, newPoints, Integer::sum);
+            GameInfo.players.put(GameInfo.playerID, new Player(Integer.parseInt(points), Integer.parseInt(x), Integer.parseInt(y)));
             /* ou ?
             GameInfo.playerIdScore.put(GameInfo.playerID, newPoints); */
         } catch (NumberFormatException e) {

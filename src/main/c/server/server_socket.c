@@ -75,9 +75,10 @@ void *server_socket_before_game_start(void *arg) {
 			pthread_t t;
 			pthread_create(&t,NULL,server_socket_connection_prompt,socket_fd);
 
-			break;
+			return NULL;
 		} else if(strcmp(cmd,"SIZE?") == 0) {
-			uint8_t game_id = buf[6];
+			uint8_t game_id;
+			memcpy(&game_id, buf+6, 1);
 			send_size(fd, game_id);
 		} else if(strcmp(cmd,"LIST?") == 0) {
 			request_list(buf,fd);

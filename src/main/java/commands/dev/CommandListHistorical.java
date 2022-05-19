@@ -2,10 +2,11 @@ package main.java.commands.dev;
 
 import java.util.HashMap;
 
-import main.java.GameInfo;
 import main.java.commands.CommandDev;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Player;
 
 public class CommandListHistorical extends CommandDev {
 
@@ -42,18 +43,14 @@ public class CommandListHistorical extends CommandDev {
 
             DebugLogger.print(DebugType.HELP, "  - Scores : ");
 
-            if (GameInfo.gameHistory.get(i).getPlayerIdScoreIncr() == null) {
-                DebugLogger.print(DebugType.HELP, "      * [unknown]");
-            } else {
-                for (HashMap.Entry<String, Integer> scores : GameInfo.gameHistory.get(i).getPlayerIdScoreIncr().entrySet()) {
-                    DebugLogger.print(DebugType.HELP, "      * " + scores.getKey() + " : " + scores.getValue());
-                }
+            for (HashMap.Entry<String, Player> scores : GameInfo.gameHistory.get(i).getPlayers().entrySet()) {
+                DebugLogger.print(DebugType.HELP, "      * " + scores.getKey() + " : " + scores.getValue().getScore());
             }
             
             DebugLogger.print(DebugType.HELP, "  - Messages : ");
 
             if (GameInfo.gameHistory.get(i).getMessagesHistory().isEmpty()) {
-                DebugLogger.print(DebugType.HELP, "      * [unknown]");
+                DebugLogger.print(DebugType.HELP, "      * [empty]");
             } else {
                 for (int j = 0 ; j < GameInfo.gameHistory.get(i).getMessagesHistory().size(); j++) {
                     DebugLogger.print(DebugType.HELP, "      * Message n°" + j + " : " + GameInfo.gameHistory.get(i).getMessagesHistory().get(j));

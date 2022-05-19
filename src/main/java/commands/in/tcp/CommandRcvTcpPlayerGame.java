@@ -3,11 +3,12 @@ package main.java.commands.in.tcp;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Games;
 
 // LIST! m s***
 
@@ -32,9 +33,17 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
         // read "s" uint8
         int nbrPlayers = command.get(8);
 
-        GameInfo.gameIdNbrPlayers.put(gameId, nbrPlayers);
-        GameInfo.gameIdPlayersId.putIfAbsent(gameId, new LinkedList<>());
-        GameInfo.listId = gameId;
+        int width = -1;
+        int height = -1;
+
+        try {
+            width = GameInfo.games.get(gameId).getWidth();
+            height = GameInfo.games.get(gameId).getHeight();
+            GameInfo.games.add(gameId, new Games(nbrPlayers, height, width));
+        } catch (IndexOutOfBoundsException e) {
+            GameInfo.games.add(gameId, new Games(nbrPlayers, height, width));
+            return;
+        }
 
         DebugLogger.print(DebugType.COM, "SERVER : LIST! " + gameId + " " + nbrPlayers);
         

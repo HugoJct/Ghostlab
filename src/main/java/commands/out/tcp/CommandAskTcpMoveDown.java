@@ -57,7 +57,7 @@ public class CommandAskTcpMoveDown extends CommandTCP {
                 dStr = "" + d;
             }
 
-            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0], dStr}));
+            clientTCP.getOutputStream().write((args[0] +" "+dStr+"***").getBytes());
             clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + dStr);   
 

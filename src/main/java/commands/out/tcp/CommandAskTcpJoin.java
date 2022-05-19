@@ -3,12 +3,13 @@ package main.java.commands.out.tcp;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.commands.CommandFormatter;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+
 import java.io.IOException;
 
 
@@ -47,7 +48,9 @@ public class CommandAskTcpJoin extends CommandTCP {
             return;
         }
 
-        if (!GameInfo.gameIdNbrPlayers.containsKey(Integer.parseInt(args[1]))) {
+        try {
+            GameInfo.games.get(Integer.parseInt(args[1]));
+        } catch (IndexOutOfBoundsException e) {
             DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskJoin] La partie donnée n'existe pas");
             return;
         }

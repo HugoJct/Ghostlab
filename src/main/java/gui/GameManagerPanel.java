@@ -6,8 +6,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import main.java.GameInfo;
 import main.java.console.Console;
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -53,21 +55,38 @@ public class GameManagerPanel extends JPanel {
         GridLayout gameManagerLayout = new GridLayout(GameInfo.nbrGames+2, 3);
         this.setLayout(gameManagerLayout);
 
-        for (int i = gameListSelector.size() ; i < GameInfo.gameIdNbrPlayers.size() ; i++) {
+        for (int i = gameListSelector.size() ; i < GameInfo.nbrGames ; i++) {
             JRadioButton selector = new JRadioButton();
             JButton button = new JButton("refresh game");
             gameListSelector.add(selector);
             gameListRefreshButtons.add(button);
             buttonGroup.add(selector);
-            this.add(new JLabel("game n°" + i + ", " + GameInfo.gameIdNbrPlayers.get(i) + " joueurs inscrits"));
-            this.add(selector);
-            this.add(button);
+
+            if (!GameInfo.games.isEmpty()) {
+
+                if (GameInfo.games.get(i).getHeight() == -1 || GameInfo.games.get(i).getWidth() == -1) {
+                    this.add(new JLabel("game n°" + i + ", joueurs inscrits : " + GameInfo.games.get(i).getNbrPlayers()));
+                } else {
+                    this.add(new JLabel("game n°" + i + ", joueurs inscrits : " + GameInfo.games.get(i).getNbrPlayers() + ", taille du labyrinthe : [" + GameInfo.games.get(i).getHeight() + ", " + GameInfo.games.get(i).getWidth() + "]"));
+                }
+                this.add(selector);
+                this.add(button);
+            }
+
             int m = i;
             button.addActionListener(new ActionListener(){
                 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Console.useMessage("LIST? " + m);
+                    if (!GameInfo.hasGameStarted) {
+                        System.out.println("");
+                        Console.useMessage("LIST? " + m);
+                        System.out.println("");
+                        Console.useMessage("SIZE? " + m);
+                    } else {
+                        DebugLogger.print(DebugType.WARNING, "[ATTENTION/GameManagerPanel] : Vous êtes en jeu, vous ne pouvez pas rafraichir les informations de cette partie");
+                    }
+
                 }
             });
         }

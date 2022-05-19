@@ -3,11 +3,12 @@ package main.java.commands.in.tcp;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Player;
 
 // GPLYR id x y p***
 
@@ -68,8 +69,8 @@ public class CommandRcvTcpPlayersPosScoreInGame extends CommandTCP {
             return;
         }
 
-        GameInfo.playerIdPosition.put(id, new Integer[] {xValue, yValue});
-        GameInfo.playerIdScore.put(id, scoreValue);
+        GameInfo.players.put(id, new Player(scoreValue, xValue, yValue));
+
     }
 
     @Override

@@ -1,5 +1,15 @@
 #include "send_responses.h"
 
+u_int16_t to_little_endian(u_int16_t value) {
+	u_int16_t uint16_value = htons(value);
+	
+	if (uint16_value == value) {
+		return (u_int16_t)((value >> 8)) | (value << 8);
+	}
+
+	return value;
+}
+
 void send_regok(int fd, uint8_t game_id) {
 	char buf[10];
 	memcpy(buf, "REGOK ", 6);
@@ -138,46 +148,55 @@ void send_games(int socket_fd, llist *games) {
 void send_size(int socket_fd, uint8_t game_id) {
 	char buf[100];
 
-	extern pthread_mutex_t game_list_mutex; 
-	pthread_mutex_lock(&game_list_mutex);
-
 	struct game *g = game_get_by_id(game_id);
+
 	if(!g) {
-		pthread_mutex_unlock(&game_list_mutex);
 		return;
 	}
+
+	extern pthread_mutex_t game_list_mutex; 
+	pthread_mutex_lock(&game_list_mutex);
 
 	u_int16_t height = g->labyrinth->height;
 	u_int16_t width = g->labyrinth->width;
 
-	pthread_mutex_unlock(&game_list_mutex);
-
-	char *cmd = "SIZE! ";
+	char *cmd = "SIZE!";
 	char *spacing = " ";
 	char *end = "***";
 
-	memcpy(buf, cmd, 6);
-	memcpy(buf+6, &game_id, sizeof(u_int8_t));
+	memcpy(buf, cmd, 5);
+	memcpy(buf + 5, spacing, 1);
+	memcpy(buf+6, &game_id, 1);
 	memcpy(buf+7, spacing, 1);
-	u_int16_t inv_h = htons(height);
-	memcpy(buf+8, &inv_h, sizeof(u_int16_t));
-	memcpy(buf+10, spacing, 1);
-	u_int16_t inv_w = htons(width);
-	memcpy(buf+11, &inv_w, sizeof(u_int16_t));
-	memcpy(buf+12, end, 3);
 
-	send(socket_fd, buf, 15, 0);
+	u_int16_t inv_h = to_little_endian(height);
+
+	memcpy(buf+8, &inv_h, 2);
+	memcpy(buf+10, spacing, 1);
+
+	u_int16_t inv_w = to_little_endian(width);
+	
+	memcpy(buf+11, &inv_w, 2);
+	memcpy(buf+13, end, 3);
+
+	int ret = send(socket_fd, buf, 16, 0);
+	assert(ret >= 0);
+
+	pthread_mutex_unlock(&game_list_mutex);
 }
 
 void send_welco(int fd, struct game *g) {
 	char buf[100];
 
+	u_int16_t height = to_little_endian(g->labyrinth->height);
+	u_int16_t width = to_little_endian(g->labyrinth->width);
+
 	memcpy(buf,"WELCO ",6);
 	memcpy(buf+6,&g->id,1);
 	memcpy(buf+7," ",1);
-	memcpy(buf+8,&g->labyrinth->height,2);
+	memcpy(buf+8,&height,2);
 	memcpy(buf+10," ",1);
-	memcpy(buf+11,&g->labyrinth->width,2);
+	memcpy(buf+11,&width,2);
 	memcpy(buf+13," ",1);
 	memcpy(buf+14,&g->remaining_ghosts,1);
 	memcpy(buf+15," ",1);
@@ -200,4 +219,46 @@ void send_welco(int fd, struct game *g) {
 
 	int ret = send(fd,buf,39,0);
 	assert(ret >= 0);
+}
+
+void send_move(int fd, int x, int y) {
+	char buf[100];
+
+	char *x_pos = format_3digits(x);
+	char *y_pos = format_3digits(y);
+
+	memcpy(buf,"MOVE! ",6);
+	memcpy(buf+6,&x_pos,3);
+	memcpy(buf+9," ",1);
+	memcpy(buf+10,&y_pos,3);
+	memcpy(buf+13,"***",3);
+
+	int ret = send(fd,buf,16,0);
+	assert(ret >= 0);
+
+	free(x_pos);
+	free(y_pos);
+}
+
+void send_movef(int fd, int x, int y, int points) {
+	char buf[100];
+
+	char *x_pos = format_3digits(x);
+	char *y_pos = format_3digits(y);
+	char *new_points = format_3digits(points);
+
+	memcpy(buf,"MOVEF ",6);
+	memcpy(buf+6,x_pos,3);
+	memcpy(buf+9," ",1);
+	memcpy(buf+10,y_pos,3);
+	memcpy(buf+13," ",1);
+	memcpy(buf+14,new_points,4);
+	memcpy(buf+18,"***",3);
+
+	int ret = send(fd,buf,21,0);
+	assert(ret >= 0);
+
+	free(x_pos);
+	free(y_pos);
+	free(new_points);
 }
