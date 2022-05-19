@@ -1,11 +1,11 @@
 package main.java.client;
 
-import main.java.GameInfo;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
-import main.java.gui.ControlGUI;
+import main.java.game.GameInfo;
 import main.java.gui.Frame;
+import main.java.gui.controller.ControlGUI;
 
 public class Client {
     private ClientTCP clientTCP;
@@ -58,30 +58,42 @@ public class Client {
             // création du contrôleur de l'interface graphique
             ControlGUI gui = new ControlGUI(frame);
 
-            // création du client avec les paramètres donnés au programme ainsi que le contrôleur de l'interface graphique
-            client = new Client(args[0], Integer.parseInt(args[1]), gui);
+            try {
+                // création du client avec les paramètres donnés au programme ainsi que le contrôleur de l'interface graphique
+                client = new Client(args[0], Integer.parseInt(args[1]), gui);
 
-            // initialisation des commandes "réseau" pour communication client -> serveur
-            Console.connectConsole(client.clientTCP);
-            
-            // enregistrement du pseudo du joueur
-            if (args.length > 2) {
-                if (args[2].length() == 8) {
-                    DebugLogger.print(DebugType.WARNING , "[ATTENTION] : le pseudo donné au lancement du programme n'est pas conforme (exactement 8 caractères), il sera remplacé par \"unknUser\"");
-                    GameInfo.playerID = args[2];
+                // initialisation des commandes "réseau" pour communication client -> serveur
+                Console.connectConsole(client.clientTCP);
+                
+                // enregistrement du pseudo du joueur
+                if (args.length > 2) {
+                    if (args[2].length() == 8) {
+                        DebugLogger.print(DebugType.WARNING , "[ATTENTION] : le pseudo donné au lancement du programme n'est pas conforme (exactement 8 caractères), il sera remplacé par \"unknUser\"");
+                        GameInfo.playerID = args[2];
+                    }
                 }
-            }
-            else {
-                GameInfo.playerID = "unknUser";
+                else {
+                    GameInfo.playerID = "unknUser";
+                }
+
+                // désactivation du bouton IG de connexion et activation du bouton IG de déconnexion
+                if (isConnected) {
+                    frame.getConnectionPanel().getConnectionButton().setEnabled(false);
+                    frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
+                }
+            } catch (NumberFormatException e) {
+                DebugLogger.print(DebugType.ERROR, "[Client/ERREUR] : le port donné au lancement du programme ne représente pas une valeur entière");
             }
 
-            // désactivation du bouton IG de connexion et activation du bouton IG de déconnexion
-            if (isConnected) {
-                frame.getConnectionPanel().getConnectionButton().setEnabled(false);
-                frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
-            }
         }
         
+    }
+
+    public static void disconnect() {
+        if (isConnected) {
+            isConnected = false;
+            GameInfo.clear(); 
+        }
     }
 
     public ClientTCP getClientTCP() {

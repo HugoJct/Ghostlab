@@ -26,14 +26,14 @@ void server_socket_init(int socket, int port) {
 int server_socket_accept(int socket_fd) {
 
 	struct sockaddr_in remote;
-	socklen_t size_remote = sizeof(remote);
+	socklen_t size_remote = sizeof(struct sockaddr_in);
 	int fd = accept(socket_fd,(struct sockaddr *) &remote,&size_remote);
 
 	if(fd < 0) {
 		perror("Accept");
 		exit(EXIT_FAILURE);
 	}
-	printf("A client has connected\n");
+	printf("A client has connected: %s\n",inet_ntoa(remote.sin_addr));
 
 	return fd;
 }
@@ -75,9 +75,10 @@ void *server_socket_before_game_start(void *arg) {
 			pthread_t t;
 			pthread_create(&t,NULL,server_socket_connection_prompt,socket_fd);
 
-			break;
+			return NULL;
 		} else if(strcmp(cmd,"SIZE?") == 0) {
-			uint8_t game_id = buf[6];
+			uint8_t game_id;
+			memcpy(&game_id, buf+6, 1);
 			send_size(fd, game_id);
 		} else if(strcmp(cmd,"LIST?") == 0) {
 			request_list(buf,fd);
@@ -91,6 +92,62 @@ void *server_socket_before_game_start(void *arg) {
 		}
 	}
 
+	pthread_t t;
+	pthread_create(&t,NULL,server_socket_during_game,c);
+
+	return NULL;
+}
+
+void *server_socket_during_game(void *arg) {
+	struct client *c = arg;
+	int fd = *(c->fd);
+	struct game *g = c->game;
+
+	while(1) {
+		if(g->started)
+			break;
+		usleep(300000);		//wait for 0.3 seconds before checking again
+	}
+
+	send_welco(fd,g);
+
+	char buf[100];
+	while(1) {
+		int ret = request_read_tcp(buf,fd);
+		if(ret < 0) {
+			llist_remove(c->game->players,c->player);
+
+			free(c->player);
+			close(*(c->fd));
+			free(c->fd);
+			free(c);
+			break;
+		}
+
+		char cmd[6];
+		memcpy(cmd,buf,5);
+		cmd[5] = '\0';
+
+		if(strcmp("UPMOV",cmd) == 0) {
+			request_movement(buf,c,UP);
+		} else if(strcmp("LEMOV",cmd) == 0) {
+			request_movement(buf,c,LEFT);
+		} else if(strcmp("DOMOV",cmd) == 0) {
+			request_movement(buf,c,DOWN);
+		} else if(strcmp("RIMOV",cmd) == 0) {
+			request_movement(buf,c,RIGHT);
+		} else if(strcmp("IQUIT",cmd) == 0) {
+			
+		} else if(strcmp("GLIS?",cmd) == 0) {
+	
+		} else if(strcmp("MALL?",cmd) == 0) {
+			request_mall(buf+6,c);
+		} else if(strcmp("MESS?",cmd) == 0) {
+	
+		}
+
+	}
+	
 	return NULL;
 }
 

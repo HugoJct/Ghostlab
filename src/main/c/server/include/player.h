@@ -2,6 +2,9 @@
 #define PLAYER_H
 
 #include "dependencies.h"
+#include "client.h"
+#include "game.h"
+#include "requests.h"
 
 struct player {
 	char id[8];
@@ -20,5 +23,8 @@ void player_print(void *player);
 
 //returns the state of the player
 int player_is_ready(struct player *p);
+
+//moves the player inside the labyrinth
+int player_move(struct client *c, int count, int direction);
 
 #endif

@@ -43,6 +43,8 @@ public class DebugLogger {
         typeMapDirectory.put(DebugType.CONFIRM, "CONFIRM");
         typeMap.put(DebugType.HELP, true);
         typeMapDirectory.put(DebugType.HELP, "HELP");
+        typeMap.put(DebugType.MESSAGE, true);
+        typeMapDirectory.put(DebugType.MESSAGE, "MESSAGE");
         typeMap.put(DebugType.COM, true);
         typeMapDirectory.put(DebugType.COM, "COM");
         typeMap.put(DebugType.FORMAT, false);

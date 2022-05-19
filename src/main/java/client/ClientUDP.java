@@ -9,15 +9,12 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Random;
 
-import main.java.GameInfo;
 import main.java.commands.CommandUDP;
-import main.java.commands.in.CommandRcvUdpEndGame;
-import main.java.commands.in.CommandRcvUdpGhostPos;
-import main.java.commands.in.CommandRcvUdpMessage;
-import main.java.commands.in.CommandRcvUdpScore;
+import main.java.commands.in.udp.CommandRcvUdpPrivateMess;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 public class ClientUDP extends Thread {
     private DatagramSocket socket;
@@ -49,10 +46,7 @@ public class ClientUDP extends Thread {
                 GameInfo.portUDP = port;
                 
                 // remplissage de la liste de commandes recevables
-                commandRcvUdpList.put("GHOST", new CommandRcvUdpGhostPos(socket, address));
-                commandRcvUdpList.put("ENDGA", new CommandRcvUdpEndGame(socket, address));
-                commandRcvUdpList.put("MESSA", new CommandRcvUdpMessage(socket, address));
-                commandRcvUdpList.put("SCORE", new CommandRcvUdpScore(socket, address));
+                commandRcvUdpList.put("MESSP", new CommandRcvUdpPrivateMess());
                 success = true;
 
             } catch (SocketException e) {
@@ -73,6 +67,7 @@ public class ClientUDP extends Thread {
     public void run() {
 
         while(Client.isConnected) {
+
             try {
                 byte[] buf = new byte[256];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -86,7 +81,7 @@ public class ClientUDP extends Thread {
                 args[args.length-1].substring(args[args.length-1].length()-4, args[args.length-1].length()-1);
                 
                 if(commandRcvUdpList.containsKey(args[0])) {
-                    commandRcvUdpList.get(args[0]).execute(this, args);
+                    commandRcvUdpList.get(args[0]).execute(args);
                 }
                 else {
                     DebugLogger.print(DebugType.CONFIRM, "Commande inconnue : " + args[0]);
@@ -96,11 +91,11 @@ public class ClientUDP extends Thread {
                 Console.useMessage("killclient");
             }
         }
+        clientUDPCreated = false;
+        socket.close();
+        Client.disconnect();
     }
 
-    public DatagramSocket getSocket() {
-        return socket;
-    }
     public InetAddress getAddr() {
         return address;
     }

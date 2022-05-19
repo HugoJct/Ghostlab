@@ -1,66 +1,86 @@
 package main.java.console;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import main.java.client.Client;
 import main.java.client.ClientTCP;
+import main.java.commands.Command;
+import main.java.commands.CommandDev;
 import main.java.commands.CommandTCP;
-import main.java.commands.dev.CommandDebug;
-import main.java.commands.dev.CommandGameInfo;
-import main.java.commands.dev.CommandHelp;
-import main.java.commands.dev.CommandKill;
-import main.java.commands.dev.CommandKillClient;
-import main.java.commands.out.CommandAskTcpAvailableGames;
-import main.java.commands.out.CommandAskTcpCreate;
-import main.java.commands.out.CommandAskTcpJoin;
-import main.java.commands.out.CommandAskTcpMapSize;
-import main.java.commands.out.CommandAskTcpPlayerGame;
-import main.java.commands.out.CommandAskTcpStart;
-import main.java.commands.out.CommandAskUnregister;
+import main.java.commands.dev.*;
+import main.java.commands.out.tcp.CommandAskTcpAvailableGames;
+import main.java.commands.out.tcp.CommandAskTcpCreate;
+import main.java.commands.out.tcp.CommandAskTcpDropGame;
+import main.java.commands.out.tcp.CommandAskTcpJoin;
+import main.java.commands.out.tcp.CommandAskTcpMapSize;
+import main.java.commands.out.tcp.CommandAskTcpMoveDown;
+import main.java.commands.out.tcp.CommandAskTcpMoveLeft;
+import main.java.commands.out.tcp.CommandAskTcpMoveRight;
+import main.java.commands.out.tcp.CommandAskTcpMoveUp;
+import main.java.commands.out.tcp.CommandAskTcpPlayerGame;
+import main.java.commands.out.tcp.CommandAskTcpPlayersInGame;
+import main.java.commands.out.tcp.CommandAskTcpSendMessage;
+import main.java.commands.out.tcp.CommandAskTcpSendMessageAll;
+import main.java.commands.out.tcp.CommandAskTcpStart;
+import main.java.commands.out.tcp.CommandAskTcpUnregister;
 
 public class Console implements Runnable {
     private static ClientTCP clientTCP;
 
-    public static boolean connectedConsole = false;
-    private static HashMap<String,CommandTCP> commandAskList = new HashMap<String,CommandTCP>();
-    private static HashMap<String, CommandTCP> commandDev = new HashMap<String, CommandTCP>();
+    private static HashMap<String, Command> commandList = new HashMap<>();
 
     public static void connectConsole(ClientTCP clientTcp) {
         clientTCP = clientTcp;
 
-        // remplissage de la liste avec des commandes developpeur
-        commandDev.put("debug", new CommandDebug(null));
-        commandDev.put("help", new CommandHelp(null));
-        commandDev.put("kill", new CommandKill(clientTcp.getPrintWriter()));
-        commandDev.put("killclient", new CommandKillClient(clientTcp.getPrintWriter()));
-        commandDev.put("gameinfo", new CommandGameInfo(null));
+        // remplissage de la liste des commandes TCP fonctionnelles
+        commandList.put("GAME?", new CommandAskTcpAvailableGames(clientTcp.getPrintWriter()));
+        commandList.put("NEWPL", new CommandAskTcpCreate(clientTcp.getPrintWriter()));
+        commandList.put("REGIS", new CommandAskTcpJoin(clientTcp.getPrintWriter()));
+        commandList.put("SIZE?", new CommandAskTcpMapSize(clientTcp.getPrintWriter()));
+        commandList.put("LIST?", new CommandAskTcpPlayerGame(clientTcp.getPrintWriter()));
+        commandList.put("START", new CommandAskTcpStart(clientTcp.getPrintWriter()));
+        commandList.put("UNREG", new CommandAskTcpUnregister(clientTcp.getPrintWriter()));
 
-        // remplissage de la liste des commandes envoyables au serveur 
-        commandAskList.put("GAME?", new CommandAskTcpAvailableGames(clientTcp.getPrintWriter()));
-        commandAskList.put("NEWPL", new CommandAskTcpCreate(clientTcp.getPrintWriter()));
-        commandAskList.put("REGIS", new CommandAskTcpJoin(clientTcp.getPrintWriter()));
-        commandAskList.put("SIZE?", new CommandAskTcpMapSize(clientTcp.getPrintWriter()));
-        commandAskList.put("LIST?", new CommandAskTcpPlayerGame(clientTcp.getPrintWriter()));
-        commandAskList.put("START", new CommandAskTcpStart(clientTcp.getPrintWriter()));
-        commandAskList.put("UNREG", new CommandAskUnregister(clientTcp.getPrintWriter()));
+        commandList.put("UPMOV", new CommandAskTcpMoveUp(clientTcp.getPrintWriter()));
+        commandList.put("DOMOV", new CommandAskTcpMoveDown(clientTcp.getPrintWriter()));
+        commandList.put("LEMOV", new CommandAskTcpMoveLeft(clientTcp.getPrintWriter()));
+        commandList.put("RIMOV", new CommandAskTcpMoveRight(clientTcp.getPrintWriter()));
+        commandList.put("IQUIT", new CommandAskTcpDropGame(clientTcp.getPrintWriter()));
+        commandList.put("GLIS?", new CommandAskTcpPlayersInGame(clientTcp.getPrintWriter()));
 
-        connectedConsole = true;
+        commandList.put("SEND?", new CommandAskTcpSendMessage(clientTcp.getPrintWriter()));
+        commandList.put("MALL?", new CommandAskTcpSendMessageAll(clientTcp.getPrintWriter()));
         
     }
 
-    public static void disconnectConsole() {
-        commandAskList.clear();
-    }
-
     public static void createConsole() {
-        commandDev.put("debug", new CommandDebug(null));
-        commandDev.put("help", new CommandHelp(null));
-        commandDev.put("kill", new CommandKill(null));
-        commandDev.put("gameinfo", new CommandGameInfo(null));
+        // remplissage de la liste avec des commandes developpeur
+        commandList.put("debug", new CommandDebug());
+        commandList.put("help", new CommandHelp());
+        commandList.put("kill", new CommandKill());
+        commandList.put("killclient", new CommandKillClient());
+        commandList.put("gameinfo", new CommandGameInfo());
+        commandList.put("historical", new CommandListHistorical());
+
+        // remplissage de la liste des commandes tcp non fonctionnelles
+        commandList.put("GAME?", new CommandAskTcpAvailableGames(null));
+        commandList.put("NEWPL", new CommandAskTcpCreate(null));
+        commandList.put("REGIS", new CommandAskTcpJoin(null));
+        commandList.put("SIZE?", new CommandAskTcpMapSize(null));
+        commandList.put("LIST?", new CommandAskTcpPlayerGame(null));
+        commandList.put("START", new CommandAskTcpStart(null));
+        commandList.put("UNREG", new CommandAskTcpUnregister(null));
+
+        commandList.put("UPMOV", new CommandAskTcpMoveUp(null));
+        commandList.put("DOMOV", new CommandAskTcpMoveDown(null));
+        commandList.put("LEMOV", new CommandAskTcpMoveLeft(null));
+        commandList.put("RIMOV", new CommandAskTcpMoveRight(null));
+        commandList.put("IQUIT", new CommandAskTcpDropGame(null));
+        commandList.put("GLIS?", new CommandAskTcpPlayersInGame(null));
+
+        commandList.put("SEND?", new CommandAskTcpSendMessage(null));
+        commandList.put("MALL?", new CommandAskTcpSendMessageAll(null));
 
         new Thread(new Console()).start();
     }
@@ -68,22 +88,12 @@ public class Console implements Runnable {
     @Override
     public void run() {
 
-        Scanner sc = new Scanner(System.in);
-        String consoleMsg;
-        layout();
-        while(true) {
-
-            /* 
-            * tant que le client est connecté au serveur 
-            * on collecte l'input console a traiter
-            */
-            while(Client.isConnected) {
-                consoleMsg = sc.nextLine();
-                useMessage(consoleMsg);
-            } 
-            consoleMsg = sc.nextLine();
-            useMessageDebugMessage(consoleMsg);
-
+        try (Scanner sc = new Scanner(System.in)) {
+            layout();
+            while(true) {
+                // on collecte l'input console à traiter
+                useMessage(sc.nextLine());
+            }
         }
     }
 
@@ -96,43 +106,36 @@ public class Console implements Runnable {
 
     // parsing de la commande et exécution de la fonction associée
     public static void useMessage(String strCommand) {
+        
+        // si la commande est vide, on ne fait rien
         if (strCommand.equals("")) {
             layout();
             return;
         }
+
+        // on récupère la commande sous forme d'arguments
         String[] args = breakCommand(strCommand);
-        CommandTCP command = commandAskList.get(args[0]);
-        if (command != null) {
-            command.execute(clientTCP, args);
-        }
-        else {
-            command = commandDev.get(args[0]);
-            layout();
-            if (command != null) {
-                command.execute(clientTCP, args);
+
+        // on stock l'instance de la commande associée dans une variable Command
+        Command command = commandList.get(args[0]);
+
+        if (command instanceof CommandTCP) {
+            if (Client.isConnected) {
+                ((CommandTCP) command).execute(clientTCP, args);
             } else {
-                DebugLogger.print(DebugType.CONFIRM, "UNKNOWN command");
+                DebugLogger.print(DebugType.WARNING, "[ATTENTION/CONSOLE] : Vous n'êtes pas connecté à un serveur, impossible d'utiliser cette commande");
             }
         }
-    }
 
-    private static void useMessageDebugMessage(String strCommand) {
-        if (strCommand.equals("")) {
+        else if (command instanceof CommandDev) {
             layout();
-            return;
+            ((CommandDev) command).execute(args);
         }
-        String[] args = breakCommand(strCommand);
-        CommandTCP command = commandAskList.get(args[0]);
-        command = commandDev.get(args[0]);
-        layout();
-        if (command != null) {
-            command.execute(clientTCP, args);
-        } 
-        else if (connectedConsole) {
-            useMessage(strCommand);      
-        } else {
+
+        else {
             DebugLogger.print(DebugType.CONFIRM, "UNKNOWN command");
         }
+        
     }
 
     private static String[] breakCommand(String command) {

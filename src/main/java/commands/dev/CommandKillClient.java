@@ -1,28 +1,21 @@
 package main.java.commands.dev;
 
-import java.io.PrintWriter;
-import java.util.LinkedList;
-
-import main.java.client.ClientTCP;
-import main.java.commands.CommandTCP;
+import main.java.client.Client;
+import main.java.commands.CommandDev;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
-public class CommandKillClient extends CommandTCP {
-
-    public CommandKillClient(PrintWriter pw) {
-        super(pw);
-    }
+public class CommandKillClient extends CommandDev {
 
     @Override
-    public void execute(ClientTCP clientTCP, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "COMMAND : kill client");
-        clientTCP.closeSocket();
-    }
+    public void execute(String[] args) {
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : killclient");
 
-    @Override
-    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
-        // TODO Auto-generated method stub
+        if (Client.isConnected) {
+            Client.disconnect();
+        } else {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandKillClient] Le client n'est connecté à aucun serveur");
+        }
         
     }
     

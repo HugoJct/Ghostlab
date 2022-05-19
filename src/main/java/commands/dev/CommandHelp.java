@@ -1,21 +1,13 @@
 package main.java.commands.dev;
 
-import java.io.PrintWriter;
-import java.util.LinkedList;
-
-import main.java.client.ClientTCP;
-import main.java.commands.CommandTCP;
+import main.java.commands.CommandDev;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 
-public class CommandHelp extends CommandTCP {
-
-    public CommandHelp(PrintWriter pw) {
-        super(pw);
-    }
+public class CommandHelp extends CommandDev {
 
     @Override
-    public void execute(ClientTCP clientTCP, String[] args) {
+    public void execute(String[] args) {
         DebugLogger.print(DebugType.HELP, "###########################################################################");
         DebugLogger.print(DebugType.HELP, "#                                                                         #");
         DebugLogger.print(DebugType.HELP, "#                        Liste commandes utilisateurs                     #");
@@ -61,12 +53,6 @@ public class CommandHelp extends CommandTCP {
         DebugLogger.print(DebugType.HELP, "#   GAME? : demande au serveur la liste des parties disponibles           #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : GAME?***                       #");
         DebugLogger.print(DebugType.HELP, "###########################################################################");
-    }
-
-    @Override
-    public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
-        // TODO Auto-generated method stub
-        
     }
     
 }

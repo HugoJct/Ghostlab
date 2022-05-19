@@ -2,7 +2,6 @@
 #include "labs_parser.h"
 
 int game_id_counter = 0;
-int multi_diffusion_field = 3;
 int multi_diffusion_port = 1999;
 
 pthread_mutex_t game_list_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -14,19 +13,29 @@ struct game* game_create(int cap) {
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
 	new_game->labyrinth = parse_lab("assets/lab3.lab");
+	debug_lab(new_game->labyrinth);
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
-	//TODO: only the port needs to be different from other games
-	//TODO: initialize diffusion sockets to check if the port is available
-
-	char *ip = (char *) malloc(15);
-	sprintf(ip,"225.12.35.%d",(multi_diffusion_field++));
-	int ret = inet_aton(ip,&new_game->diffusion_ip);
+	int ret = inet_aton("225.12.35.42",&new_game->diffusion_ip);
 	assert(ret != 0);
-	free(ip);
-
 	new_game->diffusion_port = multi_diffusion_port++;
+
+	new_game->socket_fd = socket(PF_INET,SOCK_DGRAM,0);
+
+	new_game->remaining_ghosts = MAX_GHOST_NUMBER;
+	for(int i=0; i < MAX_GHOST_NUMBER; i++) {
+		while(1) {
+			int tmp_x = rand() % new_game->labyrinth->width;
+			int tmp_y = rand() % new_game->labyrinth->height;
+			if(new_game->labyrinth->cells[tmp_y][tmp_x] != 1) {
+				new_game->ghosts[i].x = tmp_x;
+				new_game->ghosts[i].y = tmp_y;
+				break;
+			}
+		}
+		printf("%d %d\n",new_game->ghosts[i].x,new_game->ghosts[i].y); //to display the positions of the ghosts
+	}
 
 	extern llist *games;
 	llist_push(games,new_game);
@@ -72,6 +81,7 @@ struct game* game_get_by_id(int id) {
 
 	struct node *cur = *games;
 	while(1) {
+		
 		if(cur->data == NULL)
 			break;	
 
@@ -125,7 +135,6 @@ void *game_start(void *arg) {
 
 	struct game *g = (struct game*) arg;
 
-	/* TODO handle game unfolding */
 	while(1) {
 		/* 	To delete the game if it is empty
 		if(llist_size(g->players) == 0) {
@@ -139,10 +148,32 @@ void *game_start(void *arg) {
 		if(llist_size(g->players) != 0 &&  game_are_all_players_ready(g)) {
 			break;		
 		}
+		usleep(300000);		//wait for 0.3 seconds before checking again
 	}
 	g->started = TRUE;
 	puts("All players are ready");
-	pause();
+
+	while(1) {
+		if(g->remaining_ghosts == 0 || llist_size(g->players) == 0)
+			break;
+		usleep(300000);
+	}
+	puts("Game over");
+
+	//TODO: send winner and disconnect all players
 
 	return NULL;
+}
+
+int game_is_there_ghost(struct game *g, int x, int y) {
+
+	for(int i=0;i<MAX_GHOST_NUMBER;i++) {
+		if(g->ghosts[i].x == x && g->ghosts[i].y == y) {
+			g->ghosts[i].x = -1;
+			g->ghosts[i].y = -1;
+			g->remaining_ghosts--;
+			return 1;
+		}
+	}
+	return 0;
 }

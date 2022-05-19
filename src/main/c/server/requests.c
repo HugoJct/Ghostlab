@@ -88,3 +88,38 @@ void request_list(char *buf, int fd) {
 	memcpy(&id,buf+6,1);	//extract id from buffer
 	send_players_list(fd,id);
 }
+
+void request_movement(char *buf, struct client *c, int direction) {
+	char distbuf[4];
+	memcpy(distbuf,buf+6,3);
+	distbuf[3] = '\0';	
+	
+	int player_score = c->player->score;
+
+	int dist = atoi(distbuf);
+	player_move(c,dist,direction);
+
+	int fd = *((int*) c->fd);
+	
+	if( player_score != c->player->score) { //if the player found a ghost
+		send_movef(fd,c->player->x,c->player->y,c->player->score);
+	} else {
+		send_move(fd,c->player->x,c->player->y);
+	}
+}
+
+void request_mall(char *buf, struct client *c) {
+	char mess[201];
+	int count = 0;
+	int i = 0;
+	while(1) {
+		if(buf[i++] == '*')
+			break;
+		count++;
+	}
+	//TODO: add sceurity to prevent buf overflow
+	memcpy(mess,buf,count);
+	mess[count] = '\0';
+
+	multicast_messa(mess,c);
+}

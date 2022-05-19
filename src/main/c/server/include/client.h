@@ -6,6 +6,7 @@
 struct client {
 	struct player *player;
 	struct game *game;
+	struct in_addr udp_addr;
 	int *fd;	
 };
 
