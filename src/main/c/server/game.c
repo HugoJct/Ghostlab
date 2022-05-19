@@ -72,6 +72,7 @@ struct game* game_get_by_id(int id) {
 
 	struct node *cur = *games;
 	while(1) {
+		
 		if(cur->data == NULL)
 			break;	
 

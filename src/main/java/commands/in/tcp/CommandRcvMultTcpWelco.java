@@ -4,12 +4,12 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.nio.ByteOrder;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.client.Multicast;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 // WELCO m h w f ip port***
 
@@ -39,16 +39,16 @@ public class CommandRcvMultTcpWelco extends CommandTCP {
 
             if (ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN)) {
                 // read "h" uint16
-                GameInfo.gameHeight = (command.get(8).byteValue() << 8) +  command.get(9).byteValue();
+                GameInfo.gameHeight = (command.get(8).byteValue() << 8) | command.get(9).byteValue();
                 // read "w" uint16
-                GameInfo.gameWidth = (command.get(11).byteValue() << 8) +  command.get(12).byteValue();     
+                GameInfo.gameWidth = (command.get(11).byteValue() << 8) | command.get(12).byteValue();     
 
 
             } else {
                 // read "h" uint16
-                GameInfo.gameHeight = (command.get(9).byteValue() << 8) +  command.get(8).byteValue();
+                GameInfo.gameHeight = (command.get(9).byteValue() << 8) |  command.get(8).byteValue();
                 // read "w" uint16
-                GameInfo.gameWidth = (command.get(12).byteValue() << 8) +  command.get(11).byteValue();
+                GameInfo.gameWidth = (command.get(12).byteValue() << 8) |  command.get(11).byteValue();
             }
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpWelco/ERROR] : les informations données par le serveur pour h et/ou w ne sont pas conformes, ces informations seront ignorées");

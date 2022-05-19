@@ -1,9 +1,9 @@
 package main.java.client;
 
-import main.java.GameInfo;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 import main.java.gui.Frame;
 import main.java.gui.controller.ControlGUI;
 

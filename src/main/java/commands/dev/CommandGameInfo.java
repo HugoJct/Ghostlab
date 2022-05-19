@@ -1,11 +1,10 @@
 package main.java.commands.dev;
 
-import java.util.Map;
 
-import main.java.GameInfo;
 import main.java.commands.CommandDev;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 public class CommandGameInfo extends CommandDev {
 
@@ -15,12 +14,13 @@ public class CommandGameInfo extends CommandDev {
 
         DebugLogger.print(DebugType.HELP, "Nombre de parties trouvées et disponibles : " + GameInfo.nbrGames);
         
-        if (GameInfo.gameIdNbrPlayers.isEmpty()) {
+        if (GameInfo.games.isEmpty()) {
             DebugLogger.print(DebugType.HELP, "Pas de parties trouvées");
             return;
         }
-        for (Map.Entry<Integer,Integer> entry : GameInfo.gameIdNbrPlayers.entrySet()) {
-            DebugLogger.print(DebugType.HELP, "Game nbr : " + entry.getKey() + ", nombre de joueurs : " + entry.getValue());
+
+        for (int i = 0 ; i < GameInfo.games.size() ; i++) {
+            DebugLogger.print(DebugType.HELP, "Game nbr : " + i + ", nombre de joueurs : " + GameInfo.games.get(i).getNbrPlayers());
         }
         
     }
