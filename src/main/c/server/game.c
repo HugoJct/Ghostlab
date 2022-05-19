@@ -160,13 +160,18 @@ void *game_start(void *arg) {
 	return NULL;
 }
 
-int game_is_there_ghost(struct game *g, int x, int y) {
+int game_is_there_ghost(struct client *c, int x, int y) {
+
+	struct game *g = c->game;
 
 	for(int i=0;i<MAX_GHOST_NUMBER;i++) {
 		if(g->ghosts[i].x == x && g->ghosts[i].y == y) {
 			g->ghosts[i].x = -1;
 			g->ghosts[i].y = -1;
 			g->remaining_ghosts--;
+
+			multicast_score(c,g->ghosts[i].x,g->ghosts[i].y);
+
 			return 1;
 		}
 	}

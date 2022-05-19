@@ -64,19 +64,19 @@ int player_move(struct client *c, int count, int direction) {
 
 		switch(direction) {
 			case UP:
-				if(game_is_there_ghost(c->game,x,y-moved))
+				if(game_is_there_ghost(c,x,y-moved))
 					ghost++;
 				break;
 			case DOWN:
-				if(game_is_there_ghost(c->game,x,y+moved))
+				if(game_is_there_ghost(c,x,y+moved))
 					ghost++;
 				break;
 			case LEFT:
-				if(game_is_there_ghost(c->game,x-moved,y))
+				if(game_is_there_ghost(c,x-moved,y))
 					ghost++;
 				break;
 			case RIGHT:
-				if(game_is_there_ghost(c->game,x+moved,y))
+				if(game_is_there_ghost(c,x+moved,y))
 					ghost++;
 				break;
 		}
