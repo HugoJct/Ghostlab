@@ -2,7 +2,6 @@ package main.java.commands.in.tcp;
 
 import java.io.PrintWriter;
 import java.util.LinkedList;
-import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import main.java.client.ClientTCP;

@@ -262,3 +262,37 @@ void send_movef(int fd, int x, int y, int points) {
 	free(y_pos);
 	free(new_points);
 }
+
+void send_glis(int fd, uint8_t s) {
+	char buf[100];
+
+	memcpy(buf, "GLIS! ", 6);
+	memcpy(buf+6, &s, sizeof(uint8_t));
+	memcpy(buf+7, "***", 3);
+
+	int ret = send(fd, buf, 10, 0);
+	assert(ret >= 0);
+}
+
+void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p) {
+	char buf[100];
+
+	char* x_pos = format_3digits(x);
+	char* y_pos = format_3digits(y);
+
+	memcpy(buf, "GPLYR  ", 6);
+	memcpy(buf+6, id, 8);
+	memcpy(buf+14, " ", 1);
+	memcpy(buf+15, x_pos, 3);
+	memcpy(buf+18, " ", 1);
+	memcpy(buf+19, y_pos, 3);
+	memcpy(buf+22, " ", 1);
+	memcpy(buf+23, p, 4);
+	memcpy(buf+27, "***", 3);
+
+	int ret = send(fd, buf, 30, 0);
+	assert(ret >= 0);
+
+	free(x_pos);
+	free(y_pos);
+}
