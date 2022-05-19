@@ -113,11 +113,10 @@ void request_mall(char *buf, struct client *c) {
 	int count = 0;
 	int i = 0;
 	while(1) {
-		if(buf[i++] == '*')
+		if(buf[i++] == '*' || count == 200)
 			break;
 		count++;
 	}
-	//TODO: add sceurity to prevent buf overflow
 	memcpy(mess,buf,count);
 	mess[count] = '\0';
 
