@@ -6,12 +6,14 @@ import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
 import main.java.gui.Frame;
+import main.java.gui.game.Box;
 
 import java.awt.Color;
 
 public class ControlGUI {
     private Frame frame;
     private Client client;
+    private boolean labCreated = false;
 
     public ControlGUI(Frame frame) {
         this.frame = frame;
@@ -105,6 +107,12 @@ public class ControlGUI {
             frame.getGameManagerPanel().getRefreshButton().setEnabled(false);
             
             frame.getGameManagerPanel().freeGamesList();
+        }
+
+        if (GameInfo.hasGameStarted && !labCreated) {
+            Box.setTextures();
+            frame.createLab(GameInfo.registredGameId);
+            labCreated = true;
         }
         
         frame.repaint();

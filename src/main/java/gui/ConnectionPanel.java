@@ -20,8 +20,8 @@ public class ConnectionPanel extends JPanel {
         JLabel ipLabel = new JLabel("IP : ");
         JLabel playerLabel = new JLabel("player ID :");
     
-        portField = new JTextField(5);
-        ipField = new JTextField(15);
+        portField = new JTextField("12345");
+        ipField = new JTextField("localhost");
         playerIdField = new JTextField(8);
     
         connectionButton = new JButton("Connect");
