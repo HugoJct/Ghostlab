@@ -160,7 +160,8 @@ void *game_start(void *arg) {
 	}
 	puts("Game over");
 
-	//TODO: send winner and disconnect all players
+	//TODO: disconnect all players
+	multicast_endga(g);
 
 	return NULL;
 }
@@ -176,4 +177,26 @@ int game_is_there_ghost(struct game *g, int x, int y) {
 		}
 	}
 	return 0;
+}
+
+struct player *game_get_winner(struct game *g) {
+	struct player *p = NULL;
+	int max_points = 0;
+	struct node *cur = *(g->players);
+
+	while(1) {
+		if(cur->data == NULL)
+			break;
+
+		if(((struct player *)cur->data)->score > max_points) {
+			max_points = ((struct player *) cur->data)->score;
+			p = cur->data;
+		}
+		
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+
+	return p;
 }

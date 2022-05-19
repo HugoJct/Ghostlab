@@ -22,3 +22,58 @@ void multicast_messa(char *messa, struct client *c) {
 	memcpy(buf+15+strlen(messa),"+++",3);
 	multicast_send(buf,18+strlen(messa),c->game);
 }
+
+void multicast_ghost(struct client *c, int x, int y) {
+
+	char buf[100];
+
+	char *xchar = format_3digits(x);
+	char *ychar = format_3digits(y);
+
+	memcpy(buf,"GHOST ",6);
+	memcpy(buf+6,xchar,3);
+	memcpy(buf+9," ",1);
+	memcpy(buf+10,ychar,3);
+	memcpy(buf+13,"+++",3);
+	multicast_send(buf,16,c->game);
+
+	free(xchar);
+	free(ychar);
+}
+
+void multicast_score(struct client *c, int x, int y) {
+
+	char buf[100];
+
+	char *xchar = format_3digits(x);
+	char *ychar = format_3digits(y);
+
+	memcpy(buf,"SCORE ",6);
+	memcpy(buf+6,c->player->id,8);
+	memcpy(buf+14," ",1);
+	memcpy(buf+15,"p",4);
+	memcpy(buf+19," ",1);
+	memcpy(buf+20,xchar,3);
+	memcpy(buf+23," ",1);
+	memcpy(buf+27,"+++",3);
+	multicast_send(buf,30,c->game);
+
+	free(xchar);
+	free(ychar);
+}
+
+void multicast_endga(struct game *g) {
+	
+	struct player *winner = game_get_winner(g);
+	char *points = format_4digits(winner->score);
+
+	char buf[100];
+	memcpy(buf,"ENDGA ",6);
+	memcpy(buf+6,winner->id,8);
+	memcpy(buf+14," ",1);
+	memcpy(buf+15,points,4);
+	memcpy(buf+19,"+++",3);
+	multicast_send(buf,22,g);
+
+	free(points);
+}
