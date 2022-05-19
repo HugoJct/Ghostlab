@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import main.java.GameInfo;
 import main.java.client.ClientTCP;
-import main.java.commands.CommandFormatter;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
@@ -44,10 +43,11 @@ public class CommandAskTcpSendMessageAll extends CommandTCP {
             return;
         }
         
+        DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1]);
+
         try {
             clientTCP.getOutputStream().write((args[0] +" "+args[1]+"***").getBytes());
             clientTCP.getOutputStream().flush();
-            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }

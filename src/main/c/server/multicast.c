@@ -19,6 +19,6 @@ void multicast_messa(char *messa, struct client *c) {
 	memcpy(buf+6,c->player->id,8);
 	memcpy(buf+14," ",1);
 	memcpy(buf+15,messa,strlen(messa));
-	memcpy(buf+15+strlen(messa),"***",3);
+	memcpy(buf+15+strlen(messa),"+++",3);
 	multicast_send(buf,18+strlen(messa),c->game);
 }

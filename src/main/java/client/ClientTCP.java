@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import main.java.commands.CommandTCP;
+import main.java.commands.in.tcp.CommandRcvMultTcpWelco;
 import main.java.commands.in.tcp.CommandRcvTcpBye;
 import main.java.commands.in.tcp.CommandRcvTcpDunno;
 import main.java.commands.in.tcp.CommandRcvTcpGameInfo;
@@ -26,7 +27,6 @@ import main.java.commands.in.tcp.CommandRcvTcpPlayerId;
 import main.java.commands.in.tcp.CommandRcvTcpPlayerPos;
 import main.java.commands.in.tcp.CommandRcvTcpPlayersPosScoreInGame;
 import main.java.commands.in.tcp.CommandRcvTcpUnregisterOK;
-import main.java.commands.in.udp_multicast.CommandRcvMultTcpWelco;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
