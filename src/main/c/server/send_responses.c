@@ -228,9 +228,9 @@ void send_move(int fd, int x, int y) {
 	char *y_pos = format_3digits(y);
 
 	memcpy(buf,"MOVE! ",6);
-	memcpy(buf+6,&x_pos,3);
+	memcpy(buf+6,x_pos,3);
 	memcpy(buf+9," ",1);
-	memcpy(buf+10,&y_pos,3);
+	memcpy(buf+10,y_pos,3);
 	memcpy(buf+13,"***",3);
 
 	int ret = send(fd,buf,16,0);

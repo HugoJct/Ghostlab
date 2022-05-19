@@ -5,6 +5,7 @@ void *ghosts_move(void *arg) {
 	struct game *g = (struct game *) arg;
 
 	while(g->remaining_ghosts > 0) {
+		usleep(GHOST_MOVE_FREQUENCY);	
 		for(int i=0;i<MAX_GHOST_NUMBER;i++) {
 			if(g->ghosts[i].x != -1) {
 				while(1) {
@@ -19,7 +20,6 @@ void *ghosts_move(void *arg) {
 				multicast_ghost(g,g->ghosts[i].x,g->ghosts[i].y);
 			}	
 		}
-		usleep(GHOST_MOVE_FREQUENCY);	
 		puts("ghosts moved");
 	}
 
