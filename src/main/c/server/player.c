@@ -64,19 +64,19 @@ int player_move(struct client *c, int count, int direction) {
 
 		switch(direction) {
 			case UP:
-				if(game_is_there_ghost(c->game,x,y-moved))
+				if(game_is_there_ghost(c,x,y-moved))
 					ghost++;
 				break;
 			case DOWN:
-				if(game_is_there_ghost(c->game,x,y+moved))
+				if(game_is_there_ghost(c,x,y+moved))
 					ghost++;
 				break;
 			case LEFT:
-				if(game_is_there_ghost(c->game,x-moved,y))
+				if(game_is_there_ghost(c,x-moved,y))
 					ghost++;
 				break;
 			case RIGHT:
-				if(game_is_there_ghost(c->game,x+moved,y))
+				if(game_is_there_ghost(c,x+moved,y))
 					ghost++;
 				break;
 		}
@@ -100,4 +100,25 @@ int player_move(struct client *c, int count, int direction) {
 	c->player->score += ghost * GHOST_VALUE;
 
 	return moved;
+}
+
+void player_init_pos(struct game *g) {
+	struct node *cur = *g->players;
+
+	while(1) {
+		if(cur->data == NULL)
+			break;
+
+		while(1) {
+			int tmp_x = rand() % g->labyrinth->width;
+			int tmp_y = rand() % g->labyrinth->height;
+			if(g->labyrinth->cells[tmp_y][tmp_x] != 1) {
+				break;
+			}
+		}
+
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
 }

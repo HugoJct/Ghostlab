@@ -30,7 +30,7 @@ void *llist_pop(llist *list);
 /* llist_print: print linked list */
 void llist_print(llist *list, void (*print)(void *data));
 
-/* llist_size: returns the number of elements containted in the list */
+/* llist_size: returns the number of elements contained in the list */
 int llist_size(llist *list);
 
 #endif

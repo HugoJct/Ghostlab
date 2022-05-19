@@ -1,9 +1,5 @@
 package main.java.commands.in.udp_multicast;
 
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
-import main.java.client.ClientUDP;
 import main.java.commands.CommandUDP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;

@@ -12,8 +12,8 @@ struct game* game_create(int cap) {
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
-	new_game->labyrinth = parse_lab("assets/lab3.lab");
-	debug_lab(new_game->labyrinth);
+	new_game->labyrinth = parse_lab("assets/lab1.lab");
+	debug_lab(new_game->labyrinth); //print the labyrinth
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
 
@@ -136,15 +136,6 @@ void *game_start(void *arg) {
 	struct game *g = (struct game*) arg;
 
 	while(1) {
-		/* 	To delete the game if it is empty
-		if(llist_size(g->players) == 0) {
-			puts("All players disconnected");
-			llist_remove(games,g);
-			free(g);
-			return NULL;
-		}
-		*/
-
 		if(llist_size(g->players) != 0 &&  game_are_all_players_ready(g)) {
 			break;		
 		}
@@ -153,27 +144,61 @@ void *game_start(void *arg) {
 	g->started = TRUE;
 	puts("All players are ready");
 
+	pthread_t t;
+	pthread_create(&t,NULL,ghosts_move,g);
+	player_init_pos(g);
+	send_posit(g);
+
 	while(1) {
-		if(g->remaining_ghosts == 0 || llist_size(g->players) == 0)
+		if(g->remaining_ghosts == 0)
 			break;
+		if(llist_size(g->players) == 0)
+			return NULL;
 		usleep(300000);
 	}
 	puts("Game over");
 
-	//TODO: send winner and disconnect all players
+	multicast_endga(g);
 
 	return NULL;
 }
 
-int game_is_there_ghost(struct game *g, int x, int y) {
+int game_is_there_ghost(struct client *c, int x, int y) {
+
+	struct game *g = c->game;
 
 	for(int i=0;i<MAX_GHOST_NUMBER;i++) {
 		if(g->ghosts[i].x == x && g->ghosts[i].y == y) {
 			g->ghosts[i].x = -1;
 			g->ghosts[i].y = -1;
 			g->remaining_ghosts--;
+
+			multicast_score(c,g->ghosts[i].x,g->ghosts[i].y);
+
 			return 1;
 		}
 	}
 	return 0;
+}
+
+struct player *game_get_winner(struct game *g) {
+	struct player *p = NULL;
+	int max_points = 0;
+	struct node *cur = *(g->players);
+
+	while(1) {
+		if(cur->data == NULL)
+			break;
+
+		if(((struct player *)cur->data)->score > max_points) {
+			max_points = ((struct player *) cur->data)->score;
+			p = cur->data;
+		}
+		
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+
+	return p;
 }

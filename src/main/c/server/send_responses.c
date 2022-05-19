@@ -2,7 +2,7 @@
 
 u_int16_t to_little_endian(u_int16_t value) {
 	u_int16_t uint16_value = htons(value);
-	
+
 	if (uint16_value == value) {
 		return (u_int16_t)((value >> 8)) | (value << 8);
 	}
@@ -75,7 +75,7 @@ void send_player_details(int fd, int id) {
 
 		int ret = send(fd,buf,17,0);
 		assert(ret >= 0);
-	
+
 		if (cur->next == NULL)
 			break;
 		cur = cur->next;
@@ -175,7 +175,7 @@ void send_size(int socket_fd, uint8_t game_id) {
 	memcpy(buf+10, spacing, 1);
 
 	u_int16_t inv_w = to_little_endian(width);
-	
+
 	memcpy(buf+11, &inv_w, 2);
 	memcpy(buf+13, end, 3);
 
@@ -200,7 +200,7 @@ void send_welco(int fd, struct game *g) {
 	memcpy(buf+13," ",1);
 	memcpy(buf+14,&g->remaining_ghosts,1);
 	memcpy(buf+15," ",1);
-	
+
 	//formatting and copying ip address
 	char ip[15];
 	memset(ip,'#',15);
@@ -224,91 +224,104 @@ void send_welco(int fd, struct game *g) {
 void send_move(int fd, int x, int y) {
 	char buf[100];
 
-	char x_tmp[4];
-	char y_tmp[4];
-
-	sprintf(x_tmp,"%d",x);
-	sprintf(y_tmp,"%d",y);
-
-	char x_pos[3];
-	memset(x_pos,'0',3);
-	char y_pos[3];
-	memset(y_pos,'0',3);
-
-	if(x < 10)
-		memcpy(x_pos+2,x_tmp,1);
-	else if(x < 100)
-		memcpy(x_pos+1,x_tmp,2);
-	else
-		memcpy(x_pos,x_tmp,3);
-
-	if(y < 10)
-		memcpy(y_pos+2,y_tmp,1);
-	else if(y < 100)
-		memcpy(y_pos+1,y_tmp,2);
-	else
-		memcpy(y_pos,y_tmp,3);
+	char *x_pos = format_3digits(x);
+	char *y_pos = format_3digits(y);
 
 	memcpy(buf,"MOVE! ",6);
-	memcpy(buf+6,&x_pos,3);
+	memcpy(buf+6,x_pos,3);
 	memcpy(buf+9," ",1);
-	memcpy(buf+10,&y_pos,3);
+	memcpy(buf+10,y_pos,3);
 	memcpy(buf+13,"***",3);
 
 	int ret = send(fd,buf,16,0);
 	assert(ret >= 0);
+
+	free(x_pos);
+	free(y_pos);
 }
 
 void send_movef(int fd, int x, int y, int points) {
 	char buf[100];
 
-	char x_tmp[4];
-	char y_tmp[4];
-	char p_tmp[5];
-
-	sprintf(x_tmp,"%d",x);
-	sprintf(y_tmp,"%d",y);
-	sprintf(p_tmp,"%d",points);
-
-	char x_pos[3];
-	memset(x_pos,'0',3);
-	char y_pos[3];
-	memset(y_pos,'0',3);
-	char new_points[4];
-	memset(new_points,'0',4);
-
-	if(x < 10)
-		memcpy(x_pos+2,x_tmp,1);
-	else if(x < 100)
-		memcpy(x_pos+1,x_tmp,2);
-	else
-		memcpy(x_pos,x_tmp,3);
-
-	if(y < 10)
-		memcpy(y_pos+2,y_tmp,1);
-	else if(y < 100)
-		memcpy(y_pos+1,y_tmp,2);
-	else
-		memcpy(y_pos,y_tmp,3);
-	
-	if(points < 10)
-		memcpy(new_points+3,&p_tmp,1);
-	else if(points < 100)
-		memcpy(new_points+2,&p_tmp,2);
-	else if(points < 1000)
-		memcpy(new_points+1,&p_tmp,3);
-	else
-		memcpy(new_points,&points,4);
-
+	char *x_pos = format_3digits(x);
+	char *y_pos = format_3digits(y);
+	char *new_points = format_3digits(points);
 
 	memcpy(buf,"MOVEF ",6);
-	memcpy(buf+6,&x_pos,3);
+	memcpy(buf+6,x_pos,3);
 	memcpy(buf+9," ",1);
-	memcpy(buf+10,&y_pos,3);
+	memcpy(buf+10,y_pos,3);
 	memcpy(buf+13," ",1);
-	memcpy(buf+14,&new_points,4);
+	memcpy(buf+14,new_points,4);
 	memcpy(buf+18,"***",3);
 
 	int ret = send(fd,buf,21,0);
 	assert(ret >= 0);
+
+	free(x_pos);
+	free(y_pos);
+	free(new_points);
+}
+
+void send_glis(int fd, uint8_t s) {
+	char buf[100];
+
+	memcpy(buf, "GLIS! ", 6);
+	memcpy(buf+6, &s, sizeof(uint8_t));
+	memcpy(buf+7, "***", 3);
+
+	int ret = send(fd, buf, 10, 0);
+	assert(ret >= 0);
+}
+
+void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p) {
+	char buf[100];
+
+	char* x_pos = format_3digits(x);
+	char* y_pos = format_3digits(y);
+
+	memcpy(buf, "GPLYR  ", 6);
+	memcpy(buf+6, id, 8);
+	memcpy(buf+14, " ", 1);
+	memcpy(buf+15, x_pos, 3);
+	memcpy(buf+18, " ", 1);
+	memcpy(buf+19, y_pos, 3);
+	memcpy(buf+22, " ", 1);
+	memcpy(buf+23, p, 4);
+	memcpy(buf+27, "***", 3);
+
+	int ret = send(fd, buf, 30, 0);
+	assert(ret >= 0);
+
+	free(x_pos);
+	free(y_pos);
+}
+
+void send_posit(struct game *g) {
+	struct node *cur = *g->players;
+
+	while(1) {
+		if(cur->data == NULL)
+			break;
+
+		struct player *p = ((struct player *) cur->data);
+		char *x = format_3digits(p->x);
+		char *y = format_3digits(p->y);
+	
+		char buf[100];
+		memcpy(buf,"POSIT ",6);
+		memcpy(buf+6,p->id,8);
+		memcpy(buf+14," ",1);
+		memcpy(buf+15,x,3);
+		memcpy(buf+18," ",1);
+		memcpy(buf+19,y,3);
+		memcpy(buf+22,"***",3);
+
+		send(p->tcp_socket_fd,buf,25,0);
+
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+
 }
