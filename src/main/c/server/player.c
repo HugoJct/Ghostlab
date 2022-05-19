@@ -101,3 +101,24 @@ int player_move(struct client *c, int count, int direction) {
 
 	return moved;
 }
+
+void player_init_pos(struct game *g) {
+	struct node *cur = *g->players;
+
+	while(1) {
+		if(cur->data == NULL)
+			break;
+
+		while(1) {
+			int tmp_x = rand() % g->labyrinth->width;
+			int tmp_y = rand() % g->labyrinth->height;
+			if(g->labyrinth->cells[tmp_y][tmp_x] != 1) {
+				break;
+			}
+		}
+
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+}

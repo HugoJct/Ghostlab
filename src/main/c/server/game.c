@@ -146,6 +146,8 @@ void *game_start(void *arg) {
 
 	pthread_t t;
 	pthread_create(&t,NULL,ghosts_move,g);
+	player_init_pos(g);
+	send_posit(g);
 
 	while(1) {
 		if(g->remaining_ghosts == 0)
@@ -156,7 +158,6 @@ void *game_start(void *arg) {
 	}
 	puts("Game over");
 
-	//TODO: disconnect all players
 	multicast_endga(g);
 
 	return NULL;

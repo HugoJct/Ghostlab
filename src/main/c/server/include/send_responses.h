@@ -16,5 +16,6 @@ void send_move(int fd, int x, int y);
 void send_movef(int fd, int x, int y, int points);
 void send_glis(int fd, uint8_t s);
 void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p);
+void send_posit(struct game *g);
 
 #endif

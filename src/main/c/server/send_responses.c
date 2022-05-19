@@ -2,7 +2,7 @@
 
 u_int16_t to_little_endian(u_int16_t value) {
 	u_int16_t uint16_value = htons(value);
-	
+
 	if (uint16_value == value) {
 		return (u_int16_t)((value >> 8)) | (value << 8);
 	}
@@ -75,7 +75,7 @@ void send_player_details(int fd, int id) {
 
 		int ret = send(fd,buf,17,0);
 		assert(ret >= 0);
-	
+
 		if (cur->next == NULL)
 			break;
 		cur = cur->next;
@@ -175,7 +175,7 @@ void send_size(int socket_fd, uint8_t game_id) {
 	memcpy(buf+10, spacing, 1);
 
 	u_int16_t inv_w = to_little_endian(width);
-	
+
 	memcpy(buf+11, &inv_w, 2);
 	memcpy(buf+13, end, 3);
 
@@ -200,7 +200,7 @@ void send_welco(int fd, struct game *g) {
 	memcpy(buf+13," ",1);
 	memcpy(buf+14,&g->remaining_ghosts,1);
 	memcpy(buf+15," ",1);
-	
+
 	//formatting and copying ip address
 	char ip[15];
 	memset(ip,'#',15);
@@ -295,4 +295,33 @@ void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p) {
 
 	free(x_pos);
 	free(y_pos);
+}
+
+void send_posit(struct game *g) {
+	struct node *cur = *g->players;
+
+	while(1) {
+		if(cur->data == NULL)
+			break;
+
+		struct player *p = ((struct player *) cur->data);
+		char *x = format_3digits(p->x);
+		char *y = format_3digits(p->y);
+	
+		char buf[100];
+		memcpy(buf,"POSIT ",6);
+		memcpy(buf+6,p->id,8);
+		memcpy(buf+14," ",1);
+		memcpy(buf+15,x,3);
+		memcpy(buf+18," ",1);
+		memcpy(buf+19,y,3);
+		memcpy(buf+22,"***",3);
+
+		send(p->tcp_socket_fd,buf,25,0);
+
+		if(cur->next == NULL)
+			break;
+		cur = cur->next;
+	}
+
 }
