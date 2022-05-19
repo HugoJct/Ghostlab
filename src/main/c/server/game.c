@@ -26,6 +26,7 @@ struct game* game_create(int cap) {
 	for(int i=0; i < MAX_GHOST_NUMBER; i++) {
 		new_game->ghosts[i].x = rand() % new_game->labyrinth->width;
 		new_game->ghosts[i].y = rand() % new_game->labyrinth->height;
+		//printf("%d %d\n",new_game->ghosts[i].x,new_game->ghosts[i].y); to display the positions of the ghosts
 	}
 
 	extern llist *games;
@@ -154,9 +155,11 @@ void *game_start(void *arg) {
 	return NULL;
 }
 
-int game_is_there_ghost(int x, int y) {
-	//TODO: write this function to check whether there is a ghost at the specified coordinates or not
-	(void) x;
-	(void) y;	
+int game_is_there_ghost(struct game *g, int x, int y) {
+
+	for(int i=0;i<g->remaining_ghosts;i++) {
+		if(g->ghosts[i].x == x && g->ghosts[i].y == y)
+			return 1;
+	}
 	return 0;
 }

@@ -62,8 +62,24 @@ int player_move(struct client *c, int count, int direction) {
 			break;
 		}
 
-		if(game_is_there_ghost(x,y))
-			ghost++;
+		switch(direction) {
+			case UP:
+				if(game_is_there_ghost(c->game,x,y-moved))
+					ghost++;
+				break;
+			case DOWN:
+				if(game_is_there_ghost(c->game,x,y+moved))
+					ghost++;
+				break;
+			case LEFT:
+				if(game_is_there_ghost(c->game,x-moved,y))
+					ghost++;
+				break;
+			case RIGHT:
+				if(game_is_there_ghost(c->game,x+moved,y))
+					ghost++;
+				break;
+		}
 	}
 
 	switch(direction) {
@@ -82,7 +98,6 @@ int player_move(struct client *c, int count, int direction) {
 	}
 
 	c->player->score += ghost * GHOST_VALUE;
-	printf("moved: %d\n",moved);
 
 	return moved;
 }

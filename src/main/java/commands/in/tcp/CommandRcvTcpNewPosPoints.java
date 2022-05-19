@@ -33,10 +33,10 @@ public class CommandRcvTcpNewPosPoints extends CommandTCP {
         for (int i = 6 ; i < 9 ; i++) {
             x += (char) command.get(i).byteValue();
         }
-        for (int i = 9 ; i < 12 ; i++) {
+        for (int i = 10 ; i < 13 ; i++) {
             y += (char) command.get(i).byteValue();
         }
-        for (int i = 13 ; i < 17 ; i++) {
+        for (int i = 14 ; i < 18 ; i++) {
             points += (char) command.get(i).byteValue();
         }
     

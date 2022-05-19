@@ -13,5 +13,6 @@ void send_games(int socket_fd, llist *games);
 void send_size(int socket_fd, uint8_t game_id);
 void send_welco(int fd, struct game *g);
 void send_move(int fd, int x, int y);
+void send_movef(int fd, int x, int y, int points);
 
 #endif

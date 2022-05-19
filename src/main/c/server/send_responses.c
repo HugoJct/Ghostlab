@@ -239,3 +239,57 @@ void send_move(int fd, int x, int y) {
 	int ret = send(fd,buf,16,0);
 	assert(ret >= 0);
 }
+
+void send_movef(int fd, int x, int y, int points) {
+	char buf[100];
+
+	char x_tmp[4];
+	char y_tmp[4];
+	char p_tmp[5];
+
+	sprintf(x_tmp,"%d",x);
+	sprintf(y_tmp,"%d",y);
+	sprintf(p_tmp,"%d",points);
+
+	char x_pos[3];
+	memset(x_pos,'0',3);
+	char y_pos[3];
+	memset(y_pos,'0',3);
+	char new_points[4];
+	memset(new_points,'0',4);
+
+	if(x < 10)
+		memcpy(x_pos+2,x_tmp,1);
+	else if(x < 100)
+		memcpy(x_pos+1,x_tmp,2);
+	else
+		memcpy(x_pos,x_tmp,3);
+
+	if(y < 10)
+		memcpy(y_pos+2,y_tmp,1);
+	else if(y < 100)
+		memcpy(y_pos+1,y_tmp,2);
+	else
+		memcpy(y_pos,y_tmp,3);
+	
+	if(points < 10)
+		memcpy(new_points+3,&p_tmp,1);
+	else if(points < 100)
+		memcpy(new_points+2,&p_tmp,2);
+	else if(points < 1000)
+		memcpy(new_points+1,&p_tmp,3);
+	else
+		memcpy(new_points,&points,4);
+
+
+	memcpy(buf,"MOVEF ",6);
+	memcpy(buf+6,&x_pos,3);
+	memcpy(buf+9," ",1);
+	memcpy(buf+10,&y_pos,3);
+	memcpy(buf+13," ",1);
+	memcpy(buf+14,&new_points,4);
+	memcpy(buf+18,"***",3);
+
+	int ret = send(fd,buf,21,0);
+	assert(ret >= 0);
+}
