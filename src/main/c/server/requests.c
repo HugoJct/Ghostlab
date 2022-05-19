@@ -110,12 +110,17 @@ void request_movement(char *buf, struct client *c, int direction) {
 
 void request_game_list(struct client *c) {
 	// Send GLIS! s
-	char* response = malloc(BUFFER_SIZE);
-	sprintf(response,"GLIS! %d***", llist_size(c->game->players));
-	// TODO: Send to player (address = c->udp_addr and port = c->player->udp_port)
-
-
-	// TODO: Send GPLYR id x y p for all players
+	int fd = *((int*) c->fd);
+	send_glis(fd, (uint8_t) llist_size(c->game->players));
+	// iterate over c->game->players
+	struct node* player_node = *(c->game->players);
+	while (player_node != NULL) {
+		char score[5];
+		struct player* player = (struct player*) player_node->data;
+		sprintf(score, "%04d", player->score);
+		send_gplyr(fd, player->id, player->x, player->y, score);
+		player_node = player_node->next;
+	}
 }
 
 void request_mall(char *buf, struct client *c) {
