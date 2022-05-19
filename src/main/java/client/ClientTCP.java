@@ -109,6 +109,7 @@ public class ClientTCP extends Thread {
                     // si le socket est déconnecté : on arrête de lire et on ne traite pas la commande
                     if (readVal == -1) {
                         DebugLogger.print(DebugType.CONFIRM, "Server is closed : disconnected");
+                        System.out.println("");
                         Console.useMessage("killclient");
                         ignore = true;
                         break;

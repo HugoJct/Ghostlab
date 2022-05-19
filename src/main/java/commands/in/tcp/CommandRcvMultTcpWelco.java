@@ -10,6 +10,7 @@ import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
+import main.java.game.Player;
 
 // WELCO m h w f ip port***
 
@@ -86,6 +87,8 @@ public class CommandRcvMultTcpWelco extends CommandTCP {
         }
 
         GameInfo.hasGameStarted = true;
+
+        GameInfo.players.put(GameInfo.playerID, new Player());
         
         new Multicast().start();    
 
