@@ -23,7 +23,7 @@ void multicast_messa(char *messa, struct client *c) {
 	multicast_send(buf,18+strlen(messa),c->game);
 }
 
-void multicast_ghost(struct client *c, int x, int y) {
+void multicast_ghost(struct game *g, int x, int y) {
 
 	char buf[100];
 
@@ -35,7 +35,7 @@ void multicast_ghost(struct client *c, int x, int y) {
 	memcpy(buf+9," ",1);
 	memcpy(buf+10,ychar,3);
 	memcpy(buf+13,"+++",3);
-	multicast_send(buf,16,c->game);
+	multicast_send(buf,16,g);
 
 	free(xchar);
 	free(ychar);

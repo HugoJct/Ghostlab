@@ -16,11 +16,11 @@ void *ghosts_move(void *arg) {
 						break;
 					}
 				}
+				multicast_ghost(g,g->ghosts[i].x,g->ghosts[i].y);
 			}	
 		}
 		usleep(GHOST_MOVE_FREQUENCY);	
 		puts("ghosts moved");
-		//TODO: send ghost positions 
 	}
 
 	return NULL;
