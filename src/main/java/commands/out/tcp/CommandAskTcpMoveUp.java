@@ -26,7 +26,7 @@ public class CommandAskTcpMoveUp extends CommandTCP {
 
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
-        DebugLogger.print(DebugType.CONFIRM, "COMMAND : DOMOV");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : UPMOV");
         
         if (args.length < 2) {
             DebugLogger.print(DebugType.WARNING, "[CommandAskTcpMoveDown/WARNING] : nombre d'arguments minimum non attend, (RAPPEL : DOMOV d), cette commande sera ignorée");

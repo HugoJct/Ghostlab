@@ -18,7 +18,7 @@ public class CommandRcvMultUdpMessage extends CommandUDP {
 
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : MESSA");
 
-        System.out.println(args[1] + " : " + args[2]);
+        //System.out.println(args[1] + " : " + args[2]);
 
         if (args.length < 3) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvUdpMessage/WARNING] : les informations données par le serveur sont incomplétes, cette commande sera ignorée");
