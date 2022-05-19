@@ -54,7 +54,6 @@ public class CommandRcvTcpMapSize extends CommandTCP {
             GameInfo.games.add(m, new Games(nbrPlayers, h, w));
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpMapSize/WARNING] : les informations données par le serveur pour la taille de la partie sont incohérentes, cette commande sera ignorée");
-            GameInfo.games.add(m, new Games(nbrPlayers, -1, -1));
             return;
         }
 

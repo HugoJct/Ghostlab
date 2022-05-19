@@ -33,6 +33,7 @@ public class Multicast extends Thread {
             commandRcvMulticastUdpList.put("SCORE", new CommandRcvMultUdpScore());
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "[ClientUDP/ERREUR] : erreur lors de la connexion au multicast");
+            System.out.println("");
             Console.useMessage("killclient");
         }
     }
