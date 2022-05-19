@@ -3,11 +3,12 @@ package main.java.commands.in.tcp;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Player;
 
 // MOVE! x y***
 
@@ -37,7 +38,8 @@ public class CommandRcvTcpNewPos extends CommandTCP {
         }
 
         try {
-            GameInfo.playerIdPosition.put(GameInfo.playerID, new Integer[] {Integer.parseInt(x), Integer.parseInt(y)});
+            Player current = GameInfo.players.get(GameInfo.playerID);
+            GameInfo.players.put(GameInfo.playerID, new Player(current.getScore(), Integer.parseInt(x), Integer.parseInt(y)));
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpNewPos/WARNING] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, cette commande sera ignorée");
             return;

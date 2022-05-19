@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.HashMap;
 
-import main.java.GameInfo;
 import main.java.commands.CommandUDP;
 import main.java.commands.in.udp_multicast.CommandRcvMultUdpEndGame;
 import main.java.commands.in.udp_multicast.CommandRcvMultUdpGhostPos;
@@ -15,6 +14,7 @@ import main.java.commands.in.udp_multicast.CommandRcvMultUdpScore;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 public class Multicast extends Thread {
     private MulticastSocket multSocket;

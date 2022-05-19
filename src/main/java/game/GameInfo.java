@@ -1,7 +1,6 @@
-package main.java;
+package main.java.game;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -38,8 +37,9 @@ public class GameInfo {
     // marque l'id de la partie à la quelle on est inscrit
     public static int registredGameId = -1;
 
-    // marque la liste des joueurs présents dans chaque partie clé
-    public static HashMap<Integer, LinkedList<String>> gameIdPlayersId = new HashMap<>();
+    // marque le nom des joueurs avec leur objet
+    public static HashMap<String, Player> players = new HashMap<>();
+
     // marque le dernier id de la partie pour laquelle nous avons reçu LIST!
     public static int listId = -1;
 
@@ -55,13 +55,6 @@ public class GameInfo {
     // marque la taille en largeur du labyrinthe
     public static int gameWidth = -1;
 
-    // marque la position des joueurs dans le labyrinthe de la partie registredGameId
-    public static HashMap<String, Integer[]> playerIdPosition = new HashMap<>();
-
-        // marque le score de chaque joueur de la partie registredGameId
-        public static HashMap<String, Integer> playerIdScore = new HashMap<>();
-
-
 
     /*
      * informations générales parties disponibles
@@ -69,9 +62,9 @@ public class GameInfo {
 
     // marque le nombre de parties disponibles
     public static int nbrGames = 0;
-    
-    // marque le nombre de joueurs inscrits dans chaque partie disponible
-    public static HashMap<Integer, Integer> gameIdNbrPlayers = new HashMap<>();
+
+    // liste des parties
+    public static LinkedList<Games> games = new LinkedList<>();
 
     
     /*
@@ -85,21 +78,11 @@ public class GameInfo {
  
     public static void clear() {
 
-        String winner = ""; 
-        if (!playerIdScore.isEmpty()) {
-            winner = Collections.max(playerIdScore.entrySet(), Map.Entry.comparingByValue()).getKey();
-        }
-
-        gameHistory.add(new GameHistory(playerID, playerIdScore, messagesHistory, winner));
-
-        gameIdNbrPlayers.clear();
         isInGame = false;
         hasGameStarted = false;
-        gameIdPlayersId.clear();
         listId = -1;
         nbrGames = -1;
         portUDP = -1;
-        playerIdScore.clear();
         messagesHistory.clear();
         playerID = "";
         registredGameId = -1;
@@ -108,14 +91,9 @@ public class GameInfo {
         gameHeight = -1;
         gameWidth = -1;
         nbrPlayers = -1;
-        playerIdPosition.clear();
         nbrGhosts = -1;
+        players.clear();
+        games.clear();
     }
-
-
-    private static Object getValue() {
-        return null;
-    }
-    
 
 }

@@ -3,11 +3,12 @@ package main.java.commands.in.tcp;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 
-import main.java.GameInfo;
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Player;
 
 // PLAYR id***
 
@@ -37,9 +38,7 @@ public class CommandRcvTcpPlayerId extends CommandTCP {
         }
 
         // ajout de l'id à la liste d'id de la hashmap "gameIdPlayersId" dans GameInfo
-        LinkedList<String> tmpList = GameInfo.gameIdPlayersId.get(GameInfo.listId);
-        tmpList.add(id);
-        GameInfo.gameIdPlayersId.put(GameInfo.listId, tmpList);
+        GameInfo.players.put(id, new Player());
 
         DebugLogger.print(DebugType.COM, "SERVER : PLAYR " + id);
                     

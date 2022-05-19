@@ -1,9 +1,9 @@
 package main.java.commands.in.udp;
 
-import main.java.GameInfo;
 import main.java.commands.CommandUDP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 // MESSP id2 mess+++
 

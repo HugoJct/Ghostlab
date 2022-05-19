@@ -9,6 +9,8 @@ import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Games;
 
 // SIZE! m h w***
 
@@ -35,15 +37,25 @@ public class CommandRcvTcpMapSize extends CommandTCP {
 
         if (ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN)) {
             // read "h" uint16
-            h = (command.get(8).byteValue() << 8) +  command.get(9).byteValue();
+            h = (command.get(8).byteValue() << 8) | command.get(9).byteValue();
             // read "w" uint16
-            w = (command.get(11).byteValue() << 8) +  command.get(12).byteValue();     
+            w = (command.get(11).byteValue() << 8) | command.get(12).byteValue();     
 
         } else {
             // read "h" uint16
-            h = (command.get(9).byteValue() << 8) +  command.get(8).byteValue();
+            h = (command.get(9).byteValue() << 8) | command.get(8).byteValue();
             // read "w" uint16
-            w = (command.get(12).byteValue() << 8) +  command.get(11).byteValue();
+            w = (command.get(12).byteValue() << 8) | command.get(11).byteValue();
+        }
+
+        int nbrPlayers = GameInfo.games.get(m).getNbrPlayers();
+
+        try {
+            GameInfo.games.add(m, new Games(nbrPlayers, h, w));
+        } catch (NumberFormatException e) {
+            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpMapSize/WARNING] : les informations données par le serveur pour la taille de la partie sont incohérentes, cette commande sera ignorée");
+            GameInfo.games.add(m, new Games(nbrPlayers, -1, -1));
+            return;
         }
 
         DebugLogger.print(DebugType.COM, "SERVER : SIZE! " + m + " " + h + " " + w);

@@ -1,10 +1,10 @@
 package main.java.gui.controller;
 
-import main.java.GameInfo;
 import main.java.client.Client;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 import main.java.gui.Frame;
 
 import java.awt.Color;
@@ -26,6 +26,8 @@ public class ControlGUI {
         frame.getHelpButton().addActionListener((event) -> help());
 
         frame.getConnectionPanel().getDisconectionButton().addChangeListener((event) -> actualise());
+
+        actualise();
     }
 
     private void exit() {
@@ -49,6 +51,7 @@ public class ControlGUI {
     private void joinGame() {
         int id = frame.getGameManagerPanel().getSelectedButtonID();
         if (id != -1) {
+            System.out.println("");
             Console.useMessage("REGIS " + id);
         } else {
             DebugLogger.print(DebugType.ERROR, "GUI : aucun bouton sélectionné");
@@ -71,15 +74,36 @@ public class ControlGUI {
             frame.getConnectionPanel().getConnectionButton().setEnabled(false);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
             frame.getGameManagerPanel().listGames();
+            frame.getGameManagerPanel().getJoinButton().setEnabled(true);
             if (GameInfo.isInGame && !GameInfo.hasGameStarted) {
                 frame.getGameManagerPanel().getStartButton().setEnabled(true);
                 frame.getGameManagerPanel().getLeaveButton().setEnabled(true);
+                frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
+                frame.getGameManagerPanel().getJoinButton().setEnabled(false);
+            }
+            else if (GameInfo.hasGameStarted) {
+                frame.getGameManagerPanel().getStartButton().setEnabled(false);
+                frame.getGameManagerPanel().getLeaveButton().setEnabled(false);
+                frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
+                frame.getGameManagerPanel().getJoinButton().setEnabled(false);
+                frame.getGameManagerPanel().getRefreshButton().setEnabled(false);
+            }
+            else {
+                frame.getGameManagerPanel().getStartButton().setEnabled(false);
+                frame.getGameManagerPanel().getLeaveButton().setEnabled(false);
+                frame.getGameManagerPanel().getNewGameButton().setEnabled(true);
+                frame.getGameManagerPanel().getJoinButton().setEnabled(true);
+                frame.getGameManagerPanel().getRefreshButton().setEnabled(true);
             }
         } else {
             frame.getConnectionPanel().getConnectionButton().setEnabled(true);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(false);
             frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
-            frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
+            frame.getGameManagerPanel().getJoinButton().setEnabled(false);
+            frame.getGameManagerPanel().getStartButton().setEnabled(false);
+            frame.getGameManagerPanel().getLeaveButton().setEnabled(false);
+            frame.getGameManagerPanel().getRefreshButton().setEnabled(false);
+            
             frame.getGameManagerPanel().freeGamesList();
         }
         

@@ -9,12 +9,12 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Random;
 
-import main.java.GameInfo;
 import main.java.commands.CommandUDP;
 import main.java.commands.in.udp.CommandRcvUdpPrivateMess;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 public class ClientUDP extends Thread {
     private DatagramSocket socket;

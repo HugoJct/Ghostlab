@@ -1,13 +1,10 @@
 package main.java.commands.in.udp_multicast;
 
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
-import main.java.GameInfo;
-import main.java.client.ClientUDP;
 import main.java.commands.CommandUDP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
+import main.java.game.Player;
 
 // SCORE id p x y+++
 
@@ -23,7 +20,9 @@ public class CommandRcvMultUdpScore extends CommandUDP {
             return;
         }
 
-        GameInfo.playerIdScore.put(args[1], Integer.parseInt(args[2]));
+        GameInfo.players.put(args[1], new Player(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4])));
+
+        DebugLogger.print(DebugType.COM, "SERVER : " + args[0] + " " + args[1] + " " + args[2] + " " + args[3] + " " + args[4]);
 
     }
 
