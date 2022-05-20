@@ -58,6 +58,7 @@ public class CommandAskTcpMoveRight extends CommandTCP {
             }
 
             GameInfo.players.get(GameInfo.playerID).setShiftingAsked(d);
+            GameInfo.lastMoveDirection = 0;
 
             clientTCP.getOutputStream().write((args[0] +" "+dStr+"***").getBytes());
             clientTCP.getOutputStream().flush();

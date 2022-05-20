@@ -53,6 +53,12 @@ public class GameInfo {
     // marque la taille en largeur du labyrinthe
     public static int gameWidth = -1;
 
+    // marque le nombre de déplacements effectués par le joueur
+    public static int nbrMoves = 0;
+
+    // marque la direction de la dernière tentative de déplacement
+    public static int lastMoveDirection = -1;
+
 
     /*
      * informations générales parties disponibles
@@ -75,7 +81,6 @@ public class GameInfo {
 
  
     public static void clear() {
-
         isInGame = false;
         hasGameStarted = false;
         listId = -1;
@@ -93,6 +98,8 @@ public class GameInfo {
         portMulticast = -1;
         players.clear();
         games.clear();
+        nbrMoves = 0;
+        lastMoveDirection = -1;
     }
 
 }

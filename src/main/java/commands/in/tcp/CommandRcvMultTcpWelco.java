@@ -87,7 +87,7 @@ public class CommandRcvMultTcpWelco extends CommandTCP {
 
         GameInfo.hasGameStarted = true;
 
-        GameInfo.players.put(GameInfo.playerID, new Player());   
+        //GameInfo.players.put(GameInfo.playerID, new Player()); 
 
         DebugLogger.print(DebugType.CONFIRM, "SERVER : WELCO " + GameInfo.registredGameId + " " + GameInfo.gameHeight + " " + GameInfo.gameWidth + " " + GameInfo.nbrGhosts + " " + GameInfo.ipMulticast + " " + GameInfo.portMulticast);
 
