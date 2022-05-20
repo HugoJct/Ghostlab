@@ -11,10 +11,10 @@ public class Box {
 
     public static void setTextures() {
         try {
-            WALL = ImageIO.read(new File("../../../../textures/WALL.png"));
-            PATH = ImageIO.read(new File("../../../../textures/PATH.png"));
-            GHOST = ImageIO.read(new File("../../../../textures/GHOST.png"));
-            PLAYER = ImageIO.read(new File("../../../../textures/PLAYER.png"));
+            WALL = ImageIO.read(new File(new Box().getClass().getResource("../../../../textures/WALL.png").getFile()));
+            PATH = ImageIO.read(new File(new Box().getClass().getResource("../../../../textures/PATH.png").getFile()));
+            GHOST = ImageIO.read(new File(new Box().getClass().getResource("../../../../textures/GHOST.png").getFile()));
+            PLAYER = ImageIO.read(new File(new Box().getClass().getResource("../../../../textures/PLAYER.png").getFile()));
             VOID = ImageIO.read(new File(new Box().getClass().getResource("../../../../textures/VOID.png").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
