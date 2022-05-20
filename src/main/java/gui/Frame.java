@@ -90,5 +90,8 @@ public class Frame extends JFrame {
   public ConsolePanel getConsolePanel() {
     return consolePanel;
   }
+  public Labyrinthe getLab() {
+    return lab;
+  }
 
 }

@@ -9,6 +9,7 @@ import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
 import main.java.game.Player;
+import main.java.gui.menu.Game;
 
 // MOVEF x y p***
 
@@ -42,18 +43,14 @@ public class CommandRcvTcpNewPosPoints extends CommandTCP {
         }
     
         try {
-            GameInfo.players.put(GameInfo.playerID, new Player(Integer.parseInt(points), Integer.parseInt(x), Integer.parseInt(y)));
+            GameInfo.players.get(GameInfo.playerID).setLastPosX(GameInfo.players.get(GameInfo.playerID).getPosX());
+            GameInfo.players.get(GameInfo.playerID).setLastPosY(GameInfo.players.get(GameInfo.playerID).getPosY());
+            GameInfo.players.get(GameInfo.playerID).setPosX(Integer.parseInt(x));
+            GameInfo.players.get(GameInfo.playerID).setPosY(Integer.parseInt(y));
+            GameInfo.players.get(GameInfo.playerID).setScore(Integer.parseInt(points));
+
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerPos/WARNING] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, cette commande sera ignorée");
-            return;
-        }
-
-        try {
-            GameInfo.players.put(GameInfo.playerID, new Player(Integer.parseInt(points), Integer.parseInt(x), Integer.parseInt(y)));
-            /* ou ?
-            GameInfo.playerIdScore.put(GameInfo.playerID, newPoints); */
-        } catch (NumberFormatException e) {
-            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerPos/WARNING] : les informations de points données ne sont pas conformes, cette commande sera ignorée");
             return;
         }
 

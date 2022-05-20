@@ -33,15 +33,10 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
         // read "s" uint8
         int nbrPlayers = command.get(8);
 
-        int width = -1;
-        int height = -1;
-
         try {
-            width = GameInfo.games.get(gameId).getWidth();
-            height = GameInfo.games.get(gameId).getHeight();
-            GameInfo.games.add(gameId, new Games(nbrPlayers, height, width));
+            GameInfo.games.get(gameId).setNbrPlayers(nbrPlayers);
         } catch (IndexOutOfBoundsException e) {
-            GameInfo.games.add(gameId, new Games(nbrPlayers, height, width));
+            GameInfo.games.add(new Games(nbrPlayers));
             return;
         }
 

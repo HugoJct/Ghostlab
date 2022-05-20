@@ -53,10 +53,14 @@ public class CommandRcvTcpPlayerPos extends CommandTCP {
         }
 
         try {
-            GameInfo.players.put(id, new Player(Integer.parseInt(x), Integer.parseInt(y)));
+            GameInfo.players.get(id).setPosX(Integer.parseInt(x));
+            GameInfo.players.get(id).setPosY(Integer.parseInt(y));
+            
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerPos/WARNING] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, cette commande sera ignorée");
             return;
+        } catch (NullPointerException e) {
+            GameInfo.players.put(id, new Player(Integer.parseInt(x), Integer.parseInt(y)));
         }
 
         DebugLogger.print(DebugType.COM, "SERVER : POSIT " + id + " " + x + " " + y);

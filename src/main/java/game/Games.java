@@ -1,15 +1,10 @@
 package main.java.game;
 
 public class Games {
-    private final int height;
-    private final int width;
-    private final int nbrPlayers;
+    private int height;
+    private int width;
+    private int nbrPlayers;
 
-    public Games(int nbrPlayers, int height, int width) {
-        this.height = height;
-        this.width = width;
-        this.nbrPlayers = nbrPlayers;
-    }
     public Games(int nbrPlayers) {
         this.nbrPlayers = nbrPlayers;
         this.height = -1;
@@ -24,5 +19,14 @@ public class Games {
     }
     public int getNbrPlayers() {
         return nbrPlayers;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setNbrPlayers(int nbrPlayers) {
+        this.nbrPlayers = nbrPlayers;
     }
 }

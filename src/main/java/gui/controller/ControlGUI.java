@@ -114,6 +114,10 @@ public class ControlGUI {
             frame.createLab(GameInfo.registredGameId);
             labCreated = true;
         }
+        else if (GameInfo.hasGameStarted && labCreated) {
+            frame.getLab().actualise();
+            frame.getLab().updateUI();;
+        }
         
         frame.getGameManagerPanel().updateUI();
         frame.getConnectionPanel().updateUI();
