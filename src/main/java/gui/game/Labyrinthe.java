@@ -16,7 +16,7 @@ public class Labyrinthe extends JPanel {
     public Labyrinthe() {
 
         this.setLayout(new GridLayout(GameInfo.gameHeight, GameInfo.gameWidth));
-        this.lab = new JLabel[GameInfo.gameHeight][GameInfo.gameWidth];
+        this.lab = new JLabel[GameInfo.gameWidth][GameInfo.gameHeight];
         this.nbrMoves = 0;
 
         for (int i = 0; i < GameInfo.gameHeight; i++) {
