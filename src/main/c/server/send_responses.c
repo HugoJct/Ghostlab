@@ -239,7 +239,7 @@ void send_movef(int fd, int x, int y, int points) {
 
 	char *x_pos = format_3digits(x);
 	char *y_pos = format_3digits(y);
-	char *new_points = format_3digits(points);
+	char *new_points = format_4digits(points);
 
 	memcpy(buf,"MOVEF ",6);
 	memcpy(buf+6,x_pos,3);
@@ -268,11 +268,12 @@ void send_glis(int fd, uint8_t s) {
 	assert(ret >= 0);
 }
 
-void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p) {
+void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, int p) {
 	char buf[100];
 
 	char* x_pos = format_3digits(x);
 	char* y_pos = format_3digits(y);
+	char *points = format_4digits(p);
 
 	memcpy(buf, "GPLYR  ", 6);
 	memcpy(buf+6, id, 8);
@@ -281,7 +282,7 @@ void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p) {
 	memcpy(buf+18, " ", 1);
 	memcpy(buf+19, y_pos, 3);
 	memcpy(buf+22, " ", 1);
-	memcpy(buf+23, p, 4);
+	memcpy(buf+23, points, 4);
 	memcpy(buf+27, "***", 3);
 
 	int ret = send(fd, buf, 30, 0);
@@ -289,6 +290,7 @@ void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, char* p) {
 
 	free(x_pos);
 	free(y_pos);
+	free(points);
 }
 
 void send_posit(struct game *g) {
@@ -312,6 +314,9 @@ void send_posit(struct game *g) {
 		memcpy(buf+22,"***",3);
 
 		send(p->tcp_socket_fd,buf,25,0);
+
+		free(x);
+		free(y);
 
 		if(cur->next == NULL)
 			break;

@@ -48,7 +48,7 @@ public class CommandRcvTcpPlayerPos extends CommandTCP {
         for (int i = 15 ; i < 18 ; i++) {
             x += (char) command.get(i).byteValue();
         }
-        for (int i = 18 ; i < 21 ; i++) {
+        for (int i = 19 ; i < 22 ; i++) {
             y += (char) command.get(i).byteValue();
         }
 
