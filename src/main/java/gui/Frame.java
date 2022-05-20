@@ -69,8 +69,8 @@ public class Frame extends JFrame {
     this.gameManagerPanel = gp;
   }
 
-  public void createLab(int gameId) {
-    lab = new Labyrinthe(gameId);
+  public void createLab() {
+    lab = new Labyrinthe();
     gamePanel.add(lab);
   }
 

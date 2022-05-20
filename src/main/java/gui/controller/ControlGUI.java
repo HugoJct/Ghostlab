@@ -111,7 +111,7 @@ public class ControlGUI {
 
         if (GameInfo.hasGameStarted && !labCreated) {
             Box.setTextures();
-            frame.createLab(GameInfo.registredGameId);
+            frame.createLab();
             labCreated = true;
         }
         else if (GameInfo.hasGameStarted && labCreated) {

@@ -12,7 +12,7 @@ import java.awt.GridLayout;
 public class Labyrinthe extends JPanel {
     private JLabel[][] lab;
 
-    public Labyrinthe(int gameId) {
+    public Labyrinthe() {
 
         this.setLayout(new GridLayout(GameInfo.gameHeight, GameInfo.gameWidth));
         this.lab = new JLabel[GameInfo.gameHeight][GameInfo.gameWidth];
@@ -25,7 +25,7 @@ public class Labyrinthe extends JPanel {
                 img.setIcon(new ImageIcon(Box.VOID.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
             }
         }
-        lab[GameInfo.players.get(GameInfo.playerID).getPosX()][GameInfo.players.get(GameInfo.playerID).getPosX()].setIcon(new ImageIcon(Box.PLAYER.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+        lab[GameInfo.players.get(GameInfo.playerID).getPosX()][GameInfo.players.get(GameInfo.playerID).getPosY()].setIcon(new ImageIcon(Box.PLAYER.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
     }
 
     public void actualise() {
