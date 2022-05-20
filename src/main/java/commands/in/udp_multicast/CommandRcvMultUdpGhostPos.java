@@ -25,6 +25,7 @@ public class CommandRcvMultUdpGhostPos extends CommandUDP {
             DebugLogger.print(DebugType.ERROR, "[CommandRcvUdpGhostPos/ERROR] : les informations de coordonnées données par le serveur ne sont pas conformes, cette commande sera ignorée");
         }
 
+        DebugLogger.print(DebugType.COM, "SERVER: "+args[0]+" "+args[1]+" "+args[2]);
 
     }
     

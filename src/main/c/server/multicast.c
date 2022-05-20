@@ -47,19 +47,22 @@ void multicast_score(struct client *c, int x, int y) {
 
 	char *xchar = format_3digits(x);
 	char *ychar = format_3digits(y);
+	char *score = format_4digits(c->player->score);
 
 	memcpy(buf,"SCORE ",6);
 	memcpy(buf+6,c->player->id,8);
 	memcpy(buf+14," ",1);
-	memcpy(buf+15,"p",4);
+	memcpy(buf+15,score,4);
 	memcpy(buf+19," ",1);
 	memcpy(buf+20,xchar,3);
 	memcpy(buf+23," ",1);
+	memcpy(buf+24,ychar,3);
 	memcpy(buf+27,"+++",3);
 	multicast_send(buf,30,c->game);
 
 	free(xchar);
 	free(ychar);
+	free(score);
 }
 
 void multicast_endga(struct game *g) {

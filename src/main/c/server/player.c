@@ -40,7 +40,6 @@ int player_move(struct client *c, int count, int direction) {
 		return 0;
 	int **lab = c->game->labyrinth->cells;
 	int moved = 0;
-	int ghost = 0;
 
 	int x = c->player->x;
 	int y = c->player->y;
@@ -64,20 +63,28 @@ int player_move(struct client *c, int count, int direction) {
 
 		switch(direction) {
 			case UP:
-				if(game_is_there_ghost(c,x,y-moved))
-					ghost++;
+				if(game_is_there_ghost(c,x,y-moved)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x,y-moved);
+				}
 				break;
 			case DOWN:
-				if(game_is_there_ghost(c,x,y+moved))
-					ghost++;
+				if(game_is_there_ghost(c,x,y+moved)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x,y+moved);
+				}
 				break;
 			case LEFT:
-				if(game_is_there_ghost(c,x-moved,y))
-					ghost++;
+				if(game_is_there_ghost(c,x-moved,y)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x-moved,y);
+				}
 				break;
 			case RIGHT:
-				if(game_is_there_ghost(c,x+moved,y))
-					ghost++;
+				if(game_is_there_ghost(c,x+moved,y)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x+moved,y);
+				}
 				break;
 		}
 	}
@@ -96,8 +103,6 @@ int player_move(struct client *c, int count, int direction) {
 			c->player->x += moved;
 			break;
 	}
-
-	c->player->score += ghost * GHOST_VALUE;
 
 	return moved;
 }

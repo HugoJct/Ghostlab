@@ -115,10 +115,8 @@ void request_game_list(struct client *c) {
 	// iterate over c->game->players
 	struct node* player_node = *(c->game->players);
 	while (player_node != NULL) {
-		char score[5];
 		struct player* player = (struct player*) player_node->data;
-		sprintf(score, "%04d", player->score);
-		send_gplyr(fd, player->id, player->x, player->y, score);
+		send_gplyr(fd, player->id, player->x, player->y, player->score);
 		player_node = player_node->next;
 	}
 }
