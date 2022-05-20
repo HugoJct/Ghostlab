@@ -20,7 +20,9 @@ public class CommandRcvMultUdpEndGame extends CommandUDP {
             return;
         }
 
-        DebugLogger.print(DebugType.MESSAGE, "Partie terminée, " + args[1] + " gagne avec " + Integer.parseInt(args[2] + " points !"));
+        DebugLogger.print(DebugType.COM, "SERVER: "+args[0]+" "+args[1]+" "+args[2]);
+
+        DebugLogger.print(DebugType.MESSAGE, "Partie terminée, " + args[1] + " gagne avec " + Integer.parseInt(args[2]) + " points !");
 
         Player current = GameInfo.players.get(args[1]);
 

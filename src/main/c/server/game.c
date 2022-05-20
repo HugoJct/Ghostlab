@@ -170,7 +170,6 @@ int game_is_there_ghost(struct client *c, int x, int y) {
 	for(int i=0;i<MAX_GHOST_NUMBER;i++) {
 		if(g->ghosts[i].x == x && g->ghosts[i].y == y) {
 
-			multicast_score(c,g->ghosts[i].x,g->ghosts[i].y);
 
 			g->ghosts[i].x = -1;
 			g->ghosts[i].y = -1;
