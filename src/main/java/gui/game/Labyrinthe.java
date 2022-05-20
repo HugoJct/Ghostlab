@@ -23,7 +23,7 @@ public class Labyrinthe extends JPanel {
             for (int j = 0; j < GameInfo.gameWidth; j++) {
                 JLabel img = new JLabel();
                 this.add(img);
-                lab[i][j] = img;
+                lab[j][i] = img;
                 img.setIcon(new ImageIcon(Box.VOID.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
             }
         }
@@ -50,12 +50,14 @@ public class Labyrinthe extends JPanel {
 
                     // A-t-on rencontré un mur à drwate ?
                     if (posX - lastPosX != shiftingAsked) {
-                        lab[posY][posX+1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        if (posX+1 < GameInfo.gameWidth) {
+                            lab[posX+1][posY].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        }
                     }
 
                     // Pavage des cases où on s'est déplacé
                     for (int i = lastPosX ; i <= posX ; i++) {
-                        lab[posY][i].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        lab[i][posY].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                     }
                 }
 
@@ -64,12 +66,14 @@ public class Labyrinthe extends JPanel {
 
                     // A-t-on rencontré un mur à gôche ?
                     if (lastPosX - posX != shiftingAsked) {
-                        lab[posY][posX-1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        if (posX-1 > 0) {
+                            lab[posX-1][posY].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        }
                     }
 
                     // Pavage des cases où on s'est déplacé
                     for (int i = lastPosX ; i >= posX ; i--) {
-                        lab[posY][i].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        lab[i][posY].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                     }
                 }
 
@@ -83,20 +87,25 @@ public class Labyrinthe extends JPanel {
                 // S'est-on déplacé vers le bas ?
                 if (lastPosY < posY) {
                     if (posY - lastPosY != shiftingAsked) {
-                        lab[posY+1][posX].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        if (posY+1 < GameInfo.gameHeight) {
+                            lab[posX][posY+1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        }
+                        
                     }
                     for (int i = lastPosY; i <= posY; i++) {
-                        lab[i][posX].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        lab[posX][i].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                     }
                 }
 
                 // S'est-on déplacé vers le haut ?
                 else if (lastPosY > posY) {
                     if (lastPosY - posY != shiftingAsked) {
-                        lab[posY-1][posX].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        if (posY-1 > 0) {
+                            lab[posX][posY-1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        }
                     }
                     for (int i = lastPosY; i >= posY; i--) {
-                        lab[i][posX].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                        lab[posX][i].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                     }
                 }
 
@@ -106,26 +115,34 @@ public class Labyrinthe extends JPanel {
 
             // drwate
             else if (GameInfo.lastMoveDirection == 0) {
-                lab[posY][posX+1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                if (posX+1 < GameInfo.gameWidth) {
+                    lab[posX+1][posY].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                }
             }
 
             // gôche
             else if (GameInfo.lastMoveDirection == 1) {
-                lab[posY][posX-1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                if (posX-1 > 0) {
+                    lab[posX-1][posY].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                }
             }
 
             // bas
             else if (GameInfo.lastMoveDirection == 2) {
-                lab[posY+1][posX].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                if (posY+1 < GameInfo.gameHeight) {
+                    lab[posX][posY+1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                }
             }
 
             // haut
             else if (GameInfo.lastMoveDirection == 3) {
-                lab[posY-1][posX].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                if (posY-1 > 0) {
+                    lab[posX][posY-1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                }
             }
 
             // affichage du joueur à sa nouvelle position
-            lab[posY][posX].setIcon(new ImageIcon(Box.PLAYER.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+            lab[posX][posY].setIcon(new ImageIcon(Box.PLAYER.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
 
         }
     }

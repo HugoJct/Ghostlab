@@ -54,7 +54,7 @@ public class GameInfo {
     public static int gameWidth = -1;
 
     // marque le nombre de déplacements effectués par le joueur
-    public static int nbrMoves = 0;
+    public static int nbrMoves = -1;
 
     // marque la direction de la dernière tentative de déplacement
     public static int lastMoveDirection = -1;
@@ -98,7 +98,7 @@ public class GameInfo {
         portMulticast = -1;
         players.clear();
         games.clear();
-        nbrMoves = 0;
+        nbrMoves = -1;
         lastMoveDirection = -1;
     }
 
