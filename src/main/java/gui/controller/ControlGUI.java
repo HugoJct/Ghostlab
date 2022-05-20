@@ -115,7 +115,10 @@ public class ControlGUI {
             labCreated = true;
         }
         
-        frame.repaint();
+        frame.getGameManagerPanel().updateUI();
+        frame.getConnectionPanel().updateUI();
+        frame.getConsolePanel().updateUI();
+
     }
 
     public void connect() {

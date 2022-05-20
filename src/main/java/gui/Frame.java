@@ -87,5 +87,8 @@ public class Frame extends JFrame {
   public GameManagerPanel getGameManagerPanel() {
     return gameManagerPanel;
   }
+  public ConsolePanel getConsolePanel() {
+    return consolePanel;
+  }
 
 }
