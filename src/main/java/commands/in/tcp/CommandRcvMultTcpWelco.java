@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.nio.ByteOrder;
 
 import main.java.client.ClientTCP;
-import main.java.client.Multicast;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
@@ -88,9 +87,7 @@ public class CommandRcvMultTcpWelco extends CommandTCP {
 
         GameInfo.hasGameStarted = true;
 
-        GameInfo.players.put(GameInfo.playerID, new Player());
-        
-        new Multicast().start();    
+        GameInfo.players.put(GameInfo.playerID, new Player());   
 
         DebugLogger.print(DebugType.CONFIRM, "SERVER : WELCO " + GameInfo.registredGameId + " " + GameInfo.gameHeight + " " + GameInfo.gameWidth + " " + GameInfo.nbrGhosts + " " + GameInfo.ipMulticast + " " + GameInfo.portMulticast);
 

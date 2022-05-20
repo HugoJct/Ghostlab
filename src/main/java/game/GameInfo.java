@@ -90,6 +90,7 @@ public class GameInfo {
         gameWidth = -1;
         nbrPlayers = -1;
         nbrGhosts = -1;
+        portMulticast = -1;
         players.clear();
         games.clear();
     }

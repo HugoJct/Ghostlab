@@ -43,7 +43,7 @@ public class CommandRcvTcpGameInfo extends CommandTCP{
             height = GameInfo.games.get(m).getHeight();
             GameInfo.games.add(m, new Games(s, height, width));
         } catch (IndexOutOfBoundsException e) {
-            GameInfo.games.add(m, new Games(s, height, width));
+            GameInfo.games.add(new Games(s, height, width));
             return;
         }
 
