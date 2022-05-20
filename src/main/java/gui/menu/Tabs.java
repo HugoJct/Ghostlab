@@ -5,8 +5,8 @@ import javax.swing.JTabbedPane;
 
 public class Tabs extends JTabbedPane {
 
-    public Tabs() {
-        super();
+    public Tabs(int width, int height) {
+        setSize(width, height);
     }
 
     public void addTab(String title, JPanel panel) {

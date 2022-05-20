@@ -11,8 +11,8 @@ public class ConsolePanel extends JPanel {
 
     private static JTextArea textArea = new JTextArea(24, 80);
 
-    public ConsolePanel() {
-        
+    public ConsolePanel(int width, int height) {
+        setSize(width, height);
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.LIGHT_GRAY);
         textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
