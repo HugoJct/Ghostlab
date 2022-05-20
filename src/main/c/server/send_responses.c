@@ -115,14 +115,11 @@ void game_send_details(int socket_fd, llist *games) {
 		u_int8_t game_id = g->id;
 		u_int8_t players_count = llist_size(g->players);
 
-		char *cmd = "OGAME ";
-		char *end = "***";
-
-		memcpy(buf,cmd,6);
+		memcpy(buf,"OGAME ",6);
 		memcpy(buf+6,&game_id,1);
-		memcpy(buf+7,cmd+5,1);
+		memcpy(buf+7," ",1);
 		memcpy(buf+8,&players_count,1);
-		memcpy(buf+9,end,3);
+		memcpy(buf+9,"***",3);
 
 		int ret = send(socket_fd,buf,12,0);
 		assert(ret >= 0);	//not sure if this is optimal
@@ -151,27 +148,19 @@ void send_size(int socket_fd, uint8_t game_id) {
 	extern pthread_mutex_t game_list_mutex; 
 	pthread_mutex_lock(&game_list_mutex);
 
-	u_int16_t height = g->labyrinth->height;
-	u_int16_t width = g->labyrinth->width;
-
-	char *cmd = "SIZE!";
-	char *spacing = " ";
-	char *end = "***";
-
-	memcpy(buf, cmd, 5);
-	memcpy(buf + 5, spacing, 1);
+	memcpy(buf, "SIZE! ", 6);
 	memcpy(buf+6, &game_id, 1);
-	memcpy(buf+7, spacing, 1);
+	memcpy(buf+7, " ", 1);
 
-	u_int16_t inv_h = to_little_endian(height);
+	u_int16_t inv_h = to_little_endian(g->labyrinth->height);
 
 	memcpy(buf+8, &inv_h, 2);
-	memcpy(buf+10, spacing, 1);
+	memcpy(buf+10, " ", 1);
 
-	u_int16_t inv_w = to_little_endian(width);
+	u_int16_t inv_w = to_little_endian(g->labyrinth->width);
 
 	memcpy(buf+11, &inv_w, 2);
-	memcpy(buf+13, end, 3);
+	memcpy(buf+13, "***", 3);
 
 	int ret = send(socket_fd, buf, 16, 0);
 	assert(ret >= 0);
