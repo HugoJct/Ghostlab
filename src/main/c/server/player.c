@@ -118,6 +118,8 @@ void player_init_pos(struct game *g) {
 			int tmp_x = rand() % g->labyrinth->width;
 			int tmp_y = rand() % g->labyrinth->height;
 			if(g->labyrinth->cells[tmp_y][tmp_x] != 1) {
+				((struct player *)cur->data)->x = tmp_x;
+				((struct player *)cur->data)->y = tmp_y;
 				break;
 			}
 		}

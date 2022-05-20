@@ -44,6 +44,14 @@ labyrinth* parse_lab(char* filename) {
    return l;
 }
 
+void labyrinth_free(struct labyrinth *lab) {
+	for(int i=0;i<lab->height;i++) {
+		free(lab->cells[i]);
+	}
+	free(lab->cells);
+	free(lab);
+}
+
 // bool is_valid(labyrinth *l) {
 // TODO
 // }

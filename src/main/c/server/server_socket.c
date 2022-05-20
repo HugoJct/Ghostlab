@@ -124,6 +124,9 @@ void *server_socket_during_game(void *arg) {
 			break;
 		}
 
+		if(g->remaining_ghosts == 0)
+			break;
+
 		char cmd[6];
 		memcpy(cmd,buf,5);
 		cmd[5] = '\0';
@@ -148,7 +151,39 @@ void *server_socket_during_game(void *arg) {
 		}
 
 	}
+
+	pthread_t t;
+	pthread_create(&t,NULL,server_socket_game_ended,c);
 	
+	return NULL;
+}
+
+void *server_socket_game_ended(void *arg) {
+	struct client *c= arg;
+	int fd = *((int*) c->fd);
+
+	char buf[100];
+	request_read_tcp(buf,fd);
+
+	send(fd,"GOBYE***",8,0);
+	close(*(c->fd));
+	usleep(GHOST_MOVE_FREQUENCY);
+
+	llist_remove(c->game->players,c->player);
+
+	if(llist_size(c->game->players) == 0) {
+		//maybe add usleep(30000000) to wait ffor the ghost moving thread to stop
+		extern llist *games;
+		llist_remove(games,c->game);
+		llist_free(c->game->players);		
+		labyrinth_free(c->game->labyrinth);
+		free(c->game);
+	}
+
+	free(c->player);
+	free(c->fd);
+	free(c);
+
 	return NULL;
 }
 

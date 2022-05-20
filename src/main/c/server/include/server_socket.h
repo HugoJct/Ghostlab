@@ -21,5 +21,6 @@ void *server_socket_connection_prompt(void *arg);
 struct client *server_socket_receive_newpl_regis(int fd);
 
 void *server_socket_during_game(void *arg);
+void *server_socket_game_ended(void *arg);
 
 #endif
