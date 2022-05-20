@@ -36,3 +36,14 @@ char *format_4digits(int x) {
 
 	return format;
 }
+
+u_int16_t to_little_endian(u_int16_t value) {
+	u_int16_t uint16_value = htons(value);
+
+	if (uint16_value == value) {
+		return (u_int16_t)((value >> 8)) | (value << 8);
+	}
+
+	return value;
+}
+

@@ -1,15 +1,5 @@
 #include "send_responses.h"
 
-u_int16_t to_little_endian(u_int16_t value) {
-	u_int16_t uint16_value = htons(value);
-
-	if (uint16_value == value) {
-		return (u_int16_t)((value >> 8)) | (value << 8);
-	}
-
-	return value;
-}
-
 void send_regok(int fd, uint8_t game_id) {
 	char buf[10];
 	memcpy(buf, "REGOK ", 6);
@@ -45,6 +35,7 @@ void send_unrok(int fd, uint8_t game_id) {
 
 void send_player_count(int fd, int id) {
 	struct game *g = game_get_by_id(id);
+	pthread_mutex_lock(&g->game_lock);
 
 	uint8_t nb_players = llist_size(g->players);
 
@@ -57,10 +48,12 @@ void send_player_count(int fd, int id) {
 
 	int ret = send(fd, buf, 12, 0);
 	assert(ret >= 0);
+	pthread_mutex_unlock(&g->game_lock);
 }
 
 void send_player_details(int fd, int id) {
 	struct game *g = game_get_by_id(id);
+	pthread_mutex_lock(&g->game_lock);
 
 	struct node *cur = *(g->players);
 	while (cur->data != NULL) {
@@ -80,6 +73,7 @@ void send_player_details(int fd, int id) {
 			break;
 		cur = cur->next;
 	}
+	pthread_mutex_unlock(&g->game_lock);
 }
 
 void send_players_list(int fd, int id) {
