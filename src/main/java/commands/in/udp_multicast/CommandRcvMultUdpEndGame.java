@@ -1,5 +1,6 @@
 package main.java.commands.in.udp_multicast;
 import main.java.commands.CommandUDP;
+import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameHistory;
@@ -30,7 +31,7 @@ public class CommandRcvMultUdpEndGame extends CommandUDP {
 
         GameInfo.gameHistory.add(new GameHistory(GameInfo.playerID, GameInfo.players, GameInfo.messagesHistory));
 
-        GameInfo.clearGame();
+        Console.useMessage("IQUIT");
 
         // retour au lobby
 

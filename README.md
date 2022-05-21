@@ -1,5 +1,31 @@
 # GHOSTLAB
 
+## Répartition du travail
+
+### Hugo :
+* 
+* 
+
+### Matthieu :
+
+* **Partie client :**
+    
+    * Réception et parsing des commandes serveur
+    * Traitement des commandes et stockage des informations venant du serveur
+    * Parsing des commandes client (console et interface graphique)
+    * Formatage et envoie des commandes au serveur
+    * Création de l'interface graphique
+        * page de connexion
+        * page de gestion des parties
+        * interface de jeu
+    * Système de stockage de l'historique des parties jouées (commande ``historical``)
+    * Système de debogage
+
+## Bastian :
+
+* Création des labyrinthes ()
+
+
 ## Compiler le projet
 
 ### Serveur
@@ -45,10 +71,11 @@ Les arguments suivants sont optionnels et peuvent par la suite être renseignés
 
 *Exemple*
 
-```
+```java
 java main.java.client.Client ghostlab-server.com 12345 USERNAME
 ```
-```
+
+```bash
 ./launch.sh
 ```
 
