@@ -21,7 +21,6 @@ public class CommandRcvMultUdpScore extends CommandUDP {
         }
 
         if (!args[1].equals(GameInfo.playerID)) {
-            System.out.println("hello");
             Player p = GameInfo.players.get(args[1]);
             p.setScore(Integer.parseInt(args[2]));
             p.setLastPosX(Integer.parseInt(args[3]));
