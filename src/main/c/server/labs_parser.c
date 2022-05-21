@@ -1,13 +1,3 @@
-/**
- * @file labs_parser.c
- * @author Bastian (bastian.somon@gmail.com)
- * @version 0.1
- * @date 2022-04-18
- * 
- * @copyright Copyright (c) 2022
- * 
- */
-
 #include "labs_parser.h"
 
 labyrinth* parse_lab(char* filename) {

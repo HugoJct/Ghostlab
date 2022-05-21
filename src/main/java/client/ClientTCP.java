@@ -27,6 +27,8 @@ import main.java.commands.in.tcp.CommandRcvTcpPlayerId;
 import main.java.commands.in.tcp.CommandRcvTcpPlayerPos;
 import main.java.commands.in.tcp.CommandRcvTcpPlayersPosScoreInGame;
 import main.java.commands.in.tcp.CommandRcvTcpUnregisterOK;
+import main.java.commands.in.tcp.CommandRcvTcpSend;
+import main.java.commands.in.tcp.CommandRcvTcpNSend;
 import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
@@ -68,6 +70,8 @@ public class ClientTCP extends Thread {
             commandRcvTcpList.put("GOBYE", new CommandRcvTcpBye(out));
             commandRcvTcpList.put("GLIS!", new CommandRcvTcpNbrPlayersInGame(out));
             commandRcvTcpList.put("GPLYR", new CommandRcvTcpPlayersPosScoreInGame(out));
+            commandRcvTcpList.put("SEND!", new CommandRcvTcpSend(out));
+            commandRcvTcpList.put("NSEND", new CommandRcvTcpNSend(out));
 
             DebugLogger.print(DebugType.COM, "...succès");
 

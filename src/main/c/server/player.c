@@ -107,6 +107,34 @@ int player_move(struct client *c, int count, int direction) {
 	return moved;
 }
 
+struct player* player_get_by_id(struct game *g, char* id) {
+	struct node *cur = *g->players;
+	while(1) {
+
+		if(cur->data == NULL)
+			break;
+
+		struct player *p = (cur->data);
+
+		char searching[9];
+		memset(searching,'\0',9);
+		char current[9];
+		memset(current,'\0',9);
+
+		memcpy(searching,id,8);
+		memcpy(current,p,8);
+
+		if(strcmp(current,searching) == 0)
+			return p;
+
+		if(cur->next == NULL)
+			break;
+
+		cur = cur->next;
+	}
+	return NULL;
+}
+
 void player_init_pos(struct game *g) {
 	struct node *cur = *g->players;
 

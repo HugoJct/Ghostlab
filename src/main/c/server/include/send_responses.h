@@ -17,5 +17,6 @@ void send_movef(int fd, int x, int y, int points);
 void send_glis(int fd, uint8_t s);
 void send_gplyr(int fd, char* id, uint32_t x, uint32_t y, int p);
 void send_posit(struct game *g);
+void send_messa(struct client *c, char *id, char *mess);
 
 #endif

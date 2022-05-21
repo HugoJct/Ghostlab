@@ -313,3 +313,42 @@ void send_posit(struct game *g) {
 	}
 
 }
+
+void send_messa(struct client *c, char *id, char *mess) {
+	int fd = *((int*) c->fd);
+	struct player *dest = player_get_by_id(c->game,id);
+
+	if(dest == NULL) {	//the requested player does not exist in the game
+		send(fd,"NSEND***",8,0);
+		return;
+	} else {
+		int ret = send(fd,"SEND!***",8,0);
+		if(ret < 0) {
+			perror("send");
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	struct sockaddr_in remote;
+	socklen_t r_size = sizeof(remote);
+	memset(&remote,0,r_size);
+
+	getpeername(dest->tcp_socket_fd,(struct sockaddr *)&remote,&r_size);
+
+	remote.sin_port = htons(dest->udp_port);
+	printf("%d\n",dest->udp_port);
+
+	char buf[300];
+
+	memcpy(buf,"MESSP ",6);
+	memcpy(buf+6,c->player->id,8);
+	memcpy(buf+14," ",1);
+	memcpy(buf+15,mess,strlen(mess));
+	memcpy(buf+15+strlen(mess),"+++",3);
+
+	int size = 15+strlen(mess)+3;
+
+	int ret = sendto(c->game->socket_fd,buf,size,0,(struct sockaddr *) &remote, r_size);
+	if(ret < 0)
+		perror("sendto");
+}
