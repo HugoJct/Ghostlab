@@ -9,21 +9,19 @@ import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
 
-// GOBYE***
+// NSEND**
 
-public class CommandRcvTcpBye extends CommandTCP {
+public class CommandRcvTcpNSend extends CommandTCP {
 
-    public CommandRcvTcpBye(PrintWriter pw) {
+    public CommandRcvTcpNSend(PrintWriter pw) {
         super(pw);
     }
 
     @Override
     public void execute(ClientTCP clientTCP, LinkedList<Integer> command) {
-        DebugLogger.print(DebugType.CONFIRM, "COMMAND : GOBYE");
+        DebugLogger.print(DebugType.CONFIRM, "COMMAND : NSEND");
 
-        DebugLogger.print(DebugType.COM, "SERVER : GOBYE");
-        
-        GameInfo.clearGame();
+        DebugLogger.print(DebugType.COM, "SERVER : Le message n'a pas été envoyé !");
     }
 
     @Override

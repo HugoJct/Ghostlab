@@ -1,92 +1,167 @@
 # GHOSTLAB
 
+**Lien du dépôt gitlab :** https://gitlab.com/SirHenryAllen/ghostlab.git
+
+## Répartition du travail
+
+### Hugo :
+* **Côté Serveur:**
+    * Parsing des requêtes provenant du client
+    * Traitement des requêtes 
+    * Formatage des réponses pour le client
+    * Envoi des réponses au client
+    * Gestion des structures de données du serveur (verrous, linked list etc...)
+    * Architecture serveur:
+      * Découpage de l'exécution en différentes phases chacune englobée dans un thread
+      * Arborescence du projet
+* **Côté Client:**
+  * Détection des murs pour mise à jour de l'interface graphique
+
+### Matthieu :
+
+* **Partie client :**
+    
+    * Réception et parsing des commandes venant du serveur
+    * Traitement des commandes et stockage des informations venant du serveur
+    * Parsing des commandes client (console et interface graphique)
+    * Formatage et envoi des commandes au serveur
+    * Création de l'interface graphique
+        * page de connexion
+        * page de gestion des parties
+        * interface de jeu
+    * Système de stockage de l'historique des parties jouées (commande ``historical``)
+    * Système de debogage
+
+* **Partie serveur :**
+    * Conversion d'octets en little-endian (pour envoie de **h** et **w**)
+
+### Bastian :
+
+* **Partie serveur :**
+
+    * Création des labyrinthes (fichiers .lab)
+    * parsing des fichiers .lab et création d'un labyrinthe dans la structure game
+    * réception et traitement de la commande ``GLIS?`` et envoi de la réponse au client
+
+---
+
+## Compiler le projet
+
+### Serveur
+
+Lancer la commande `make` depuis le répertoire `src/main/c/server` 
+
+---
+
+### Client
+
+Lancer le script `compile.sh` contenu dans le répertoire `src` depuis ce même répertoire
+
+## Executer le projet
+
+### Serveur
+
+Exécuter le fichier `server` généré lors de la compilation avec en argument le port désiré.
 
 
-## Getting started
+**Exemple :**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Pour lancer le serveur en écoute sur le port 12345:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+```bash
+./server 12345
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/SirHenryAllen/ghostlab.git
-git branch -M main
-git push -uf origin main
+
+
+### Client 
+
+Exécuter le script `launch.sh` contenu dans le répertoire `src` (depuis ce même répertoire).
+
+OU
+
+Exécuter la commande suivante: `java main.java.client.Client` (depuis le répertoire `src`).
+
+Les arguments suivants sont optionnels et peuvent par la suite être renseignés dans l'interface graphique:
+
+- IP: L'IP du serveur auquel se connecter
+
+- Port: Le port du serveur a utiliser
+
+- Pseudo: Le pseudo a utiliser dans une partie. Ce pseudo doit faire exactement 8 caractères
+
+
+**Exemple :**
+
+```java
+java main.java.client.Client ghostlab-server.com 12345 USERNAME
 ```
 
-## Integrate with your tools
+```bash
+./launch.sh
+```
 
-- [ ] [Set up project integrations](https://gitlab.com/SirHenryAllen/ghostlab/-/settings/integrations)
+**Pour supprimer les .class (depuis src):**
 
-## Collaborate with your team
+```bash
+./remove_class.sh
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Comment utiliser le client 
 
-## Test and Deploy
 
-Use the built-in continuous integration in GitLab.
+### Partie utilisateur 
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Au lancement, si l'utilisateur n'a pas précisé d'informations de connexion, il est invité à entrer les informations du serveur.
 
-***
+Une fois connecté, le volet `Game Manager` devient accessible et permet de:
 
-# Editing this README
+- créer une partie
+- rejoindre une partie
+- lister les parties existantes et les informations relatives à celles-ci
+- quitter la partie dans laquelle se trouve le client
+- démarrer la partie
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Une fois la partie lancée, le volet `game` permet de se déplacer dans la labyrinthe en ayant un retour visuel de ce labyrinthe. Pour une visualisation optimale, penser à agrandir la fenêtre.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Si le joueur rencontre un mur lors de ses déplacements, celui-ci est automatiquement ajouté sur la carte du labyrinthe.
 
-## Name
-Choose a self-explaining name for your project.
+Lorsque les fantômes se déplacent, seul le dernier fantôme à s'être déplacé est affiché sur la carte.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Partie développeur
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+* Nous avons créé un système de débogage permettant d'activer ou de désactiver certains retours.
+* Nous avons créé des commandes permettant d'effectuer des actions côté client, indépendament du serveur (help, kill, killclient...)
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Il existe des commandes pour effectuer ces actions depuis le programme
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+**Pour plus d'information :** utiliser la commande **help** (ou le bouton **aide**) dans le programme 
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+## Architecture du serveur 
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Le serveur attend en boucle des connexions et délègue le traitement du protocole à un thread.
+Au cours des interactions client/serveur, plusieurs threads se succèdent dans le traitement des requêtes du client: chaque thread représentant une phase de la durée de vie d'une partie.
+Les différentes phases sont les suivantes:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+1. le client vient de se connecter
+2. le client a créé ou rejoint une partie
+3. la partie a été lancée
+4. la partie est terminée 
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Chaque partie possède:
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- son propre verrou pour empêcher les modifications concurrentes sur la liste des joueurs.
+- son propre socket UDP utilisé pour multi-caster et envoyer les messages privés
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+L'IP de multi-diffusion est unique au serveur, seul le port change pour chaque partie créée.
 
-## License
-For open source projects, say how it is licensed.
+Les labyrinthes sont récupérés depuis des fichiers respectant les règles suivantes:
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- Une première ligne contenant deux entiers `i` et `j,` `i  représentant la largeur et `j` la hauteur
+- `j` lignes de chacune `i` colonnes composées de `1` ou de `0`, `1` représentant un mur et `0` un chemin
+- Une ligne vide
+
+
+
+
+

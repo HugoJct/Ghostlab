@@ -18,5 +18,6 @@ void request_movement(char *buf, struct client *c, int direction);
 void request_game_list(struct client *c);
 void request_mall(char *buf, struct client *c);
 void request_iquit(struct client *c);
+void request_send(char *buf, struct client *c);
 
 #endif

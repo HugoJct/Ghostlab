@@ -40,7 +40,6 @@ int player_move(struct client *c, int count, int direction) {
 		return 0;
 	int **lab = c->game->labyrinth->cells;
 	int moved = 0;
-	int ghost = 0;
 
 	int x = c->player->x;
 	int y = c->player->y;
@@ -64,20 +63,28 @@ int player_move(struct client *c, int count, int direction) {
 
 		switch(direction) {
 			case UP:
-				if(game_is_there_ghost(c,x,y-moved))
-					ghost++;
+				if(game_is_there_ghost(c,x,y-moved)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x,y-moved);
+				}
 				break;
 			case DOWN:
-				if(game_is_there_ghost(c,x,y+moved))
-					ghost++;
+				if(game_is_there_ghost(c,x,y+moved)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x,y+moved);
+				}
 				break;
 			case LEFT:
-				if(game_is_there_ghost(c,x-moved,y))
-					ghost++;
+				if(game_is_there_ghost(c,x-moved,y)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x-moved,y);
+				}
 				break;
 			case RIGHT:
-				if(game_is_there_ghost(c,x+moved,y))
-					ghost++;
+				if(game_is_there_ghost(c,x+moved,y)) {
+					c->player->score += GHOST_VALUE;
+					multicast_score(c,x+moved,y);
+				}
 				break;
 		}
 	}
@@ -97,9 +104,35 @@ int player_move(struct client *c, int count, int direction) {
 			break;
 	}
 
-	c->player->score += ghost * GHOST_VALUE;
-
 	return moved;
+}
+
+struct player* player_get_by_id(struct game *g, char* id) {
+	struct node *cur = *g->players;
+	while(1) {
+
+		if(cur->data == NULL)
+			break;
+
+		struct player *p = (cur->data);
+
+		char searching[9];
+		memset(searching,'\0',9);
+		char current[9];
+		memset(current,'\0',9);
+
+		memcpy(searching,id,8);
+		memcpy(current,p,8);
+
+		if(strcmp(current,searching) == 0)
+			return p;
+
+		if(cur->next == NULL)
+			break;
+
+		cur = cur->next;
+	}
+	return NULL;
 }
 
 void player_init_pos(struct game *g) {
@@ -113,6 +146,8 @@ void player_init_pos(struct game *g) {
 			int tmp_x = rand() % g->labyrinth->width;
 			int tmp_y = rand() % g->labyrinth->height;
 			if(g->labyrinth->cells[tmp_y][tmp_x] != 1) {
+				((struct player *)cur->data)->x = tmp_x;
+				((struct player *)cur->data)->y = tmp_y;
 				break;
 			}
 		}

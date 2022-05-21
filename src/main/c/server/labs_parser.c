@@ -1,13 +1,3 @@
-/**
- * @file labs_parser.c
- * @author Bastian (bastian.somon@gmail.com)
- * @version 0.1
- * @date 2022-04-18
- * 
- * @copyright Copyright (c) 2022
- * 
- */
-
 #include "labs_parser.h"
 
 labyrinth* parse_lab(char* filename) {
@@ -42,6 +32,14 @@ labyrinth* parse_lab(char* filename) {
    if (i != height) return NULL;
    fclose(fp);
    return l;
+}
+
+void labyrinth_free(struct labyrinth *lab) {
+	for(int i=0;i<lab->height;i++) {
+		free(lab->cells[i]);
+	}
+	free(lab->cells);
+	free(lab);
 }
 
 // bool is_valid(labyrinth *l) {

@@ -26,16 +26,13 @@ int request_read_tcp(char *buf, int fd) {
 	return read_request(buf,fd,'*');
 }
 
-int request_read_udp(char *buf, int fd) {
-	return read_request(buf,fd,'+');
-}
-
 struct client *request_newpl(char buf[],int fd) {
-	char porttmp[5];
+	char porttmp[5] = {0,0,0,0,0};
 
 	memcpy(porttmp,buf+15,4);
-	porttmp[5] = '\0';
+	porttmp[4] = '\0';
 	int port = atoi(porttmp);
+	printf("%d\n",port);
 
 	struct game *g = game_create(4);
 	struct player *p = player_create(buf+6,fd,port);
@@ -57,7 +54,9 @@ struct client *request_regis(char buf[], int fd) {
 	//get port from buffer then convert it to int
 	char porttmp[5] = {0,0,0,0,0};
 	memcpy(porttmp,buf+15,4);
+	porttmp[4] = '\0';
 	int port = atoi(porttmp);
+	printf("%d\n",port);
 
 	//get game number from buffer
 	u_int8_t game_nb = 0;
@@ -115,10 +114,8 @@ void request_game_list(struct client *c) {
 	// iterate over c->game->players
 	struct node* player_node = *(c->game->players);
 	while (player_node != NULL) {
-		char score[5];
 		struct player* player = (struct player*) player_node->data;
-		sprintf(score, "%04d", player->score);
-		send_gplyr(fd, player->id, player->x, player->y, score);
+		send_gplyr(fd, player->id, player->x, player->y, player->score);
 		player_node = player_node->next;
 	}
 }
@@ -126,13 +123,13 @@ void request_game_list(struct client *c) {
 void request_mall(char *buf, struct client *c) {
 	char mess[201];
 	int count = 0;
-	int i = 0;
+	int i = 6;
 	while(1) {
 		if(buf[i++] == '*' || count == 200)
 			break;
 		count++;
 	}
-	memcpy(mess,buf,count);
+	memcpy(mess,buf+6,count);
 	mess[count] = '\0';
 
 	multicast_messa(mess,c);
@@ -147,4 +144,23 @@ void request_iquit(struct client *c) {
 	free(c->fd);
 	free(c);
 
+}
+
+void request_send(char *buf, struct client *c) {
+
+	char id[8];
+	memcpy(id,buf+6,8);
+
+	char mess[201];
+	int count = 0;
+	int i = 15;
+	while(1) {
+		if(buf[i++] == '*' || count == 200)
+			break;
+		count++;
+	}
+	memcpy(mess,buf+15,count);
+	mess[count] = '\0';
+	
+	send_messa(c,id,mess);
 }

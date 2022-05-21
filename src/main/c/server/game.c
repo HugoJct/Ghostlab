@@ -12,7 +12,7 @@ struct game* game_create(int cap) {
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
-	new_game->labyrinth = parse_lab("assets/lab1.lab");
+	new_game->labyrinth = parse_lab("assets/lab2.lab");
 	debug_lab(new_game->labyrinth); //print the labyrinth
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);
@@ -169,11 +169,11 @@ int game_is_there_ghost(struct client *c, int x, int y) {
 
 	for(int i=0;i<MAX_GHOST_NUMBER;i++) {
 		if(g->ghosts[i].x == x && g->ghosts[i].y == y) {
+
+
 			g->ghosts[i].x = -1;
 			g->ghosts[i].y = -1;
 			g->remaining_ghosts--;
-
-			multicast_score(c,g->ghosts[i].x,g->ghosts[i].y);
 
 			return 1;
 		}

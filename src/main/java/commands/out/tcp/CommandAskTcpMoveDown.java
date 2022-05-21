@@ -8,6 +8,7 @@ import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 // DOMOV d***
 
@@ -26,6 +27,11 @@ public class CommandAskTcpMoveDown extends CommandTCP {
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : DOMOV");
+
+        if (!GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.ERROR, "[CommandAskTcpDropGame/WARNING] : le jeu n'a pas encore commencé, cette commande sera ignorée");
+            return;
+        }
         
         if (args.length < 2) {
             DebugLogger.print(DebugType.WARNING, "[CommandAskTcpMoveDown/WARNING] : nombre d'arguments minimum non attend, (RAPPEL : DOMOV d), cette commande sera ignorée");
@@ -55,6 +61,9 @@ public class CommandAskTcpMoveDown extends CommandTCP {
             else {
                 dStr = "" + d;
             }
+
+            GameInfo.players.get(GameInfo.playerID).setShiftingAsked(d);
+            GameInfo.lastMoveDirection = 2;
 
             clientTCP.getOutputStream().write((args[0] +" "+dStr+"***").getBytes());
             clientTCP.getOutputStream().flush();

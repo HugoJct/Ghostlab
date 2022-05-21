@@ -1,5 +1,6 @@
 package main.java.commands.in.udp_multicast;
 import main.java.commands.CommandUDP;
+import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameHistory;
@@ -20,13 +21,17 @@ public class CommandRcvMultUdpEndGame extends CommandUDP {
             return;
         }
 
-        DebugLogger.print(DebugType.MESSAGE, "Partie terminée, " + args[1] + " gagne avec " + Integer.parseInt(args[2] + " points !"));
+        DebugLogger.print(DebugType.COM, "SERVER: "+args[0]+" "+args[1]+" "+args[2]);
+
+        DebugLogger.print(DebugType.MESSAGE, "\u001B[32mPartie terminée, " + args[1] + " gagne avec " + Integer.parseInt(args[2]) + " points !\u001B[37m");
 
         Player current = GameInfo.players.get(args[1]);
 
         GameInfo.players.put(args[1], new Player(Integer.parseInt(args[2]), current.getPosX(), current.getPosY()));
 
         GameInfo.gameHistory.add(new GameHistory(GameInfo.playerID, GameInfo.players, GameInfo.messagesHistory));
+
+        Console.useMessage("IQUIT");
 
         // retour au lobby
 

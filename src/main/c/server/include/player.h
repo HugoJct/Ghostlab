@@ -27,6 +27,7 @@ int player_is_ready(struct player *p);
 //moves the player inside the labyrinth
 int player_move(struct client *c, int count, int direction);
 
+struct player* player_get_by_id(struct game *g, char* id);
 void player_init_pos(struct game *g);
 
 #endif

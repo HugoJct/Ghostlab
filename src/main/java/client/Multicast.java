@@ -15,13 +15,15 @@ import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
+import main.java.gui.controller.ControlGUI;
 
 public class Multicast extends Thread {
     private MulticastSocket multSocket;
+    private ControlGUI gui;
 
     private HashMap<String,CommandUDP> commandRcvMulticastUdpList = new HashMap<String,CommandUDP>();
     
-    public Multicast() {
+    public Multicast(ControlGUI gui) {
         try {
             multSocket = new MulticastSocket(GameInfo.portMulticast);
             multSocket.joinGroup(InetAddress.getByName(GameInfo.ipMulticast));
@@ -31,6 +33,8 @@ public class Multicast extends Thread {
             commandRcvMulticastUdpList.put("ENDGA", new CommandRcvMultUdpEndGame());
             commandRcvMulticastUdpList.put("MESSA", new CommandRcvMultUdpMessage());
             commandRcvMulticastUdpList.put("SCORE", new CommandRcvMultUdpScore());
+
+            this.gui = gui;
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "[ClientUDP/ERREUR] : erreur lors de la connexion au multicast");
             System.out.println("");
@@ -52,12 +56,12 @@ public class Multicast extends Thread {
                 String[] args = message.split(" ");
 
                 // suppression des caractères de fin de ligne "+++"
-                args[args.length-1] = args[args.length-1].substring(0, args[args.length-1].length() - 4);
+                args[args.length-1] = args[args.length-1].substring(0, args[args.length-1].length() - 3);
                 
                 if(commandRcvMulticastUdpList.containsKey(args[0])) {
                     commandRcvMulticastUdpList.get(args[0]).execute(args);
                 }
-
+                gui.actualise();
             } catch (IOException e) {
                 DebugLogger.print(DebugType.ERROR, "[Multicast/ERREUR] : erreur lors de la réception d'un packet multicast");
                 Console.useMessage("killclient");

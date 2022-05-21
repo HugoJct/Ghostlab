@@ -17,6 +17,7 @@ typedef struct labyrinth {
 } labyrinth;
 
 labyrinth* parse_lab(char* filename);
+void labyrinth_free(struct labyrinth *lab);
 
 bool is_valid(labyrinth *l);
 

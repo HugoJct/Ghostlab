@@ -34,8 +34,8 @@ public class CommandAskTcpSendMessage extends CommandTCP {
             return;
         }
 
-        if(GameInfo.hasGameStarted) {
-            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessage] : impossible d'envoyer un message, la partie a déjà commencé");
+        if(!GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.WARNING, "[ATTENTION/CommandAskTcpSendMessage] : impossible d'envoyer un message, la partie n'a pas commencé");
             return;
         }
 
@@ -49,10 +49,16 @@ public class CommandAskTcpSendMessage extends CommandTCP {
             return;
         }
 
+        String message = "";
+        for (int i = 0 ; i < args.length ; i++) {
+            message += args[i];
+            message += " ";
+        }
+
         try {
-            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(new String[] {args[0], args[1], args[2]}));
+            clientTCP.getOutputStream().write((message+"***").getBytes());
             clientTCP.getOutputStream().flush();
-            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1] + " " + args[2]);
+            DebugLogger.print(DebugType.COM, "CLIENT : " + message);
         } catch (IOException e) {
             e.printStackTrace();
         }

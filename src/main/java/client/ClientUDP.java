@@ -15,16 +15,18 @@ import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
+import main.java.gui.controller.ControlGUI;
 
 public class ClientUDP extends Thread {
     private DatagramSocket socket;
     private InetAddress address;
+    private ControlGUI gui;
 
     private HashMap<String,CommandUDP> commandRcvUdpList = new HashMap<String,CommandUDP>();
     
     public static boolean clientUDPCreated = false;
 
-    public ClientUDP(String ip) {
+    public ClientUDP(String ip, ControlGUI gui) {
         
         boolean success = false;
         Random r = new Random();
@@ -61,6 +63,7 @@ public class ClientUDP extends Thread {
         }
 
         clientUDPCreated = true;
+        this.gui = gui;
     }
 
     @Override
@@ -69,6 +72,7 @@ public class ClientUDP extends Thread {
         while(Client.isConnected) {
 
             try {
+
                 byte[] buf = new byte[256];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
@@ -78,7 +82,7 @@ public class ClientUDP extends Thread {
                 String[] args = message.split(" ");
 
                 // suppression des caractères de fin de ligne "+++"
-                args[args.length-1].substring(args[args.length-1].length()-4, args[args.length-1].length()-1);
+                args[args.length-1] = args[args.length-1].substring(0, args[args.length-1].length() - 3);
                 
                 if(commandRcvUdpList.containsKey(args[0])) {
                     commandRcvUdpList.get(args[0]).execute(args);
@@ -86,6 +90,7 @@ public class ClientUDP extends Thread {
                 else {
                     DebugLogger.print(DebugType.CONFIRM, "Commande inconnue : " + args[0]);
                 }
+                
             } catch (IOException e) {
                 DebugLogger.print(DebugType.ERROR, "[ClientTCP/ERREUR] : erreur lors de la réception d'un message UDP");
                 Console.useMessage("killclient");

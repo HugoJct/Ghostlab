@@ -55,7 +55,7 @@ void *server_socket_before_game_start(void *arg) {
 			close(*(c->fd));
 			free(c->fd);
 			free(c);
-			break;
+			return NULL;
 		}
 
 		char cmd[6];
@@ -121,8 +121,11 @@ void *server_socket_during_game(void *arg) {
 			close(*(c->fd));
 			free(c->fd);
 			free(c);
-			break;
+			return NULL;
 		}
+
+		if(g->remaining_ghosts == 0)
+			break;
 
 		char cmd[6];
 		memcpy(cmd,buf,5);
@@ -142,13 +145,45 @@ void *server_socket_during_game(void *arg) {
 		} else if(strcmp("GLIS?",cmd) == 0) {
 			request_game_list(c);
 		} else if(strcmp("MALL?",cmd) == 0) {
-			request_mall(buf+6,c);
-		} else if(strcmp("MESS?",cmd) == 0) {
-			//TODO	
+			request_mall(buf,c);
+		} else if(strcmp("SEND?",cmd) == 0) {
+			request_send(buf,c);
 		}
 
 	}
+
+	pthread_t t;
+	pthread_create(&t,NULL,server_socket_game_ended,c);
 	
+	return NULL;
+}
+
+void *server_socket_game_ended(void *arg) {
+	struct client *c= arg;
+	int fd = *((int*) c->fd);
+
+	char buf[100];
+	request_read_tcp(buf,fd);
+
+	send(fd,"GOBYE***",8,0);
+	close(*(c->fd));
+	usleep(GHOST_MOVE_FREQUENCY);
+
+	llist_remove(c->game->players,c->player);
+
+	if(llist_size(c->game->players) == 0) {
+		//maybe add usleep(30000000) to wait ffor the ghost moving thread to stop
+		extern llist *games;
+		llist_remove(games,c->game);
+		llist_free(c->game->players);		
+		labyrinth_free(c->game->labyrinth);
+		free(c->game);
+	}
+
+	free(c->player);
+	free(c->fd);
+	free(c);
+
 	return NULL;
 }
 
@@ -179,8 +214,9 @@ struct client *server_socket_receive_newpl_regis(int fd) {
 
 	while(1) {		//this function exits once the player sent REGIS or NEWPL
 		int ret = request_read_tcp(buf,fd);	//read the client input
-		if(ret < 0)	//the client disconnected
+		if(ret < 0) {	//the client disconnected
 			return NULL;
+		}
 
 		char cmd[6];
 		memcpy(cmd,buf,5);	//isolate the command

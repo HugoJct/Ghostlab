@@ -52,10 +52,10 @@ public class GameManagerPanel extends JPanel {
     public void listGames() {
 
         freeGamesList();
-        GridLayout gameManagerLayout = new GridLayout(GameInfo.nbrGames+2, 3);
+        GridLayout gameManagerLayout = new GridLayout(GameInfo.games.size()+2, 3);
         this.setLayout(gameManagerLayout);
 
-        for (int i = gameListSelector.size() ; i < GameInfo.nbrGames ; i++) {
+        for (int i = 0 ; i < GameInfo.games.size() ; i++) {
             JRadioButton selector = new JRadioButton();
             JButton button = new JButton("refresh game");
             gameListSelector.add(selector);
