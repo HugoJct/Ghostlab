@@ -68,7 +68,6 @@ public class Client {
                 // enregistrement du pseudo du joueur
                 if (args.length > 2) {
                     if (args[2].length() == 8) {
-                        DebugLogger.print(DebugType.WARNING , "[ATTENTION] : le pseudo donné au lancement du programme n'est pas conforme (exactement 8 caractères), il sera remplacé par \"unknUser\"");
                         GameInfo.playerID = args[2];
                     }
                 }
