@@ -48,6 +48,10 @@ public class Labyrinthe extends JPanel {
         int lastPosY = GameInfo.players.get(GameInfo.playerID).getLastPosY();
         int shiftingAsked = GameInfo.players.get(GameInfo.playerID).getShiftingAsked();
 
+        if (posX == -1 || posY == -1 || lastPosX == -1 || lastPosY == -1 || shiftingAsked == -1) {
+            return;
+        }
+
         //DebugLogger.print(DebugType.CONFIRM, "posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
 
         for (HashMap.Entry<Ghost, ImageIcon> g : lastBox.entrySet()) {
