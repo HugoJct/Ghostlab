@@ -49,10 +49,16 @@ public class CommandAskTcpSendMessage extends CommandTCP {
             return;
         }
 
+        String message = "";
+        for (int i = 0 ; i < args.length ; i++) {
+            message += args[i];
+            message += " ";
+        }
+
         try {
-            clientTCP.getOutputStream().write((args[0]+" "+args[1]+" "+args[2]+"***").getBytes());
+            clientTCP.getOutputStream().write((message+"***").getBytes());
             clientTCP.getOutputStream().flush();
-            DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + args[1] + " " + args[2]);
+            DebugLogger.print(DebugType.COM, "CLIENT : " + message);
         } catch (IOException e) {
             e.printStackTrace();
         }
