@@ -4,11 +4,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Image;
-import java.util.LinkedList;
+import java.util.HashMap;
 
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
+import main.java.game.Ghost;
 
 import java.awt.GridLayout;
 
@@ -16,7 +17,7 @@ public class Labyrinthe extends JPanel {
     private JLabel[][] lab;
     private int nbrMoves;
     private int nbrGhostsShifting;
-    //private LinkedList<
+    private HashMap<Ghost, ImageIcon> lastBox;
 
     public Labyrinthe() {
 
@@ -24,6 +25,8 @@ public class Labyrinthe extends JPanel {
         this.lab = new JLabel[GameInfo.gameWidth][GameInfo.gameHeight];
         this.nbrMoves = 0;
         this.nbrGhostsShifting = 0;
+
+        this.lastBox = new HashMap<>();
 
         for (int i = 0; i < GameInfo.gameHeight; i++) {
             for (int j = 0; j < GameInfo.gameWidth; j++) {
@@ -34,9 +37,11 @@ public class Labyrinthe extends JPanel {
             }
         }
         lab[GameInfo.players.get(GameInfo.playerID).getPosX()][GameInfo.players.get(GameInfo.playerID).getPosY()].setIcon(new ImageIcon(Box.PLAYER.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+
     }
 
     public void actualise() {
+
         int posX = GameInfo.players.get(GameInfo.playerID).getPosX();
         int posY = GameInfo.players.get(GameInfo.playerID).getPosY();
         int lastPosX = GameInfo.players.get(GameInfo.playerID).getLastPosX();
@@ -45,11 +50,24 @@ public class Labyrinthe extends JPanel {
 
         DebugLogger.print(DebugType.CONFIRM, "posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
 
+        for (HashMap.Entry<Ghost, ImageIcon> g : lastBox.entrySet()) {
+                
+                lab[g.getKey().getPosX()][g.getKey().getPosY()].setIcon(g.getValue());
+                System.out.println("posX : " + g.getKey().getPosX() + " posY : " + g.getKey().getPosY());
+                lastBox.remove(g.getKey());
+
+        }
+
+        lastBox.clear();
+        
+
         for (int i = nbrGhostsShifting ; i < GameInfo.ghosts.size() ; i++) {
                 int ghostPosX = GameInfo.ghosts.get(i).getPosX();
                 int ghostPosY = GameInfo.ghosts.get(i).getPosY();
+                lastBox.put(GameInfo.ghosts.get(i), (ImageIcon) lab[ghostPosX][ghostPosY].getIcon());
                 DebugLogger.print(DebugType.CONFIRM, "ghostPosX : " + ghostPosX + " ghostPosY : " + ghostPosY);
                 lab[ghostPosX][ghostPosY].setIcon(new ImageIcon(Box.GHOST.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+                nbrGhostsShifting++;
         }
 
         if (GameInfo.nbrMoves != nbrMoves) {
@@ -156,7 +174,8 @@ public class Labyrinthe extends JPanel {
 
             // affichage du joueur à sa nouvelle position
             lab[posX][posY].setIcon(new ImageIcon(Box.PLAYER.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
-
         }
+
     }
+
 }
