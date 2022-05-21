@@ -9,7 +9,7 @@ import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
-import main.java.game.Games;
+import main.java.game.Game;
 
 // OGAME m s***
 
@@ -38,7 +38,7 @@ public class CommandRcvTcpGameInfo extends CommandTCP{
         try {
             GameInfo.games.get(m).setNbrPlayers(s);
         } catch (IndexOutOfBoundsException e) {
-            GameInfo.games.add(new Games(s));
+            GameInfo.games.add(new Game(s));
         }
 
         DebugLogger.print(DebugType.COM, "SERVER : OGAME " + m + " " + s);

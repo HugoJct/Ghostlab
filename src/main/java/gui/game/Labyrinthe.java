@@ -4,7 +4,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Image;
+import java.util.LinkedList;
 
+import main.java.console.DebugLogger;
+import main.java.console.DebugType;
 import main.java.game.GameInfo;
 
 import java.awt.GridLayout;
@@ -12,12 +15,15 @@ import java.awt.GridLayout;
 public class Labyrinthe extends JPanel {
     private JLabel[][] lab;
     private int nbrMoves;
+    private int nbrGhostsShifting;
+    //private LinkedList<
 
     public Labyrinthe() {
 
         this.setLayout(new GridLayout(GameInfo.gameHeight, GameInfo.gameWidth));
         this.lab = new JLabel[GameInfo.gameWidth][GameInfo.gameHeight];
         this.nbrMoves = 0;
+        this.nbrGhostsShifting = 0;
 
         for (int i = 0; i < GameInfo.gameHeight; i++) {
             for (int j = 0; j < GameInfo.gameWidth; j++) {
@@ -37,7 +43,14 @@ public class Labyrinthe extends JPanel {
         int lastPosY = GameInfo.players.get(GameInfo.playerID).getLastPosY();
         int shiftingAsked = GameInfo.players.get(GameInfo.playerID).getShiftingAsked();
 
-        System.out.println("posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
+        DebugLogger.print(DebugType.CONFIRM, "posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
+
+        for (int i = nbrGhostsShifting ; i < GameInfo.ghosts.size() ; i++) {
+                int ghostPosX = GameInfo.ghosts.get(i).getPosX();
+                int ghostPosY = GameInfo.ghosts.get(i).getPosY();
+                DebugLogger.print(DebugType.CONFIRM, "ghostPosX : " + ghostPosX + " ghostPosY : " + ghostPosY);
+                lab[ghostPosX][ghostPosY].setIcon(new ImageIcon(Box.GHOST.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+        }
 
         if (GameInfo.nbrMoves != nbrMoves) {
             nbrMoves++;

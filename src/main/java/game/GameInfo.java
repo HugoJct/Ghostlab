@@ -59,6 +59,9 @@ public class GameInfo {
     // marque la direction de la dernière tentative de déplacement
     public static int lastMoveDirection = -1;
 
+    // marque la position de fantômes
+    public static LinkedList<Ghost> ghosts = new LinkedList<>();
+
 
     /*
      * informations générales parties disponibles
@@ -68,7 +71,7 @@ public class GameInfo {
     public static int nbrGames = 0;
 
     // liste des parties
-    public static LinkedList<Games> games = new LinkedList<>();
+    public static LinkedList<Game> games = new LinkedList<>();
 
     
     /*

@@ -8,7 +8,7 @@ import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
-import main.java.game.Games;
+import main.java.game.Game;
 
 // LIST! m s***
 
@@ -36,7 +36,7 @@ public class CommandRcvTcpPlayerGame extends CommandTCP {
         try {
             GameInfo.games.get(gameId).setNbrPlayers(nbrPlayers);
         } catch (IndexOutOfBoundsException e) {
-            GameInfo.games.add(new Games(nbrPlayers));
+            GameInfo.games.add(new Game(nbrPlayers));
             return;
         }
 

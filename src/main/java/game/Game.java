@@ -1,11 +1,11 @@
 package main.java.game;
 
-public class Games {
+public class Game {
     private int height;
     private int width;
     private int nbrPlayers;
 
-    public Games(int nbrPlayers) {
+    public Game(int nbrPlayers) {
         this.nbrPlayers = nbrPlayers;
         this.height = -1;
         this.width = -1;
