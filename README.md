@@ -121,7 +121,7 @@ Une fois connecté, le volet `Game Manager` devient accessible et permet de:
 - quitter la partie dans laquelle se trouve le client
 - démarrer la partie
 
-Une fois la partie lancée, le volet `game` permet de se déplacer dans la labyrinthe en ayant un retour visuel de ce labyrinthe.
+Une fois la partie lancée, le volet `game` permet de se déplacer dans la labyrinthe en ayant un retour visuel de ce labyrinthe. Pour une visualisation optimale, penser à agrandir la fenêtre.
 
 Si le joueur rencontre un mur lors de ses déplacements, celui-ci est automatiquement ajouté sur la carte du labyrinthe.
 
