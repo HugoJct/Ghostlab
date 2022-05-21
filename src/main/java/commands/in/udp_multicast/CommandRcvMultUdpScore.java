@@ -21,10 +21,15 @@ public class CommandRcvMultUdpScore extends CommandUDP {
         }
 
         if (!args[1].equals(GameInfo.playerID)) {
-            Player p = GameInfo.players.get(args[1]);
-            p.setScore(Integer.parseInt(args[2]));
-            p.setLastPosX(Integer.parseInt(args[3]));
-            p.setLastPosY(Integer.parseInt(args[4]));
+            try {
+                Player p = GameInfo.players.get(args[1]);
+                p.setScore(Integer.parseInt(args[2]));
+                p.setLastPosX(Integer.parseInt(args[3]));
+                p.setLastPosY(Integer.parseInt(args[4]));
+            } catch (NullPointerException e) {
+                GameInfo.players.put(args[1], new Player(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4])));
+            }
+
         }
 
 
