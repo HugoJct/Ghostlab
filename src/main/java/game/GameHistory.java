@@ -5,14 +5,22 @@ import java.util.LinkedList;
 
 public class GameHistory {
     private final String playerID;
-    private final HashMap<String, Player> players;
+    private final HashMap<String, Integer> playersScore;
     private final LinkedList<String> messagesHistory;
     private final String winner;
 
     public GameHistory(String playerID, HashMap<String, Player> players, LinkedList<String> messagesHistory) {
         this.playerID = playerID;
-        this.players = players;
-        this.messagesHistory = messagesHistory;
+        this.playersScore = new HashMap<>();
+
+        for (HashMap.Entry<String, Player> player : players.entrySet()) {
+            this.playersScore.put(player.getKey(), player.getValue().getScore());
+        }
+
+        this.messagesHistory = new LinkedList<>();
+        for (int i = 0 ; i < messagesHistory.size(); i++) {
+            this.messagesHistory.add(messagesHistory.get(i));
+        }
 
         int max = -1;
         String winner = "";
@@ -28,9 +36,11 @@ public class GameHistory {
     public String getPlayerID() {
         return playerID;
     }
-    public HashMap<String, Player> getPlayers() {
-        return players;
+
+    public HashMap<String, Integer> getPlayers() {
+        return playersScore;
     }
+
     public LinkedList<String> getMessagesHistory() {
         return messagesHistory;
     }
@@ -38,7 +48,7 @@ public class GameHistory {
         return winner;
     }
     public int getWinnerScore() {
-        return players.get(winner).getScore();
+        return playersScore.get(winner);
     }
 
 }

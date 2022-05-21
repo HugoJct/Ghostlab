@@ -69,7 +69,13 @@ public class CommandRcvTcpPlayersPosScoreInGame extends CommandTCP {
             return;
         }
 
-        GameInfo.players.put(id, new Player(scoreValue, xValue, yValue));
+        try {
+            GameInfo.players.get(id);
+        } catch (NullPointerException e) {
+            GameInfo.players.put(id, new Player(scoreValue, xValue, yValue));
+        }
+
+        DebugLogger.print(DebugType.COM, "SERVER : GPLYR " + id + " " + x + " " + y + " " + points);
 
     }
 

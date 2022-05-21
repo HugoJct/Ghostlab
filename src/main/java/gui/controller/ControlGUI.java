@@ -26,10 +26,31 @@ public class ControlGUI {
         frame.getGameManagerPanel().getLeaveButton().addActionListener((event) -> leaveGame());
         frame.getExitButton().addActionListener((event) -> exit());
         frame.getHelpButton().addActionListener((event) -> help());
+        frame.getCrossGameUIPanel().getUp().addActionListener((event -> moveUp()));
+        frame.getCrossGameUIPanel().getDown().addActionListener((event -> moveDown()));
+        frame.getCrossGameUIPanel().getLeft().addActionListener((event -> moveLeft()));
+        frame.getCrossGameUIPanel().getRight().addActionListener((event -> moveRight()));
 
         frame.getConnectionPanel().getDisconectionButton().addChangeListener((event) -> actualise());
 
         actualise();
+    }
+
+    public void moveUp() {
+        System.out.println("");
+        Console.useMessage("UPMOV " + frame.getCrossGameUIPanel().getGap().getText());
+    }
+    public void moveDown() {
+        System.out.println("");
+        Console.useMessage("DOMOV " + frame.getCrossGameUIPanel().getGap().getText());
+    }
+    public void moveLeft() {
+        System.out.println("");
+        Console.useMessage("LEMOV " + frame.getCrossGameUIPanel().getGap().getText());
+    }
+    public void moveRight() {
+        System.out.println("");
+        Console.useMessage("RIMOV " + frame.getCrossGameUIPanel().getGap().getText());
     }
 
     private void exit() {
@@ -78,6 +99,7 @@ public class ControlGUI {
             frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
             frame.getGameManagerPanel().listGames();
             frame.getGameManagerPanel().getJoinButton().setEnabled(true);
+
             if (GameInfo.isInGame && !GameInfo.hasGameStarted) {
                 frame.getGameManagerPanel().getStartButton().setEnabled(true);
                 frame.getGameManagerPanel().getLeaveButton().setEnabled(true);
@@ -90,6 +112,11 @@ public class ControlGUI {
                 frame.getGameManagerPanel().getNewGameButton().setEnabled(false);
                 frame.getGameManagerPanel().getJoinButton().setEnabled(false);
                 frame.getGameManagerPanel().getRefreshButton().setEnabled(false);
+
+                frame.getCrossGameUIPanel().getUp().setEnabled(true);
+                frame.getCrossGameUIPanel().getDown().setEnabled(true);
+                frame.getCrossGameUIPanel().getLeft().setEnabled(true);
+                frame.getCrossGameUIPanel().getRight().setEnabled(true);
             }
             else {
                 frame.getGameManagerPanel().getStartButton().setEnabled(false);
@@ -97,6 +124,11 @@ public class ControlGUI {
                 frame.getGameManagerPanel().getNewGameButton().setEnabled(true);
                 frame.getGameManagerPanel().getJoinButton().setEnabled(true);
                 frame.getGameManagerPanel().getRefreshButton().setEnabled(true);
+
+                frame.getCrossGameUIPanel().getUp().setEnabled(false);
+                frame.getCrossGameUIPanel().getDown().setEnabled(false);
+                frame.getCrossGameUIPanel().getLeft().setEnabled(false);
+                frame.getCrossGameUIPanel().getRight().setEnabled(false);
             }
         } else {
             frame.getConnectionPanel().getConnectionButton().setEnabled(true);
@@ -107,6 +139,11 @@ public class ControlGUI {
             frame.getGameManagerPanel().getLeaveButton().setEnabled(false);
             frame.getGameManagerPanel().getRefreshButton().setEnabled(false);
             
+            frame.getCrossGameUIPanel().getUp().setEnabled(false);
+            frame.getCrossGameUIPanel().getDown().setEnabled(false);
+            frame.getCrossGameUIPanel().getLeft().setEnabled(false);
+            frame.getCrossGameUIPanel().getRight().setEnabled(false);
+
             frame.getGameManagerPanel().freeGamesList();
         }
 

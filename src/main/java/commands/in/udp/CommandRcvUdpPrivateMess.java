@@ -19,7 +19,7 @@ public class CommandRcvUdpPrivateMess extends CommandUDP {
             return;
         }
 
-        String message = "";
+        DebugLogger.print(DebugType.MESSAGE, "SERVER [PRIVE] - " + args[1] + " : " + args[2]);
 
         for(int i=2;i<args.length;i++) {
             message += args[i];
