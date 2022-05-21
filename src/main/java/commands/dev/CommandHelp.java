@@ -53,21 +53,23 @@ public class CommandHelp extends CommandDev {
         DebugLogger.print(DebugType.HELP, "#   GAME? : demande au serveur la liste des parties disponibles           #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : GAME?***                       #");
         DebugLogger.print(DebugType.HELP, "#                                                                         #");
-        DebugLogger.print(DebugType.HELP, "#   LEMOV : déplace le joueur vers la gauche du nombre de case demandé    #");
+        DebugLogger.print(DebugType.HELP, "#   LEMOV <arg> : déplace le joueur de arg cases vers la gauche           #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : LEMOV arg***                   #");
-        DebugLogger.print(DebugType.HELP, "#   UPMOV : déplace le joueur vers le haut du nombre de case demandé      #");
+        DebugLogger.print(DebugType.HELP, "#   UPMOV <arg> : déplace le joueur de arg cases vers le haut             #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : UPMOV arg***                   #");
-        DebugLogger.print(DebugType.HELP, "#   RIMOV : déplace le joueur vers la droite du nombre de case demandé    #");
+        DebugLogger.print(DebugType.HELP, "#   RIMOV <arg> : déplace le joueur de arg cases vers la droite           #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : RIMOV arg***                   #");
-        DebugLogger.print(DebugType.HELP, "#   DOMOV : déplace le joueur vers le bas du nombre de case demandé       #");
+        DebugLogger.print(DebugType.HELP, "#   DOMOV <arg> : déplace le joueur de arg cases vers le bas              #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : DOMOV arg***                   #");
         DebugLogger.print(DebugType.HELP, "#   IQUIT : quitte la partie en cours                                     #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : IQUIT***                       #");
         DebugLogger.print(DebugType.HELP, "#      -> n'est envoyé que si la partie en cours a démarré                #");
         DebugLogger.print(DebugType.HELP, "#   GLIS? : demande la liste des joueurs présents dans la partie en arg   #");
         DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : GLIS? arg***                   #");
-        DebugLogger.print(DebugType.HELP, "#   MALL? : envoie un message a tous les joueurs présents dans la partie  #");
-        DebugLogger.print(DebugType.HELP, "#   SEND? : envoie un message privé à un joueur                           #");
+        DebugLogger.print(DebugType.HELP, "#   MALL? <arg> : envoie <arg1> à tous les joueurs de la partie           #");
+        DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : MALL? arg1***                  #");
+        DebugLogger.print(DebugType.HELP, "#   SEND? <arg1> <arg2> : envoie <arg2> au joueur <arg>1                  #");
+        DebugLogger.print(DebugType.HELP, "#      -> envoie une requête de la forme : SEND? arg1 arg2***             #");
         DebugLogger.print(DebugType.HELP, "###########################################################################");
     }
     

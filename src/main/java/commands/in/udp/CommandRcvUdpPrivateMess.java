@@ -19,7 +19,7 @@ public class CommandRcvUdpPrivateMess extends CommandUDP {
             return;
         }
 
-        DebugLogger.print(DebugType.MESSAGE, "[PRIVE] - " + args[1] + " : " + args[2]);
+        DebugLogger.print(DebugType.MESSAGE, "SERVER [PRIVE] - " + args[1] + " : " + args[2]);
 
         GameInfo.messagesHistory.add("[PRIVE] - " + args[1] + " : " + args[2]);
         

@@ -43,8 +43,8 @@ public class CommandListHistorical extends CommandDev {
 
             DebugLogger.print(DebugType.HELP, "  - Scores : ");
 
-            for (HashMap.Entry<String, Player> scores : GameInfo.gameHistory.get(i).getPlayers().entrySet()) {
-                DebugLogger.print(DebugType.HELP, "      * " + scores.getKey() + " : " + scores.getValue().getScore());
+            for (HashMap.Entry<String, Integer> scores : GameInfo.gameHistory.get(i).getPlayers().entrySet()) {
+                DebugLogger.print(DebugType.HELP, "      * " + scores.getKey() + " : " + scores.getValue());
             }
             
             DebugLogger.print(DebugType.HELP, "  - Messages : ");

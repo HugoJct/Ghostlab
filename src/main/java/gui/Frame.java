@@ -11,6 +11,7 @@ import main.java.gui.menu.Game;
 import main.java.gui.menu.Menu;
 import main.java.gui.menu.Options;
 import main.java.gui.menu.Tabs;
+import main.java.gui.menu.CrossGameUI;
 
 public class Frame extends JFrame {
 
@@ -22,6 +23,7 @@ public class Frame extends JFrame {
   private Options optionsPanel;
   private Menu interactivePanel;
   private Labyrinthe lab;
+  private CrossGameUI crossGameUIPanel;
 
   private JButton help;
   private JButton exit;
@@ -39,6 +41,7 @@ public class Frame extends JFrame {
     gameManagerPanel = new GameManagerPanel();
     optionsPanel = new Options();
     interactivePanel = new Menu(400, 600);
+    crossGameUIPanel = new CrossGameUI();
     lab = null;
 
     help = new JButton("?");
@@ -47,6 +50,8 @@ public class Frame extends JFrame {
     optionsPanel.add(help);
     optionsPanel.add(Box.createHorizontalGlue());
     optionsPanel.add(exit);
+
+    gamePanel.add(crossGameUIPanel, BorderLayout.WEST);
 
     tabs = new Tabs(400, 600);
 
@@ -71,7 +76,7 @@ public class Frame extends JFrame {
 
   public void createLab() {
     lab = new Labyrinthe();
-    gamePanel.add(lab);
+    gamePanel.add(lab, BorderLayout.WEST);
   }
 
   public void freeLab() {
@@ -96,6 +101,9 @@ public class Frame extends JFrame {
   }
   public Labyrinthe getLab() {
     return lab;
+  }
+  public CrossGameUI getCrossGameUIPanel() {
+    return crossGameUIPanel;
   }
 
 }
