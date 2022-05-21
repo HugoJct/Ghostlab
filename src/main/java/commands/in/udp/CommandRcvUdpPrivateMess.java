@@ -19,14 +19,14 @@ public class CommandRcvUdpPrivateMess extends CommandUDP {
             return;
         }
 
-        DebugLogger.print(DebugType.MESSAGE, "SERVER [PRIVE] - " + args[1] + " : " + args[2]);
+        String message = "";
 
         for(int i=2;i<args.length;i++) {
             message += args[i];
             message += " ";
         }
 
-        DebugLogger.print(DebugType.MESSAGE, "SERVER_" + args[1] + ": "+message);
+        DebugLogger.print(DebugType.MESSAGE, "SERVER [PRIVE] - " + args[1] + ": "+message);
 
         GameInfo.messagesHistory.add(message);
         
