@@ -27,6 +27,11 @@ public class CommandAskTcpMoveRight extends CommandTCP {
     @Override
     public void execute(ClientTCP clientTCP, String[] args) {
         DebugLogger.print(DebugType.CONFIRM, "COMMAND : DOMOV");
+
+        if (!GameInfo.hasGameStarted) {
+            DebugLogger.print(DebugType.ERROR, "[CommandAskTcpDropGame/WARNING] : le jeu n'a pas encore commencé, cette commande sera ignorée");
+            return;
+        }
         
         if (args.length < 2) {
             DebugLogger.print(DebugType.WARNING, "[CommandAskTcpMoveDown/WARNING] : nombre d'arguments minimum non attend, (RAPPEL : DOMOV d), cette commande sera ignorée");
