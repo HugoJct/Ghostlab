@@ -129,7 +129,7 @@ void request_mall(char *buf, struct client *c) {
 			break;
 		count++;
 	}
-	memcpy(mess,buf,count);
+	memcpy(mess,buf+6,count);
 	mess[count] = '\0';
 
 	multicast_messa(mess,c);
