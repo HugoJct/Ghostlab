@@ -28,6 +28,7 @@ public class CommandHelp extends CommandDev {
         DebugLogger.print(DebugType.HELP, "#   help : afficher liste commandes                                       #");
         DebugLogger.print(DebugType.HELP, "# INFOS :                                                                 #"); 
         DebugLogger.print(DebugType.HELP, "#   gameinfo : affiche liste des parties disponibles                      #");
+        DebugLogger.print(DebugType.HELP, "#   historical : affiche l'historique des parties jouées                  #");
         DebugLogger.print(DebugType.HELP, "# KILL :                                                                  #");             
         DebugLogger.print(DebugType.HELP, "#   kill : ferme les connections et tue le programme                      #");
         DebugLogger.print(DebugType.HELP, "#   killclient : ferme les connections TCP/UDP                            #");

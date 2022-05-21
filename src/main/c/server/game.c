@@ -12,7 +12,7 @@ struct game* game_create(int cap) {
 	new_game->id = game_id_counter++;
 	new_game->max_capacity = cap;
 	new_game->players = llist_create(NULL);
-	new_game->labyrinth = parse_lab("assets/lab1.lab");
+	new_game->labyrinth = parse_lab("assets/lab2.lab");
 	debug_lab(new_game->labyrinth); //print the labyrinth
 
 	pthread_mutex_init(&(new_game->game_lock),NULL);

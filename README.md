@@ -1,19 +1,30 @@
 # GHOSTLAB
 
+**Lien du dépôt gitlab :** https://gitlab.com/SirHenryAllen/ghostlab.git
+
 ## Répartition du travail
 
 ### Hugo :
-* 
-* 
+* **Côté Serveur:**
+    * Parsing des requêtes provenant du client
+    * Traitement des requêtes 
+    * Formatage des réponses pour le client
+    * Envoi des réponses au client
+    * Gestion des structures de données du serveur (verrous, linked list etc...)
+    * Architecture serveur:
+      * Découpage de l'exécution en différentes phases chacune englobée dans un thread
+      * Arborescence du projet
+* **Côté Client:**
+  * Détection des murs pour mise à jour de l'interface graphique
 
 ### Matthieu :
 
 * **Partie client :**
     
-    * Réception et parsing des commandes serveur
+    * Réception et parsing des commandes venant du serveur
     * Traitement des commandes et stockage des informations venant du serveur
     * Parsing des commandes client (console et interface graphique)
-    * Formatage et envoie des commandes au serveur
+    * Formatage et envoi des commandes au serveur
     * Création de l'interface graphique
         * page de connexion
         * page de gestion des parties
@@ -21,16 +32,26 @@
     * Système de stockage de l'historique des parties jouées (commande ``historical``)
     * Système de debogage
 
-## Bastian :
+* **Partie serveur :**
+    * Conversion d'octets en little-endian (pour envoie de **h** et **w**)
 
-* Création des labyrinthes ()
+### Bastian :
 
+* **Partie serveur :**
+
+    * Création des labyrinthes (fichiers .lab)
+    * parsing des fichiers .lab et création d'un labyrinthe dans la structure game
+    * réception et traitement de la commande ``GLIS?`` et envoi de la réponse au client
+
+---
 
 ## Compiler le projet
 
 ### Serveur
 
 Lancer la commande `make` depuis le répertoire `src/main/c/server` 
+
+---
 
 ### Client
 
@@ -43,22 +64,22 @@ Lancer le script `compile.sh` contenu dans le répertoire `src` depuis ce même 
 Exécuter le fichier `server` généré lors de la compilation avec en argument le port désiré.
 
 
-*Exemple*
+**Exemple :**
 
 Pour lancer le serveur en écoute sur le port 12345:
 
-```
+```bash
 ./server 12345
 ```
 
 
 ### Client 
 
-Exécuter le script `launch.sh` contenu dans le répertoire `src` depuis ce même répertoire.
+Exécuter le script `launch.sh` contenu dans le répertoire `src` (depuis ce même répertoire).
 
 OU
 
-Exécuter la commande suivante: `java main.java.client.Client` depuis le répertoire `src`.
+Exécuter la commande suivante: `java main.java.client.Client` (depuis le répertoire `src`).
 
 Les arguments suivants sont optionnels et peuvent par la suite être renseignés dans l'interface graphique:
 
@@ -69,7 +90,7 @@ Les arguments suivants sont optionnels et peuvent par la suite être renseignés
 - Pseudo: Le pseudo a utiliser dans une partie. Ce pseudo doit faire exactement 8 caractères
 
 
-*Exemple*
+**Exemple :**
 
 ```java
 java main.java.client.Client ghostlab-server.com 12345 USERNAME
@@ -79,7 +100,16 @@ java main.java.client.Client ghostlab-server.com 12345 USERNAME
 ./launch.sh
 ```
 
+**Pour supprimer les .class (depuis src):**
+
+```bash
+./remove_class.sh
+```
+
 ## Comment utiliser le client 
+
+
+### Partie utilisateur 
 
 Au lancement, si l'utilisateur n'a pas précisé d'informations de connexion, il est invité à entrer les informations du serveur.
 
@@ -96,6 +126,15 @@ Une fois la partie lancée, le volet `game` permet de se déplacer dans la labyr
 Si le joueur rencontre un mur lors de ses déplacements, celui-ci est automatiquement ajouté sur la carte du labyrinthe.
 
 Lorsque les fantômes se déplacent, seul le dernier fantôme à s'être déplacé est affiché sur la carte.
+
+### Partie développeur
+
+* Nous avons créé un système de débogage permettant d'activer ou de désactiver certains retours.
+* Nous avons créé des commandes permettant d'effectuer des actions côté client, indépendament du serveur (help, kill, killclient...)
+
+Il existe des commandes pour effectuer ces actions depuis le programme
+
+**Pour plus d'information :** utiliser la commande **help** (ou le bouton **aide**) dans le programme 
 
 ## Architecture du serveur 
 
