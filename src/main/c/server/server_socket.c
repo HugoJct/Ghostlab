@@ -55,7 +55,7 @@ void *server_socket_before_game_start(void *arg) {
 			close(*(c->fd));
 			free(c->fd);
 			free(c);
-			break;
+			return NULL;
 		}
 
 		char cmd[6];
@@ -121,7 +121,7 @@ void *server_socket_during_game(void *arg) {
 			close(*(c->fd));
 			free(c->fd);
 			free(c);
-			break;
+			return NULL;
 		}
 
 		if(g->remaining_ghosts == 0)
@@ -147,7 +147,6 @@ void *server_socket_during_game(void *arg) {
 		} else if(strcmp("MALL?",cmd) == 0) {
 			request_mall(buf,c);
 		} else if(strcmp("SEND?",cmd) == 0) {
-			//TODO	
 			request_send(buf,c);
 		}
 
@@ -215,8 +214,9 @@ struct client *server_socket_receive_newpl_regis(int fd) {
 
 	while(1) {		//this function exits once the player sent REGIS or NEWPL
 		int ret = request_read_tcp(buf,fd);	//read the client input
-		if(ret < 0)	//the client disconnected
+		if(ret < 0) {	//the client disconnected
 			return NULL;
+		}
 
 		char cmd[6];
 		memcpy(cmd,buf,5);	//isolate the command
