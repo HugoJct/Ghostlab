@@ -34,7 +34,7 @@ public class ConsolePanel extends JPanel {
         textArea.append("#                          --------------                        #\n");
         textArea.append("#                                                                #\n");
         textArea.append("#            Pour plus d'informations, voir README.md            #\n");
-        textArea.append("#         ou tapez la commande help dans votre terminal         #\n");
+        textArea.append("#         ou tapez la commande help dans votre terminal          #\n");
         textArea.append("#                                                                #\n");
         textArea.append("##################################################################\n");
         textArea.append("\n");
