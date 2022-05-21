@@ -30,6 +30,8 @@ public class CommandRcvMultUdpEndGame extends CommandUDP {
 
         GameInfo.gameHistory.add(new GameHistory(GameInfo.playerID, GameInfo.players, GameInfo.messagesHistory));
 
+        GameInfo.clearGame();
+
         // retour au lobby
 
     }

@@ -74,6 +74,10 @@ public class Frame extends JFrame {
     gamePanel.add(lab);
   }
 
+  public void freeLab() {
+    gamePanel.remove(lab);
+  }
+
   public JButton getExitButton() {
     return exit;
   }

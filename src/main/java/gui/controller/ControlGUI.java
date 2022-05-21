@@ -72,6 +72,7 @@ public class ControlGUI {
     }
 
     public void actualise() {
+
         if (Client.isConnected) {
             frame.getConnectionPanel().getConnectionButton().setEnabled(false);
             frame.getConnectionPanel().getDisconectionButton().setEnabled(true);
@@ -109,6 +110,8 @@ public class ControlGUI {
             frame.getGameManagerPanel().freeGamesList();
         }
 
+
+
         if (GameInfo.hasGameStarted && !labCreated) {
             Box.setTextures();
             frame.createLab();
@@ -117,6 +120,10 @@ public class ControlGUI {
         else if (GameInfo.hasGameStarted && labCreated) {
             frame.getLab().actualise();
             frame.getLab().updateUI();;
+        }
+        else if (!GameInfo.hasGameStarted && labCreated) {
+            frame.freeLab();
+            labCreated = false;
         }
         
         frame.getGameManagerPanel().updateUI();
@@ -169,6 +176,10 @@ public class ControlGUI {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Frame getFrame() {
+        return frame;
     }
 
     public void disconnect() {

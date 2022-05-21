@@ -48,14 +48,10 @@ public class Labyrinthe extends JPanel {
         int lastPosY = GameInfo.players.get(GameInfo.playerID).getLastPosY();
         int shiftingAsked = GameInfo.players.get(GameInfo.playerID).getShiftingAsked();
 
-        DebugLogger.print(DebugType.CONFIRM, "posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
+        //DebugLogger.print(DebugType.CONFIRM, "posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
 
         for (HashMap.Entry<Ghost, ImageIcon> g : lastBox.entrySet()) {
-                
-                lab[g.getKey().getPosX()][g.getKey().getPosY()].setIcon(g.getValue());
-                System.out.println("posX : " + g.getKey().getPosX() + " posY : " + g.getKey().getPosY());
-                lastBox.remove(g.getKey());
-
+            lab[g.getKey().getPosX()][g.getKey().getPosY()].setIcon(g.getValue());
         }
 
         lastBox.clear();
@@ -64,8 +60,9 @@ public class Labyrinthe extends JPanel {
         for (int i = nbrGhostsShifting ; i < GameInfo.ghosts.size() ; i++) {
                 int ghostPosX = GameInfo.ghosts.get(i).getPosX();
                 int ghostPosY = GameInfo.ghosts.get(i).getPosY();
+
                 lastBox.put(GameInfo.ghosts.get(i), (ImageIcon) lab[ghostPosX][ghostPosY].getIcon());
-                DebugLogger.print(DebugType.CONFIRM, "ghostPosX : " + ghostPosX + " ghostPosY : " + ghostPosY);
+
                 lab[ghostPosX][ghostPosY].setIcon(new ImageIcon(Box.GHOST.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                 nbrGhostsShifting++;
         }
@@ -85,6 +82,7 @@ public class Labyrinthe extends JPanel {
                             lab[posX+1][posY].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                         }
                     }
+                    
 
                     // Pavage des cases où on s'est déplacé
                     for (int i = lastPosX ; i <= posX ; i++) {
@@ -117,12 +115,16 @@ public class Labyrinthe extends JPanel {
 
                 // S'est-on déplacé vers le bas ?
                 if (lastPosY < posY) {
+
+                    // A-t-on rencontré un mur en bas ?
                     if (posY - lastPosY != shiftingAsked) {
                         if (posY+1 < GameInfo.gameHeight) {
                             lab[posX][posY+1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                         }
                         
                     }
+
+                    // Pavage des cases où on s'est déplacé
                     for (int i = lastPosY; i <= posY; i++) {
                         lab[posX][i].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                     }
@@ -130,11 +132,15 @@ public class Labyrinthe extends JPanel {
 
                 // S'est-on déplacé vers le haut ?
                 else if (lastPosY > posY) {
+
+                    // A-t-on rencontré un mur en haut ?
                     if (lastPosY - posY != shiftingAsked) {
                         if (posY-1 > 0) {
                             lab[posX][posY-1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                         }
                     }
+
+                    // Pavage des cases où on s'est déplacé
                     for (int i = lastPosY; i >= posY; i--) {
                         lab[posX][i].setIcon(new ImageIcon(Box.PATH.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                     }
@@ -153,7 +159,7 @@ public class Labyrinthe extends JPanel {
 
             // gôche
             else if (GameInfo.lastMoveDirection == 1) {
-                if (posX-1 > 0) {
+                if (posX-1 >= 0) {
                     lab[posX-1][posY].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                 }
             }
@@ -167,7 +173,7 @@ public class Labyrinthe extends JPanel {
 
             // haut
             else if (GameInfo.lastMoveDirection == 3) {
-                if (posY-1 > 0) {
+                if (posY-1 >= 0) {
                     lab[posX][posY-1].setIcon(new ImageIcon(Box.WALL.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
                 }
             }

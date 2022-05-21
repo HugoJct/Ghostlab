@@ -83,6 +83,21 @@ public class GameInfo {
     public static int nbrGhosts = -1;
 
  
+    public static void clearGame() {
+        isInGame = false;
+        hasGameStarted = false;
+        registredGameId = -1;
+        players.clear();
+        listId = -1;
+        nbrPlayers = -1;
+        messagesHistory.clear();
+        gameHeight = -1;
+        gameWidth = -1;
+        nbrMoves = -1;
+        lastMoveDirection = -1;
+        ghosts.clear();
+    }
+
     public static void clear() {
         isInGame = false;
         hasGameStarted = false;

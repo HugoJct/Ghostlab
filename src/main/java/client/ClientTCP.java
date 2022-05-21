@@ -150,6 +150,7 @@ public class ClientTCP extends Thread {
             clientSocket.close();
             clientTCPCreated = false;
             Client.disconnect();
+            gui.actualise();
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
             System.exit(1);

@@ -15,6 +15,7 @@ public class Client {
 
     public Client(String ip, int port, ControlGUI gui) {
         this.clientTCP = new ClientTCP(ip, port, gui);
+
         if (ClientTCP.clientTCPCreated) {
             this.clientUDP = new ClientUDP(ip, gui);
             Console.connectConsole(clientTCP);
@@ -89,10 +90,8 @@ public class Client {
     }
 
     public static void disconnect() {
-        if (isConnected) {
-            isConnected = false;
-            GameInfo.clear(); 
-        }
+        isConnected = false;
+        GameInfo.clear(); 
     }
 
     public ClientTCP getClientTCP() {
