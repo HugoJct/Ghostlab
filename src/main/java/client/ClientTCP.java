@@ -33,6 +33,7 @@ import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.gui.controller.ControlGUI;
+import main.java.game.GameInfo;
 
 
 public class ClientTCP extends Thread {
@@ -40,6 +41,7 @@ public class ClientTCP extends Thread {
     private BufferedReader in;
     private PrintWriter out;
     private ControlGUI gui;
+    private boolean multicastCreated;
 
     private HashMap<String,CommandTCP> commandRcvTcpList = new HashMap<String,CommandTCP>();
     
@@ -76,6 +78,7 @@ public class ClientTCP extends Thread {
             DebugLogger.print(DebugType.COM, "...succès");
 
             clientTCPCreated = true;
+            multicastCreated = false;
         } catch (UnknownHostException e) {
             DebugLogger.print(DebugType.ERROR, "[ClientTCP/ERREUR] : L'adresse IP de l'hôte ne peut être déterminée");
         } catch (IOException e) {
@@ -96,6 +99,11 @@ public class ClientTCP extends Thread {
         while(Client.isConnected) {
             
             try {
+
+                if (!multicastCreated && GameInfo.portMulticast != -1 && GameInfo.ipMulticast != "") {
+                    new Multicast(gui).start(); 
+                    multicastCreated = true;
+                }
 
                 // liste stockant la commande, caractère par caracère, sous sa forme entière (0-65535)
                 LinkedList<Integer> serverMsg = new LinkedList<>();
@@ -146,6 +154,7 @@ public class ClientTCP extends Thread {
             clientSocket.close();
             clientTCPCreated = false;
             Client.disconnect();
+            gui.actualise();
         } catch (IOException e) {
             DebugLogger.print(DebugType.ERROR, "la fermeture du socket client n'a pas aboutie");
             System.exit(1);

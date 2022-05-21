@@ -38,7 +38,7 @@ public class CommandRcvTcpPlayerId extends CommandTCP {
         }
 
         // ajout de l'id à la liste d'id de la hashmap "gameIdPlayersId" dans GameInfo
-        GameInfo.players.put(id, new Player());
+        GameInfo.players.putIfAbsent(id, new Player());
 
         DebugLogger.print(DebugType.COM, "SERVER : PLAYR " + id);
                     

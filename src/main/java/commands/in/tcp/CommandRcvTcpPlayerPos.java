@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
+import main.java.console.Console;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
@@ -53,10 +54,17 @@ public class CommandRcvTcpPlayerPos extends CommandTCP {
         }
 
         try {
-            GameInfo.players.put(id, new Player(Integer.parseInt(x), Integer.parseInt(y)));
+            GameInfo.players.get(id).setPosX(Integer.parseInt(x));
+            GameInfo.players.get(id).setPosY(Integer.parseInt(y));
+
+            DebugLogger.print(DebugType.CONFIRM, "x : " + GameInfo.players.get(id).getPosX() + " y : " + GameInfo.players.get(id).getPosY());
+            
         } catch (NumberFormatException e) {
-            DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpPlayerPos/WARNING] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, cette commande sera ignorée");
+            DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpPlayerPos/ERROR] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, le client va être déconnecté");
+            Console.useMessage("killclient");
             return;
+        } catch (NullPointerException e) {
+            GameInfo.players.put(id, new Player(Integer.parseInt(x), Integer.parseInt(y)));
         }
 
         DebugLogger.print(DebugType.COM, "SERVER : POSIT " + id + " " + x + " " + y);

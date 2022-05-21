@@ -69,9 +69,13 @@ public class Frame extends JFrame {
     this.gameManagerPanel = gp;
   }
 
-  public void createLab(int gameId) {
-    lab = new Labyrinthe(gameId);
+  public void createLab() {
+    lab = new Labyrinthe();
     gamePanel.add(lab);
+  }
+
+  public void freeLab() {
+    gamePanel.remove(lab);
   }
 
   public JButton getExitButton() {
@@ -86,6 +90,12 @@ public class Frame extends JFrame {
   }
   public GameManagerPanel getGameManagerPanel() {
     return gameManagerPanel;
+  }
+  public ConsolePanel getConsolePanel() {
+    return consolePanel;
+  }
+  public Labyrinthe getLab() {
+    return lab;
   }
 
 }

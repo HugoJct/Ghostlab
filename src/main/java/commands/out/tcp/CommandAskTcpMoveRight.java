@@ -8,6 +8,7 @@ import main.java.client.ClientTCP;
 import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
+import main.java.game.GameInfo;
 
 // RIMOV d***
 
@@ -55,6 +56,9 @@ public class CommandAskTcpMoveRight extends CommandTCP {
             else {
                 dStr = "" + d;
             }
+
+            GameInfo.players.get(GameInfo.playerID).setShiftingAsked(d);
+            GameInfo.lastMoveDirection = 0;
 
             clientTCP.getOutputStream().write((args[0] +" "+dStr+"***").getBytes());
             clientTCP.getOutputStream().flush();

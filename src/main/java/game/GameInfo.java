@@ -53,6 +53,15 @@ public class GameInfo {
     // marque la taille en largeur du labyrinthe
     public static int gameWidth = -1;
 
+    // marque le nombre de déplacements effectués par le joueur
+    public static int nbrMoves = -1;
+
+    // marque la direction de la dernière tentative de déplacement
+    public static int lastMoveDirection = -1;
+
+    // marque la position de fantômes
+    public static LinkedList<Ghost> ghosts = new LinkedList<>();
+
 
     /*
      * informations générales parties disponibles
@@ -62,7 +71,7 @@ public class GameInfo {
     public static int nbrGames = 0;
 
     // liste des parties
-    public static LinkedList<Games> games = new LinkedList<>();
+    public static LinkedList<Game> games = new LinkedList<>();
 
     
     /*
@@ -74,8 +83,22 @@ public class GameInfo {
     public static int nbrGhosts = -1;
 
  
-    public static void clear() {
+    public static void clearGame() {
+        isInGame = false;
+        hasGameStarted = false;
+        registredGameId = -1;
+        players.clear();
+        listId = -1;
+        nbrPlayers = -1;
+        messagesHistory.clear();
+        gameHeight = -1;
+        gameWidth = -1;
+        nbrMoves = -1;
+        lastMoveDirection = -1;
+        ghosts.clear();
+    }
 
+    public static void clear() {
         isInGame = false;
         hasGameStarted = false;
         listId = -1;
@@ -90,8 +113,11 @@ public class GameInfo {
         gameWidth = -1;
         nbrPlayers = -1;
         nbrGhosts = -1;
+        portMulticast = -1;
         players.clear();
         games.clear();
+        nbrMoves = -1;
+        lastMoveDirection = -1;
     }
 
 }

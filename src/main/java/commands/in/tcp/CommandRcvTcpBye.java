@@ -23,7 +23,7 @@ public class CommandRcvTcpBye extends CommandTCP {
 
         DebugLogger.print(DebugType.COM, "SERVER : GOBYE");
         
-        GameInfo.clear();
+        GameInfo.clearGame();
     }
 
     @Override

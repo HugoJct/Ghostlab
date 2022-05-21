@@ -9,7 +9,6 @@ import main.java.commands.CommandTCP;
 import main.java.console.DebugLogger;
 import main.java.console.DebugType;
 import main.java.game.GameInfo;
-import main.java.game.Games;
 
 // SIZE! m h w***
 
@@ -47,12 +46,14 @@ public class CommandRcvTcpMapSize extends CommandTCP {
             w = (command.get(12).byteValue() << 8) | command.get(11).byteValue();
         }
 
-        int nbrPlayers = GameInfo.games.get(m).getNbrPlayers();
-
         try {
-            GameInfo.games.add(m, new Games(nbrPlayers, h, w));
+            GameInfo.games.get(m).setHeight(h);
+            GameInfo.games.get(m).setWidth(w);
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpMapSize/WARNING] : les informations données par le serveur pour la taille de la partie sont incohérentes, cette commande sera ignorée");
+            return;
+        } catch (IndexOutOfBoundsException e) {
+           DebugLogger.print(DebugType.ERROR, "[CommandRcvTcpMapSize/ERROR] : la partie n'existe pas, cette commande sera ignorée");
             return;
         }
 

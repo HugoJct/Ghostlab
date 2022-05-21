@@ -38,8 +38,10 @@ public class CommandRcvTcpNewPos extends CommandTCP {
         }
 
         try {
-            Player current = GameInfo.players.get(GameInfo.playerID);
-            GameInfo.players.put(GameInfo.playerID, new Player(current.getScore(), Integer.parseInt(x), Integer.parseInt(y)));
+            GameInfo.players.get(GameInfo.playerID).setLastPosX(GameInfo.players.get(GameInfo.playerID).getPosX());
+            GameInfo.players.get(GameInfo.playerID).setLastPosY(GameInfo.players.get(GameInfo.playerID).getPosY());
+            GameInfo.players.get(GameInfo.playerID).setPosX(Integer.parseInt(x));
+            GameInfo.players.get(GameInfo.playerID).setPosY(Integer.parseInt(y));
         } catch (NumberFormatException e) {
             DebugLogger.print(DebugType.WARNING, "[CommandRcvTcpNewPos/WARNING] : les informations de coordonnées du joueur n'ont pas été correctement données par le serveur, cette commande sera ignorée");
             return;
