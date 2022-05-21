@@ -37,7 +37,7 @@ public class CommandAskTcpCreate extends CommandTCP {
         String[] command = {args[0], GameInfo.playerID, Integer.toString(GameInfo.portUDP)};
 
         try {
-            clientTCP.getOutputStream().write(CommandFormatter.formatForTCP(command));
+            clientTCP.getOutputStream().write((args[0]+" "+GameInfo.playerID+" "+Integer.toString(GameInfo.portUDP)+"***").getBytes());
             clientTCP.getOutputStream().flush();
             DebugLogger.print(DebugType.COM, "CLIENT : " + args[0] + " " + GameInfo.playerID + " " + GameInfo.portUDP);
         } catch (IOException e) {
