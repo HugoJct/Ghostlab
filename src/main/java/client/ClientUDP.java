@@ -25,7 +25,6 @@ public class ClientUDP extends Thread {
     private HashMap<String,CommandUDP> commandRcvUdpList = new HashMap<String,CommandUDP>();
     
     public static boolean clientUDPCreated = false;
-    private boolean multicastCreated;
 
     public ClientUDP(String ip, ControlGUI gui) {
         
@@ -64,7 +63,6 @@ public class ClientUDP extends Thread {
         }
 
         clientUDPCreated = true;
-        multicastCreated = false;
         this.gui = gui;
     }
 
@@ -74,6 +72,7 @@ public class ClientUDP extends Thread {
         while(Client.isConnected) {
 
             try {
+
                 byte[] buf = new byte[256];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
@@ -91,10 +90,7 @@ public class ClientUDP extends Thread {
                 else {
                     DebugLogger.print(DebugType.CONFIRM, "Commande inconnue : " + args[0]);
                 }
-                if (!multicastCreated && GameInfo.portMulticast != -1 && GameInfo.ipMulticast != "") {
-                    new Multicast(gui).start(); 
-                    multicastCreated = true;
-                }
+                
             } catch (IOException e) {
                 DebugLogger.print(DebugType.ERROR, "[ClientTCP/ERREUR] : erreur lors de la réception d'un message UDP");
                 Console.useMessage("killclient");
