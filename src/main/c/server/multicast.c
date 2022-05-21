@@ -14,7 +14,7 @@ void multicast_send(char *buf, int len, struct game *g) {
 }
 
 void multicast_messa(char *messa, struct client *c) {
-	char buf[100];
+	char buf[300];
 	memcpy(buf,"MESSA ",6);
 	memcpy(buf+6,c->player->id,8);
 	memcpy(buf+14," ",1);
@@ -31,9 +31,9 @@ void multicast_ghost(struct game *g, int x, int y) {
 	char *ychar = format_3digits(y);
 
 	memcpy(buf,"GHOST ",6);
-	memcpy(buf+6,xchar,3);
+	memcpy(buf+6,ychar,3);
 	memcpy(buf+9," ",1);
-	memcpy(buf+10,ychar,3);
+	memcpy(buf+10,xchar,3);
 	memcpy(buf+13,"+++",3);
 	multicast_send(buf,16,g);
 
@@ -54,9 +54,9 @@ void multicast_score(struct client *c, int x, int y) {
 	memcpy(buf+14," ",1);
 	memcpy(buf+15,score,4);
 	memcpy(buf+19," ",1);
-	memcpy(buf+20,xchar,3);
+	memcpy(buf+20,ychar,3);
 	memcpy(buf+23," ",1);
-	memcpy(buf+24,ychar,3);
+	memcpy(buf+24,xchar,3);
 	memcpy(buf+27,"+++",3);
 	multicast_send(buf,30,c->game);
 
