@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 import java.awt.Image;
 import java.util.HashMap;
 
-import main.java.console.DebugLogger;
-import main.java.console.DebugType;
 import main.java.game.GameInfo;
 import main.java.game.Ghost;
 
@@ -40,6 +38,7 @@ public class Labyrinthe extends JPanel {
 
     }
 
+    // actualisation du labyrinthe
     public void actualise() {
 
         int posX = GameInfo.players.get(GameInfo.playerID).getPosX();
@@ -48,19 +47,19 @@ public class Labyrinthe extends JPanel {
         int lastPosY = GameInfo.players.get(GameInfo.playerID).getLastPosY();
         int shiftingAsked = GameInfo.players.get(GameInfo.playerID).getShiftingAsked();
 
+        // Si ces champs n'ont pas été initialisés, on ne cherche pas à afficher
         if (posX == -1 || posY == -1 || lastPosX == -1 || lastPosY == -1 || shiftingAsked == -1 || GameInfo.players.isEmpty()) {
             return;
         }
 
-        //DebugLogger.print(DebugType.CONFIRM, "posX : " + posX + " posY : " + posY + " lastPosX : " + lastPosX + " lastPosY : " + lastPosY + " shiftingAsked : " + shiftingAsked);
-
+        // suppression des fantômes précédemment affichés
         for (HashMap.Entry<Ghost, ImageIcon> g : lastBox.entrySet()) {
             lab[g.getKey().getPosX()][g.getKey().getPosY()].setIcon(g.getValue());
         }
 
         lastBox.clear();
         
-
+        // ajout des nouveau fantômes à ajouter dans la liste
         for (int i = nbrGhostsShifting ; i < GameInfo.ghosts.size() ; i++) {
                 int ghostPosX = GameInfo.ghosts.get(i).getPosX();
                 int ghostPosY = GameInfo.ghosts.get(i).getPosY();
