@@ -1,7 +1,5 @@
 # GHOSTLAB
 
-**Lien du dépôt gitlab :** https://gitlab.com/SirHenryAllen/ghostlab.git
-
 ## Répartition du travail
 
 ### Hugo :
